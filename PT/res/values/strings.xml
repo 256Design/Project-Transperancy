@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, Main!</string>
+    <string name="app_name">Project Transparency DataSetup</string>
+    
+    
+    <string name="question_list_context_menu_title">Question options</string>
+
+	<!-- General Strings -->    
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="password">Password</string>
+    <string name="email">Email Address</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="okay">OK</string>
+    
+    
+    <!-- Login Activity -->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="recover_login">Recover Login</string>
+    
+    <!-- Register Activity -->
+    <string name="register_title">Register for an Account</string>
+    <string name="full_name">Full Name</string>
+    <string name="birth_year">Birth Year</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <!-- Question List -->
+    <string name="delete_question">Delete Question?</string>
+    <string name="edit_question_cont">Edit question</string>
+    <string name="delete_question_cont">Delete question</string>
+    <string name="error_add_update_question">There was an error adding or updating question. Please try again.</string>
+    <string name="success_add_question">Successfully added or updated question.</string>
+    
+    <!-- Add/Edit Question  -->
+    <string name="add_question_label">Add A New Question</string>
+    <string name="update_question_label">Update Existing Question</string>
+    <string name="question_type_prompt">Choose A Question Type</string>
+    <string-array name="question_type_array">
+    	<item>YES_NO</item>
+    </string-array>
+    <string name="pos_response_prompt">Choose A Positive Response</string>
+    <string-array name="pos_response_array">
+    	<item>YES</item>
+    	<item>NO</item>
+    </string-array>
+    <string name="add_question_btn_text">Add Question</string>
+    <string name="save_question_btn_text">Save Question</string>
+</resources>
