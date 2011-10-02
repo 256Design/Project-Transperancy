@@ -11,6 +11,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="email">Email Address</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
@@ -29,6 +30,9 @@
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="register_success">Registration successful. Check your email for the confirmation message.</string>
+    <string name="register_existing_email">Email already registered.</string>
+    <string name="register_error">Error Registering, please try again.</string>
 
     <!-- Question List -->
     <string name="delete_question">Delete Question?</string>

@@ -1,6 +1,6 @@
 package com.twofivesix.pt.data.validator;
 
-import android.widget.CheckBox;
+import android.widget.RadioGroup;
 
 /**
  * A Checkbox required field
@@ -11,18 +11,18 @@ import android.widget.CheckBox;
  * @author http://nl.linkedin.com/in/marcdekwant
  *
  */
-public class CheckBoxRequiredValidator extends AbstractValidator {
+public class RadioButtonRequiredValidator extends AbstractValidator {
 	
-	private CheckBox _source;
+	private RadioGroup _source;
 	
 	/** CONSTRUCTORS */
 	
-	public CheckBoxRequiredValidator(CheckBox source) {
+	public RadioButtonRequiredValidator(RadioGroup source) {
 		super(true);
 		_source = source;
 	}
 
-	public CheckBoxRequiredValidator(CheckBox source, String requiredMessage) {
+	public RadioButtonRequiredValidator(RadioGroup source, String requiredMessage) {
 		super(true);
 		_source = source;
 		_requiredMessage = requiredMessage;
@@ -32,10 +32,10 @@ public class CheckBoxRequiredValidator extends AbstractValidator {
 	public ValidationResult validate() {
 		ValidationResult _v = super.validate();
 		if (_v==null) {
-			if (_source.isChecked()) {
-				_v = new ValidationResult(true, "", _source);
+			if (_source.getCheckedRadioButtonId() != -1) {
+				_v = new ValidationResult(true, "",_source);
 			} else {
-				_v = new ValidationResult(false, _requiredMessage, _source);
+				_v = new ValidationResult(false, _requiredMessage,_source);
 			}
 		}
 		return _v;

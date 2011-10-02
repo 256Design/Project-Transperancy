@@ -11,17 +11,25 @@
   	android:layout_margin="5dp">
     <TextView android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/textView1" android:layout_width="wrap_content" android:text="@string/register"></TextView>
     <TextView android:text="@string/email" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <EditText android:layout_height="wrap_content" android:id="@+id/register_email_et" android:layout_width="fill_parent" android:inputType="textEmailAddress">
+    <EditText android:layout_height="wrap_content" android:id="@+id/register_email_et" android:layout_width="fill_parent" android:inputType="textEmailAddress"
+    			android:text="sober320@uwsp.edu">
         <requestFocus></requestFocus>
     </EditText>
     <TextView android:text="@string/password" android:id="@+id/textView3" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <EditText android:layout_height="wrap_content" android:id="@+id/register_password_et" android:layout_width="fill_parent" android:inputType="textPassword"></EditText>
+    <EditText android:layout_height="wrap_content" android:id="@+id/register_password_et" android:layout_width="fill_parent" android:inputType="textPassword"
+    			android:text="google"></EditText>
+	<TextView android:text="@string/confirm_password" android:id="@+id/textView3" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    <EditText android:layout_height="wrap_content" android:id="@+id/register_conf_password_et" android:layout_width="fill_parent" android:inputType="textPassword"
+    			android:text="google"></EditText>
     <TextView android:text="@string/full_name" android:id="@+id/textView4" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <EditText android:layout_height="wrap_content" android:id="@+id/register_full_name_et" android:layout_width="fill_parent" android:inputType="textPersonName"></EditText>
+    <EditText android:layout_height="wrap_content" android:id="@+id/register_full_name_et" android:layout_width="fill_parent" android:inputType="textPersonName"
+    			android:text="Spencer Oberstadt"></EditText>
     <TextView android:text="@string/birth_year" android:id="@+id/textView5" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <EditText android:layout_height="wrap_content" android:id="@+id/register_birth_year_et" android:layout_width="fill_parent" android:inputType="number"></EditText>
+    <EditText android:layout_height="wrap_content" android:id="@+id/register_birth_year_et" android:layout_width="fill_parent" android:inputType="number"
+    			android:text="1991"></EditText>
     <TextView android:text="@string/gender" android:id="@+id/textView6" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
     <RadioGroup 
+    	android:id="@+id/register_gender_radios"
     	android:orientation="horizontal"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content">

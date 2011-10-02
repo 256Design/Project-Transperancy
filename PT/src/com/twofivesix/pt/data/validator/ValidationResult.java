@@ -1,5 +1,7 @@
 package com.twofivesix.pt.data.validator;
 
+import android.view.View;
+
 /**
  * Validation result class
  * value holder.
@@ -13,10 +15,18 @@ public class ValidationResult {
 	
 	private boolean _ok = false;
 	private String _message = "";
+	private View _source;
 	
 	public ValidationResult(boolean ok, String message) {
 		_ok = ok;
 		_message = message;
+		_source = null;
+	}
+	
+	public ValidationResult(boolean ok, String message, View source) {
+		_ok = ok;
+		_message = message;
+		_source = source;
 	}
 	
 	public boolean isValid() {
@@ -25,6 +35,10 @@ public class ValidationResult {
 	
 	public String getMessage() {
 		return _message;
+	}
+	
+	public View getSource() {
+		return _source;
 	}
 
 }

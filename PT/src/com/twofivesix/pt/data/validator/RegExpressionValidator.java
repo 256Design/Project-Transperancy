@@ -17,6 +17,12 @@ import android.widget.EditText;
  */
 public class RegExpressionValidator extends AbstractValidator {
 	
+	
+	public static final String PASSWORD_REGEX = "((?=.*[a-z]).{6,20})";
+	public static final String EMAIL_REGEX = ".+@.+\\.[a-z]+";
+	public static final String BIRTH_YEAR_REGEX = "(19|20)\\d\\d";
+	public static final String FULL_NAME_REGEX = "^[A-Za-z\\W]+\\s[A-Za-z\\W]+";	
+	
 	private EditText _source;
 	private String _expression = null;
 	private Pattern _pattern = null;
@@ -50,26 +56,26 @@ public class RegExpressionValidator extends AbstractValidator {
 			if (_source!=null) {
 				if (!(_source instanceof EditText)) {
 					_v = new ValidationResult(false,
-							_faultNoStringSourceMessage);
+							_faultNoStringSourceMessage,_source);
 				} else if (_expression == null || _expression.length() == 0
 						|| _pattern == null) {
 					if (_pattern == null) {
-						_v = new ValidationResult(false, _faultPatternMessage);
+						_v = new ValidationResult(false, _faultPatternMessage,_source);
 					} else {
 						_v = new ValidationResult(false,
-								_faultExpressionMessage);
+								_faultExpressionMessage,_source);
 					}
 				} else {
 					Matcher _matcher = _pattern.matcher(_source.getText().toString());
 					if (!_matcher.find()) {
-						_v = new ValidationResult(false, _faultMessage);
+						_v = new ValidationResult(false, _faultMessage,_source);
 					} else {
-						_v = new ValidationResult(true, "");
+						_v = new ValidationResult(true, "",_source);
 					}
 				}
 			} else if (_source==null) {
 				// No validation is required...
-				_v = new ValidationResult(true, "");
+				_v = new ValidationResult(true, "",_source);
 			}
 		}
 		return _v;
