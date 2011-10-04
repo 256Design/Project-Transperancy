@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView 
+        	android:id="@+id/manager_questions_details"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"/>
+        <Button 
+        	android:text="@string/questions" 
+        	android:id="@+id/manager_questions" 
+        	android:layout_width="wrap_content" 
+        	android:layout_height="wrap_content"/>
+        <TextView 
+        	android:id="@+id/manager_partners_details"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"/>
+        <Button 
+        	android:text="@string/partners" 
+        	android:id="@+id/manager_partners" 
+        	android:layout_width="wrap_content" 
+        	android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+</ScrollView>

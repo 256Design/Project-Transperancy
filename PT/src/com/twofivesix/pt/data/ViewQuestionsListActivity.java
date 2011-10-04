@@ -21,7 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 public class ViewQuestionsListActivity extends Activity {
@@ -34,7 +33,6 @@ public class ViewQuestionsListActivity extends Activity {
 
 		private static final int CONTMENU_DELETE = 1234;
 		private static final int CONTMENU_EDIT = 1235;
-		private static final String QUESTION_TABLE = "tb_questions";
 		
 		private ArrayList<Question> questionArrayList = new ArrayList<Question>();
 		
@@ -70,12 +68,12 @@ public class ViewQuestionsListActivity extends Activity {
     }
     
     protected void updateQuestionList() {
-    	cursor = db.rawQuery("SELECT _id, question, type, positive, date_added from " + QUESTION_TABLE, null);
-        adapter = new SimpleCursorAdapter(
+    	cursor = db.rawQuery("SELECT _id, question, type, positive, date_added from " + DatabaseHelper.getQuestionTable(), null);
+        /*adapter = new SimpleCursorAdapter(
         		this, 
         		R.layout.edit_question_list_item, cursor, 
         		new String[] {"question", "date_added"}, 
-        		new int[] {R.id.question, R.id.added});
+        		new int[] {R.id.question, R.id.added});*/
         
         questionArrayList = new ArrayList<Question>();
         int idRow = cursor.getColumnIndex("_id");
@@ -173,7 +171,7 @@ public class ViewQuestionsListActivity extends Activity {
     }
 
     protected void deleteQuestion(Question question) {
-    	db.delete(QUESTION_TABLE, "question = ?", new String[] {question.getQuestion()});
+    	db.delete(DatabaseHelper.getQuestionTable(), "question = ?", new String[] {question.getQuestion()});
     	updateQuestionList();
     	Toast toast = Toast.makeText(this, "Delete question: " + question.getQuestion(), 5000);
 		toast.setGravity(Gravity.CENTER, 0, 0);

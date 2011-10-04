@@ -20,14 +20,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.twofivesix.pt.data.validator.AbstractValidator;
 import com.twofivesix.pt.data.validator.EditTextMatchRequiredValidator;
@@ -47,7 +45,6 @@ public class RegisterActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_activity);
 		
@@ -67,13 +64,13 @@ public class RegisterActivity extends Activity {
 				if(validate())
 				{
 					ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
-					// Register User Here
 					progressDialog.setMessage("Sending Registration...");
 					progressDialog.setCancelable(false);
 					progressDialog.show();
 					
 					String result;
 					
+					// Register User Here
 					try
 					{
 						HttpClient client = new DefaultHttpClient();
@@ -113,7 +110,7 @@ public class RegisterActivity extends Activity {
 						BufferedReader rd = new BufferedReader(new InputStreamReader(
 								response.getEntity().getContent()));
 						
-						Log.d("SPENCER", "send request");
+						Log.d("SPENCER", "send register request");
 						
 						String line = "";
 						result = line;
@@ -133,28 +130,51 @@ public class RegisterActivity extends Activity {
 					}
 					
 					Log.d("SPENCER", "|" + result + "|");
+					AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
 					if(result.equals("Success"))
 					{
-						Toast toast;
+						/*Toast toast;
 						toast = Toast.makeText(RegisterActivity.this, R.string.register_success, 5000);
 						toast.setGravity(Gravity.CENTER, 0, 0);
-						toast.show();
+						toast.show();*/
+						
+						builder.setMessage(R.string.register_success);
+						builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								finish();
+								dialog.cancel();
+							}
+						});
+						
 						
 						Intent i = new Intent();
 						i.putExtra("emailAddress", etEmailAddress.getText().toString());
+						i.putExtra("password", etPassword.getText().toString());
 						setResult(RESULT_OK, i);
-						finish();
 					}
 					else
 					{
-						Toast toast;
+						builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+							}
+						});
+
+						if(result.equals("Email address already in use."))
+							builder.setMessage(R.string.register_existing_email);
+						else
+							builder.setMessage(R.string.register_error);
+						/*Toast toast;
 				    	if(result.equals("Email address already in use."))
 				    		toast = Toast.makeText(RegisterActivity.this, R.string.register_existing_email, 5000);
 				    	else
 				    		toast = Toast.makeText(RegisterActivity.this, R.string.register_error, 5000);
 						toast.setGravity(Gravity.CENTER, 0, 0);
-						toast.show();
+						toast.show();*/
 					}
+					AlertDialog alert = builder.create();
+					alert.setCancelable(false);
+					alert.show();
 				}
 			}
 		});

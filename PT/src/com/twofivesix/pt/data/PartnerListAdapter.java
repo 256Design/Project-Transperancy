@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class QuestionListAdapter extends ArrayAdapter<Question> {
+public class PartnerListAdapter extends ArrayAdapter<Partner> {
 	
-	public QuestionListAdapter(Context context, ArrayList<Question> questions)
+	public PartnerListAdapter(Context context, ArrayList<Partner> partnerArrayList)
 	{
-		super(context, R.layout.edit_question_list_item, R.id.question, questions);
+		super(context, R.layout.edit_question_list_item, R.id.question, partnerArrayList);
+//		Log.d("SPENCER", "PartnerListAdapter(...)");
 	}
 	
 	/*public QuestionListAdapter(Context context, int resource, int textViewResourceId,
@@ -24,23 +25,22 @@ public class QuestionListAdapter extends ArrayAdapter<Question> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View row = inflater.inflate(R.layout.edit_question_list_item, parent, false);
-		Question item = getItem(position);
-//		String[] items = getResources().getStringArray(R.array.countries);
+		// TODO Change list item layout
+		Partner item = getItem(position);
 		
-		//ImageView iv = (ImageView) row.findViewById(R.id.imageView1);
-		TextView tvQuestion  = (TextView) row.findViewById(R.id.question);
-		TextView tvAdded = (TextView) row.findViewById(R.id.added);
-		
+		View row;
 		if(item != null)
 		{
-			tvQuestion.setText(item.getQuestion());
+			row = inflater.inflate(R.layout.partner_list_item, parent, false);
+			TextView tvQuestion  = (TextView) row.findViewById(R.id.question);
+			TextView tvAdded = (TextView) row.findViewById(R.id.added);
+		
+			tvQuestion.setText(item.getEmail());
 			tvAdded.setText(item.getDateAdded().toString());
 		}
 		else
 		{
-			tvQuestion.setText("Poop");
-			tvAdded.setText("Click this to add a new question.");
+			row = inflater.inflate(R.layout.add_partner_list_item, parent, false);
 		}
 				
 		return row;

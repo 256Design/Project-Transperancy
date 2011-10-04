@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Main!</string>
-    <string name="app_name">Project Transparency DataSetup</string>
+    <string name="app_name">Project Trnsrncy</string>
     
     
-    <string name="question_list_context_menu_title">Question options</string>
 
 	<!-- General Strings -->    
     <string name="are_you_sure">Are you sure?</string>
+    <string name="save">Save</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="password">Password</string>
@@ -16,12 +15,20 @@
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
     <string name="okay">OK</string>
+    <string name="questions">Questions</string>
+    <string name="partners">Partners</string>
     
+    
+    <!-- Manager Activity -->
+    <string name="manager_question_listed">Questions Listed: </string>
+    <string name="manager_partners_listed">Partners Listed: </string>
     
     <!-- Login Activity -->
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="recover_login">Recover Login</string>
+    <string name="login_unconfirmed_error">Your account has not been confirmed. Please check your email.</string>
+    <string name="login_invalid_error">Invalid Email/Password Combo, Please Try Again</string>
     
     <!-- Register Activity -->
     <string name="register_title">Register for an Account</string>
@@ -40,6 +47,7 @@
     <string name="delete_question_cont">Delete question</string>
     <string name="error_add_update_question">There was an error adding or updating question. Please try again.</string>
     <string name="success_add_question">Successfully added or updated question.</string>
+    <string name="question_list_context_menu_title">Question options</string>
     
     <!-- Add/Edit Question  -->
     <string name="add_question_label">Add A New Question</string>
@@ -55,4 +63,15 @@
     </string-array>
     <string name="add_question_btn_text">Add Question</string>
     <string name="save_question_btn_text">Save Question</string>
+
+    <!-- Partner List -->
+    <string name="partners_list">Partners List</string>
+    <string name="partner_list_context_menu_title">Question options</string>
+    <string name="add_partner_btn_text">Add Partner</string>
+    <string name="delete_partner">Delete Partner?</string>
+    <string name="edit_partner_cont">Edit partner</string>
+    <string name="delete_partner_cont">Delete partner</string>
+    <string name="error_add_update_partner">There was an error adding or updating partner. Please try again.</string>
+    <string name="success_add_partner">Successfully added or updated partner.</string>
+    <string name="new_partner_email">Enter new partner email</string>
 </resources>
