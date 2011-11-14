@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    <LinearLayout 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@android:color/darker_gray">
+	    <ImageView android:layout_height="wrap_content" android:id="@+id/imageView1" android:src="@drawable/home_manager_header" android:layout_width="fill_parent" android:layout_margin="5dp"></ImageView>
+    </LinearLayout>
+    <ListView 
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:id="@+id/report_questions_list"
+    	android:layout_weight="1"/>
+    <Button
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/report_button"
+    	android:text="@string/save_and_send"/>
+</LinearLayout>

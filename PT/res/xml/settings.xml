@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<PreferenceCategory android:title="@string/settings_sync_title">
+        <PreferenceScreen
+        	android:key="@string/login_screen" 
+        	android:title="@string/login">
+        	<intent 
+        		android:targetPackage="com.twofivesix.pt.data"
+        		android:targetClass="com.twofivesix.pt.data.LoginActivity"/>
+        </PreferenceScreen>
+    </PreferenceCategory>-->
+    <PreferenceCategory
+    	android:title="@string/settings_reminder_cat_title">
+    	<CheckBoxPreference
+    		android:key="@string/reminders_on"
+    		android:title="@string/settings_reminders_on_title"
+    		android:summary="@string/settings_reminders_on_summary"
+    		/>
+        <com.twofivesix.pt.data.TimePreference
+        	android:key="@string/reminder_time"
+        	android:title="@string/settings_reminder_time_title"
+        	android:summary="@string/settings_reminder_summary"
+			  android:negativeButtonText="@string/cancel"
+			  android:positiveButtonText="@string/save"/>
+		<ListPreference
+			android:key="@string/reminder_interval"
+			android:title="@string/settings_reminder_interval_title"
+			android:summary="@string/settings_reminder_interval_summary"
+			android:entries="@array/settings_reminder_interval_entries"
+			android:entryValues="@array/settings_reminder_interval_values" />  	
+    </PreferenceCategory>
+    
+</PreferenceScreen>
