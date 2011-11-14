@@ -4,16 +4,40 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-    <LinearLayout android:id="@+id/linearLayout1" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_centerHorizontal="true">
-        <TextView android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/email"></TextView>
-        <EditText android:layout_height="wrap_content" android:layout_width="220dp" android:id="@+id/login_usernameTV" android:inputType="textEmailAddress">
+  <RelativeLayout
+  	android:gravity="top"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content">
+  	<ImageView android:layout_height="wrap_content" 
+  		android:id="@+id/imageView1" 
+  		android:src="@drawable/home_manager_header" 
+  		android:layout_width="fill_parent"/>
+  </RelativeLayout>
+    <LinearLayout android:id="@+id/linearLayout1" 
+    				android:layout_width="wrap_content" 
+    				android:layout_height="wrap_content" 
+    				android:layout_centerVertical="true" 
+    				android:layout_centerHorizontal="true"
+    				android:background="@drawable/login_back" android:weightSum="1" android:orientation="vertical">
+    	<ImageView
+    		android:layout_height="56dp"
+    		android:layout_width="131dp"
+    		android:src="@drawable/login_title"
+    		android:layout_alignParentRight="true"
+    		android:layout_gravity="right"/>
+        <EditText android:layout_height="wrap_content" android:layout_width="220dp" android:id="@+id/login_usernameTV" android:inputType="textEmailAddress" android:hint="@string/email">
             <requestFocus></requestFocus>
         </EditText>
-        <TextView android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password"></TextView>
-        <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/login_passowrdTV" android:inputType="textPassword"></EditText>
+        <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/login_passowrdTV" android:inputType="textPassword" android:hint="@string/password"></EditText>
         <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/login_button" android:text="@string/login"></Button>
-        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/login_recover_button" android:text="@string/recover_login"></Button>
-        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/login_register_button" android:text="@string/register"></Button>
     </LinearLayout>
-    
+    <LinearLayout 
+    	android:layout_width="fill_parent" 
+    	android:gravity="bottom"
+    	android:orientation="horizontal" 
+    	android:layout_height="wrap_content" 
+    	android:layout_alignParentBottom="true" 
+    	android:layout_alignParentLeft="true">
+        <Button android:layout_width="wrap_content" android:id="@+id/login_register_button" android:text="@string/register" android:layout_height="wrap_content"></Button>
+    </LinearLayout>
 </RelativeLayout>

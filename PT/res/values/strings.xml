@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Project Trnsrncy</string>
+    <string name="app_full_name">Project Transparency</string>
+    <string name="app_name">Project Trnsprncy</string>
     
     
 
@@ -17,11 +18,37 @@
     <string name="okay">OK</string>
     <string name="questions">Questions</string>
     <string name="partners">Partners</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="unconfirmed">Unconfirmed</string>
+    <string name="denied">Denied</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+   	<string name="reporting">Reporting</string>
+   	<string name="added">Added</string>
+   	
+   	<!-- Time Intervals -->
+   	<string name="days">Days</string>
+   	<string name="day">Day</string>
+   	<string name="hours">Hours</string>
+   	<string name="hour">Hour</string>
+   	<string name="minutes">Minutes</string>
+   	<string name="minute">Minute</string>
+   	<string name="moments">Moments</string>
     
     
     <!-- Manager Activity -->
+    <string name="home">Home</string>
+    <string name="manager_it_has_been">It has been $ since your last report.</string>
+    <string name="manager_never_reported">You have not yet reported.</string>
     <string name="manager_question_listed">Questions Listed: </string>
     <string name="manager_partners_listed">Partners Listed: </string>
+    <string name="current_partners">Current Partners</string>
+    <string name="current_questions">Current Questions</string>
+    <string name="sync_partner_status">Sync Partners Status</string>
+    <string name="confirm_add_partner">Are you sure you want to add $ to your partners list? They will receive a confirmation email.</string>
+    <string name="error_existing_partner">Partner has already been added.</string>
+    <string name="error_invalid_email">Invalid email address. Try again.</string>
+    <string name="error_cant_add_self">Silly... you can\'t add yourself.</string>
     
     <!-- Login Activity -->
     <string name="login">Login</string>
@@ -29,6 +56,7 @@
     <string name="recover_login">Recover Login</string>
     <string name="login_unconfirmed_error">Your account has not been confirmed. Please check your email.</string>
     <string name="login_invalid_error">Invalid Email/Password Combo, Please Try Again</string>
+    <string name="no_network_connection">No Network</string>
     
     <!-- Register Activity -->
     <string name="register_title">Register for an Account</string>
@@ -45,9 +73,12 @@
     <string name="delete_question">Delete Question?</string>
     <string name="edit_question_cont">Edit question</string>
     <string name="delete_question_cont">Delete question</string>
+    <string name="deleted_question_success">Deleted question successfully</string>
     <string name="error_add_update_question">There was an error adding or updating question. Please try again.</string>
-    <string name="success_add_question">Successfully added or updated question.</string>
+    <string name="success_add_question">Successfully added question.</string>
+    <string name="success_edit_question">Successfully updated question.</string>
     <string name="question_list_context_menu_title">Question options</string>
+    <string name="sync_questions">Sync Questions</string>
     
     <!-- Add/Edit Question  -->
     <string name="add_question_label">Add A New Question</string>
@@ -71,7 +102,43 @@
     <string name="delete_partner">Delete Partner?</string>
     <string name="edit_partner_cont">Edit partner</string>
     <string name="delete_partner_cont">Delete partner</string>
-    <string name="error_add_update_partner">There was an error adding or updating partner. Please try again.</string>
+    <string name="error_add_partner">There was an error adding partner. Please try again.</string>
+    <string name="error_update_partner">There was an error updating partner. Please try again.</string>
     <string name="success_add_partner">Successfully added or updated partner.</string>
     <string name="new_partner_email">Enter new partner email</string>
+    <string name="sync_partners">Sync Partners</string>
+    
+    <!-- Settings Activity -->
+	<string name="settings_label">Settings</string>
+    <string name="settings_sync_title">Sync Settings</string>
+    <string name="settings_reminders_on_title">Enable reminders</string>
+    <string name="settings_reminders_on_summary"></string>
+    <string name="settings_reminder_summary">Select time of day to be reminded</string>
+    <string name="settings_reminder_time_title">Reminder Time</string>
+    <string name="settings_reminder_cat_title">Reminders</string>
+    <string name="settings_reminder_interval_title">Reminder Interval</string>
+    <string name="settings_reminder_interval_summary">How long between reminders</string>
+    <string-array name="settings_reminder_interval_values">
+    	<item>0</item>
+    	<item>1</item>
+    	<item>10</item>
+    	<item>20</item>
+    </string-array>
+    <string-array name="settings_reminder_interval_entries">
+    	<item>Do not send reminders</item>
+    	<item>1 minute</item>
+    	<item>10 minutes</item>
+    	<item>20 minutes</item>
+    </string-array>
+    <string name="reminder_scheduled_for">Reminder Scheduled For </string>
+    
+    <!-- Reporting Activity -->
+    <string name="save_and_send">Save And Send</string>
+    <string name="pick_one">Pick One...</string>
+    
+    
+    <!-- Notification Keys -->
+    <string name="reminder_service_started">Report Reminder</string>
+    <string name="reminder_service_stopped">Reminder Service Ended</string>
+    <string name="reminder_service_label">Complete accountability report now?</string>
 </resources>

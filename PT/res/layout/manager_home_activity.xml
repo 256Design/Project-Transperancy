@@ -1,28 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
-        <TextView 
-        	android:id="@+id/manager_questions_details"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"/>
-        <Button 
-        	android:text="@string/questions" 
-        	android:id="@+id/manager_questions" 
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content"/>
-        <TextView 
-        	android:id="@+id/manager_partners_details"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"/>
-        <Button 
-        	android:text="@string/partners" 
-        	android:id="@+id/manager_partners" 
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content"/>
+    <LinearLayout 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@android:color/darker_gray">
+	    <ImageView android:layout_height="wrap_content" android:id="@+id/imageView1" android:src="@drawable/home_manager_header" android:layout_width="fill_parent" android:layout_margin="5dp"></ImageView>
     </LinearLayout>
-    
-</ScrollView>
+	<TextView 
+		android:textAppearance="?android:attr/textAppearanceLarge" 
+	  	android:id="@+id/manager_reporting_title"
+	  	android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:text="@string/reporting"/>
+    <TextView 
+       	android:id="@+id/manager_last_reporting_textview"
+       	android:layout_width="wrap_content"
+       	android:layout_height="wrap_content"/>
+	<Button 
+	  	android:text="@string/reporting" 
+	  	android:id="@+id/manager_reporting_button" 
+	  	android:layout_width="wrap_content" 
+	  	android:layout_height="wrap_content"/>
+	<TextView 
+		android:textAppearance="?android:attr/textAppearanceLarge" 
+	  	android:id="@+id/manager_partners_details"
+	  	android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:text="@string/current_questions"/>
+    <TextView 
+       	android:id="@+id/manager_questions_details_textview"
+       	android:layout_width="wrap_content"
+       	android:layout_height="wrap_content"/>
+	<Button 
+	  	android:text="@string/questions" 
+	  	android:id="@+id/manager_questions" 
+	  	android:layout_width="wrap_content" 
+	  	android:layout_height="wrap_content"/>
+	<TextView 
+		android:textAppearance="?android:attr/textAppearanceLarge" 
+	  	android:id="@+id/manager_partners_details"
+	  	android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:text="@string/current_partners"/>
+	<ListView 
+		android:id="@+id/manager_current_partners_list"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent"
+		android:layout_weight="1"/>
+	<LinearLayout 
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<EditText 
+			android:id="@+id/manager_new_partner_email"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/new_partner_email"
+			android:inputType="textEmailAddress"
+			android:layout_weight="1"/>
+		<Button 
+			android:id="@+id/manager_save_new_partner"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+	    	android:text="@string/save"/>
+	</LinearLayout>
+</LinearLayout>

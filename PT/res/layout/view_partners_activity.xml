@@ -8,6 +8,23 @@
     <ListView 
     	android:id="@+id/currentPartnersList"
     	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent" />
+    	android:layout_height="fill_parent" android:layout_weight="1" />
     
+	<LinearLayout 
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<EditText 
+			android:id="@+id/partners_new_partner_email"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/new_partner_email"
+			android:inputType="textEmailAddress"
+			android:layout_weight="1"/>
+		<Button 
+			android:id="@+id/partners_save_new_partner"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+	    	android:text="@string/save"/>
+	</LinearLayout>
 </LinearLayout>

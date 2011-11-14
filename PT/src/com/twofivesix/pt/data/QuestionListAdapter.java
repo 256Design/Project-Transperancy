@@ -1,5 +1,6 @@
 package com.twofivesix.pt.data;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.twofivesix.pt.R;
 
 public class QuestionListAdapter extends ArrayAdapter<Question> {
 	
@@ -35,7 +37,8 @@ public class QuestionListAdapter extends ArrayAdapter<Question> {
 		if(item != null)
 		{
 			tvQuestion.setText(item.getQuestion());
-			tvAdded.setText(item.getDateAdded().toString());
+			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+			tvAdded.setText(getContext().getText(R.string.added) + ": " + format.format(item.getDateAdded()));
 		}
 		else
 		{
