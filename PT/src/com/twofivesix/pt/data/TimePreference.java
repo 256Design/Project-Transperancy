@@ -6,7 +6,6 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
-import com.twofivesix.pt.R;
 
 public class TimePreference extends DialogPreference {
 	private int lastHour=0;

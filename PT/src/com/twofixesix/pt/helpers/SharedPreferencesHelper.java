@@ -4,11 +4,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-import com.twofivesix.pt.R;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+
+import com.twofivesix.pt.R;
 
 public class SharedPreferencesHelper {
 	
@@ -19,6 +19,7 @@ public class SharedPreferencesHelper {
 	public static final String USER_LOGGED_IN = "user_logged_in";
 	public static final String REMINDER_INTERVAL_KEY = "reminder_interval";
 	public static final String REMINDER_TIME_KEY = "reminder_time";
+	public static final String REMINDERS_ON_KEY = "reminders_on";
 	public static final String USER_ID_KEY = "user_id";
 
 	
@@ -26,11 +27,15 @@ public class SharedPreferencesHelper {
 	private Context context;
 	
 	private String LAST_REPORT_KEY;
+
+	private SharedPreferences prefs;
 	
 	public SharedPreferencesHelper(Context context)
 	{
 		this.context = context;
-		sharedPreferences = context.getSharedPreferences(SharedPreferencesHelper.SharedPrefsName, 0);
+		
+		sharedPreferences = context.getSharedPreferences(SharedPreferencesHelper.SharedPrefsName, Context.MODE_WORLD_READABLE);
+		//prefs = context.getPreferences(Activity.MODE_PRIVATE);
 	}
 	
 	public String getUserEmail()
@@ -55,7 +60,8 @@ public class SharedPreferencesHelper {
 	public boolean getLoggedIn()
 	{
 		boolean loggedIn = sharedPreferences.getBoolean(USER_LOGGED_IN, false);
-		Log.d("SPENCER", "getLoggedIn() = "+loggedIn);
+		Log.d("SPENCER", "sp.getLoggedIn() = "+loggedIn);
+		//Log.d("SPENCER", "p.getLoggedIn() = "+prefs.getBoolean(USER_LOGGED_IN, false));
 		return loggedIn;
 	}
 	
@@ -64,6 +70,7 @@ public class SharedPreferencesHelper {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
     	editor.putBoolean(USER_LOGGED_IN, loggedIn);
     	editor.commit();
+    	//prefs.edit().putBoolean(USER_LOGGED_IN, loggedIn).commit();
 	}
 	
 	public String getUserPassword()

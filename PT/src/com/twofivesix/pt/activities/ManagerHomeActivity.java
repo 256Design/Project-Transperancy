@@ -30,8 +30,8 @@ import android.widget.Toast;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.Partner;
-import com.twofivesix.pt.data.PartnerListAdapter;
 import com.twofivesix.pt.data.validator.RegExpressionValidator;
+import com.twofivesix.pt.listAdapters.PartnerListAdapter;
 import com.twofixesix.pt.helpers.DatabaseHelper;
 import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
 import com.twofixesix.pt.helpers.SharedPreferencesHelper;
@@ -243,9 +243,6 @@ public class ManagerHomeActivity extends Activity {
     	 
         /* Switch on the ID of the item, to get what the user selected. */
         switch (item.getItemId()) {
-                case CONTMENU_EDIT:
-                    editPartner(menuInfo.position);
-                    return true;
                 case CONTMENU_DELETE:
                     confirmDeletePartner(partnerContexted);
                     return true;
@@ -285,9 +282,6 @@ public class ManagerHomeActivity extends Activity {
 			setResult(LoginActivity.LOGOUT_RESULT_CODE);
 			finish();
 			return true;
-		 case CONTMENU_EDIT:
-             editPartner(menuInfo.position);
-             return true;
          case CONTMENU_DELETE:
              confirmDeletePartner(partnerContexted);
              return true;
@@ -298,7 +292,11 @@ public class ManagerHomeActivity extends Activity {
 
 	private boolean syncPartnersStatus() {
 		if(NetworkConnectivityHelper.isConnected(ManagerHomeActivity.this))
-			return Partner.syncPartners(settings.getUserID(), db);
+			try {
+				return Partner.syncPartners(settings.getUserID(), db);
+			} catch (Exception e) {
+				return false;
+			}
 		else
 			return false;
 	}
@@ -306,9 +304,6 @@ public class ManagerHomeActivity extends Activity {
 	// =======================================
     // General Functions
     // =======================================
-    protected void editPartner(int position) {
-    	// TODO Implement
-	}
     
     private void confirmDeletePartner(final Partner partnerContexted) {
     	

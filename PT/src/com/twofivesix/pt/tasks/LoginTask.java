@@ -10,37 +10,40 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-
-import com.twofivesix.pt.activities.LoginActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class LoginTask extends AsyncTask<String, Void, Integer> {
+import com.twofivesix.pt.R;
+import com.twofivesix.pt.activities.LoginActivity;
+
+public class LoginTask extends AsyncTask<String, Integer, Integer> {
 
 	private ProgressDialog progressDialog;
-	private Activity activity;
+	private LoginActivity activity;
 	private int id = -1;
 
-	public LoginTask(Activity activity, ProgressDialog progressDialog)
+	public LoginTask(LoginActivity activity, ProgressDialog progressDialog)
 	{
 		this.activity = activity;
 		this.progressDialog = progressDialog;
 	}
 	
 	@Override
-	protected void onPreExecute() {
+	protected void onPreExecute()
+	{
 		progressDialog.show();
 	}
 	
 	@Override
-	protected Integer doInBackground(String... arg0) {
-		// TODO Auto-generated method stub
-		String result = "";
+	protected Integer doInBackground(String... arg0) 
+	{
+		String result = "";	
 		int responseCode = 0;
 		try 
 		{
@@ -56,12 +59,11 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
 			HttpResponse response;
 			do
 			{
+				publishProgress(executeCount+1,5);
 				// Execute HTTP Post Request
-				//Log.d("SPENCER", "send login request");
 				executeCount++;
 				response = client.execute(httppost);
-				responseCode = response.getStatusLine().getStatusCode();
-				Log.d("SPENCER", response.getStatusLine().getStatusCode() + " Status Code");						
+				responseCode = response.getStatusLine().getStatusCode();						
 			} while (executeCount < 5 && responseCode == 408);
 			
 	        BufferedReader rd = new BufferedReader(new InputStreamReader(
@@ -71,27 +73,36 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
 			while ((line = rd.readLine()) != null)
 			{
 				result = line.trim();
-				Log.d("SPENCER", "Log on result: |" + result + "|");
 			}
 			id = Integer.parseInt(result);
 		}
-		catch (Exception e) {
+		catch (HttpHostConnectException e) {
 			responseCode = 408;
+		}
+		catch (Exception e) {
+			responseCode = 400;
 			e.printStackTrace();
 		}
-		//id = 1;
-		//return 200;
 		return responseCode;
 	}
 	
 	@Override
-	protected void onPostExecute(Integer result) {
+	protected void onProgressUpdate(Integer... values) {
+		if(values.length == 2)
+		{
+			progressDialog.setMessage(activity.getText(R.string.logging_in)+"("+values[0]+"/"+values[1]+")");
+		}
+	}
+	
+	@Override
+	protected void onPostExecute(Integer result)
+	{
 		progressDialog.dismiss();
-		Log.d("SPENCER", "result = " + result);
 		if(result == 202)
 			((LoginActivity)activity).login(id);
+		else if(result == 408)
+			activity.showConnectionError(this);
 		else
 			((LoginActivity)activity).showLoginError("");
 	}
-
 }

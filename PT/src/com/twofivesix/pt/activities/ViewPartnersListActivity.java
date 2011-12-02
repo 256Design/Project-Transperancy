@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -28,12 +29,15 @@ import android.widget.Toast;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.Partner;
-import com.twofivesix.pt.data.PartnerListAdapter;
+import com.twofivesix.pt.interfaces.SyncCaller;
+import com.twofivesix.pt.listAdapters.PartnerListAdapter;
+import com.twofivesix.pt.tasks.PartnerSyncTask;
+import com.twofivesix.pt.tasks.SyncTask;
 import com.twofixesix.pt.helpers.DatabaseHelper;
 import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
 import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
-public class ViewPartnersListActivity extends Activity {
+public class ViewPartnersListActivity extends Activity implements SyncCaller {
 	
 		protected SQLiteDatabase db;
 		protected Cursor cursor;
@@ -47,6 +51,7 @@ public class ViewPartnersListActivity extends Activity {
 		private Button saveNewPartnerButton;
 		protected EditText newPartnerEmailET;
 		private SharedPreferencesHelper settings;
+		private SyncTask partnerSyncTask;
 		
     /** Called when the activity is first created. */
     @Override
@@ -91,8 +96,6 @@ public class ViewPartnersListActivity extends Activity {
 		});
         
         syncPartnersStatus();
-        
-        updatePartnerList();
     }
     
     protected boolean checkNotUser(String email)
@@ -145,8 +148,7 @@ public class ViewPartnersListActivity extends Activity {
     	
     	switch (item.getItemId()) {
 		case R.id.partner_sync_option_item:
-			if(syncPartnersStatus())
-				updatePartnerList();
+			syncPartnersStatus();
 			return true;
          case CONTMENU_DELETE:
              confirmDeletePartner(partnerContexted);
@@ -163,11 +165,22 @@ public class ViewPartnersListActivity extends Activity {
         return true;
     }
 
-	private boolean syncPartnersStatus() {
+	private void syncPartnersStatus() {
 		if(NetworkConnectivityHelper.isConnected(ViewPartnersListActivity.this))
-			return Partner.syncPartners(settings.getUserID(), db);
+		{
+			//Partner.syncPartners(settings.getUserID(), db);
+			ProgressDialog progressDialog = new ProgressDialog(ViewPartnersListActivity.this);
+			progressDialog.setMessage(getString(R.string.syncing_partners));
+			progressDialog.setCancelable(false);
+			
+			partnerSyncTask = new PartnerSyncTask(ViewPartnersListActivity.this, progressDialog, db);
+			Integer userID = settings.getUserID();
+			partnerSyncTask.execute(userID);
+		}
 		else
-			return false;
+		{
+			NetworkConnectivityHelper.showConnectError(this);
+		}
 	}
 
 	// =======================================
@@ -254,5 +267,21 @@ public class ViewPartnersListActivity extends Activity {
 		Toast toast = Toast.makeText(this, string, 5000);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
+	}
+
+	public void syncResults(Boolean result) {
+		if(result)
+		{
+			Toast.makeText(ViewPartnersListActivity.this, "" + getText(R.string.success_partners_sync), Toast.LENGTH_LONG).show();
+			updatePartnerList();
+		}
+		else
+			displaySyncError();
+	}
+
+	private void displaySyncError() 
+	{
+		if(partnerSyncTask != null)
+			partnerSyncTask.showSyncError(this);
 	}
 }

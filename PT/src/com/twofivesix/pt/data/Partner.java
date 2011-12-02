@@ -15,6 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -152,7 +153,7 @@ public class Partner implements Serializable {
 		}
 	}
 	
-	public static boolean syncPartners(int userID, SQLiteDatabase db)
+	public static boolean syncPartners(int userID, SQLiteDatabase db) throws Exception
 	{
 		try
 		{
@@ -220,14 +221,26 @@ public class Partner implements Serializable {
 	public static boolean submitDeteltePartner(int userID, Partner partnerContexted,
 			Activity managerHomeActivity) {
 		try {
-			URL url = new URL("http://www.256design.com/projectTransparency/project/deletePartner.php?id="+userID+"&email="+partnerContexted.getEmail());
-			URLConnection conn = url.openConnection();
-			BufferedReader rd = new BufferedReader(new  InputStreamReader(conn.getInputStream()));
-            String line = "";
-            String result = "";
-            while ((line = rd.readLine()) != null)
-            	result = line;
-			return result.trim().equals("Success");
+			URL url = new URL("http://www.256design.com/projectTransparency/project/deletePartnerHeader.php?id="+userID+"&email="+partnerContexted.getEmail());
+			HttpClient client = new DefaultHttpClient();
+		    HttpGet httppost = new HttpGet(url.toURI());
+	       
+			int executeCount = 0;
+			HttpResponse response;
+			int responseCode;
+			do
+			{
+				//publishProgress(executeCount+1,5);
+				// Execute HTTP Post Request
+				executeCount++;
+				response = client.execute(httppost);
+				responseCode  = response.getStatusLine().getStatusCode();						
+			} while (executeCount < 5 && responseCode == 408);
+			
+			if(responseCode == 202)
+				return true;
+			else
+				return false;
 		} catch (Exception e) {
 			return false;			
 		}

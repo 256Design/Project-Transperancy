@@ -18,14 +18,16 @@
     				android:layout_height="wrap_content" 
     				android:layout_centerVertical="true" 
     				android:layout_centerHorizontal="true"
-    				android:background="@drawable/login_back" android:weightSum="1" android:orientation="vertical">
+    				android:background="@drawable/login_back" android:weightSum="1" android:orientation="vertical"
+    				android:paddingLeft="10dp" android:paddingRight="10dp"
+    				android:paddingTop="7dp" android:paddingBottom="42dp">
     	<ImageView
-    		android:layout_height="56dp"
-    		android:layout_width="131dp"
+    		android:layout_height="wrap_content"
+    		android:layout_width="wrap_content"
     		android:src="@drawable/login_title"
     		android:layout_alignParentRight="true"
     		android:layout_gravity="right"/>
-        <EditText android:layout_height="wrap_content" android:layout_width="220dp" android:id="@+id/login_usernameTV" android:inputType="textEmailAddress" android:hint="@string/email">
+        <EditText android:layout_height="wrap_content" android:layout_width="220dp" android:id="@+id/login_usernameTV1" android:inputType="textEmailAddress" android:hint="@string/email">
             <requestFocus></requestFocus>
         </EditText>
         <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/login_passowrdTV" android:inputType="textPassword" android:hint="@string/password"></EditText>

@@ -25,6 +25,8 @@
     <string name="logout">Logout</string>
    	<string name="reporting">Reporting</string>
    	<string name="added">Added</string>
+   	<string name="error">Error</string>
+   	<string name="sync_error">Sync error, please try again soon.</string>
    	
    	<!-- Time Intervals -->
    	<string name="days">Days</string>
@@ -36,7 +38,7 @@
    	<string name="moments">Moments</string>
     
     
-    <!-- Manager Activity -->
+    <!-- Home Activity -->
     <string name="home">Home</string>
     <string name="manager_it_has_been">It has been $ since your last report.</string>
     <string name="manager_never_reported">You have not yet reported.</string>
@@ -49,8 +51,10 @@
     <string name="error_existing_partner">Partner has already been added.</string>
     <string name="error_invalid_email">Invalid email address. Try again.</string>
     <string name="error_cant_add_self">Silly... you can\'t add yourself.</string>
+    <string name="success_report">Report submitted successfully.</string>
     
     <!-- Login Activity -->
+    <string name="logging_in">Logging In...</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="recover_login">Recover Login</string>
@@ -79,6 +83,8 @@
     <string name="success_edit_question">Successfully updated question.</string>
     <string name="question_list_context_menu_title">Question options</string>
     <string name="sync_questions">Sync Questions</string>
+    <string name="syncing_questions">Syncing Questions...</string>
+    <string name="success_questions_sync">Questions Successfully Synced</string>
     
     <!-- Add/Edit Question  -->
     <string name="add_question_label">Add A New Question</string>
@@ -107,6 +113,8 @@
     <string name="success_add_partner">Successfully added or updated partner.</string>
     <string name="new_partner_email">Enter new partner email</string>
     <string name="sync_partners">Sync Partners</string>
+    <string name="syncing_partners">Syncing Partners...</string>
+    <string name="success_partners_sync">Partners Successfully Synced</string>
     
     <!-- Settings Activity -->
 	<string name="settings_label">Settings</string>
@@ -135,6 +143,8 @@
     <!-- Reporting Activity -->
     <string name="save_and_send">Save And Send</string>
     <string name="pick_one">Pick One...</string>
+    <string name="sending_report">Sending Report...</string>
+    <string name="error_failed_report">Error submitting report. Please try again.</string>
     
     
     <!-- Notification Keys -->

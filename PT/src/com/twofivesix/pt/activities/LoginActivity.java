@@ -1,17 +1,7 @@
 package com.twofivesix.pt.activities;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,15 +11,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.validator.AbstractValidator;
@@ -47,10 +36,11 @@ public class LoginActivity extends Activity {
 	public static final int LOGOUT_RESULT_CODE = 2;
 	
 	SharedPreferencesHelper settings;
+	SharedPreferences sharedPreferences;
 	private EditText etEmailAddress;
 	private EditText etPassword;
 	private Button bLogin;
-	private Button bRecover;
+	//private Button bRecover;
 	private Button bRegister;
 	
 	private final Class<?> LOGIN_DESTINATION = TileHomeActivity.class; 
@@ -60,7 +50,11 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		settings = new SharedPreferencesHelper(this);
-		if(settings.getLoggedIn() && false)
+		sharedPreferences = getPreferences(MODE_PRIVATE);
+		
+		Boolean loggedIn = sharedPreferences.getBoolean(SharedPreferencesHelper.USER_LOGGED_IN, false);
+		Log.d("SPENCER", "default shared prefs isLoggedIn: "+ loggedIn);
+		if(settings.getLoggedIn() || loggedIn)
 		{
 			// user is logged in, bypass activity
 			startActivityForResult(new Intent(LoginActivity.this, LOGIN_DESTINATION), LOGIN_REQUEST_CODE);
@@ -68,12 +62,11 @@ public class LoginActivity extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_activity);
-		
 		bLogin = (Button) findViewById(R.id.login_button);
 		//TODO Add functionality: Recover user info
 		//bRecover = (Button) findViewById(R.id.login_recover_button);
 		bRegister = (Button) findViewById(R.id.login_register_button);
-		etEmailAddress = (EditText) findViewById(R.id.login_usernameTV); 
+		etEmailAddress = (EditText) findViewById(R.id.login_usernameTV1); 
 		etPassword = (EditText) findViewById(R.id.login_passowrdTV);
 		
 		etEmailAddress.setText(settings.getUserEmail());
@@ -86,6 +79,7 @@ public class LoginActivity extends Activity {
 				//startActivityForResult(new Intent(LoginActivity.this, RecoverActivity.class), RECOVER_REQUEST_CODE);
 			}
 		});*/
+		if(bRegister != null)
 		bRegister.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -164,98 +158,21 @@ public class LoginActivity extends Activity {
 		bLogin.setEnabled(true);
 		bLogin.setText(R.string.login);
 		//bRecover.setEnabled(true);
-		bRegister.setEnabled(true);		
+		if(bRegister != null)
+			bRegister.setEnabled(true);		
 	}
 	
 	protected OnClickListener loginOnClickListener = new OnClickListener() {
-		
 		public void onClick(View v) 
 		{
-			if(NetworkConnectivityHelper.isConnected(LoginActivity.this))
+			if(validate())
 			{
-				if(validate())
-				{
-					ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-					progressDialog.setMessage("Logging in...");
-					progressDialog.setCancelable(false);
-					
-					String result = "";
-					
-					LoginTask loginTask = new LoginTask(LoginActivity.this, progressDialog);
-					loginTask.execute(etEmailAddress.getText().toString(), etPassword.getText().toString());
-					/*
-					try 
-					{
-						progressDialog.show();
-						HttpClient client = new DefaultHttpClient();
-					    HttpPost httppost = new HttpPost("http://www.256design.com/projectTransparency/project/login.php");
-					    
-					    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-				        nameValuePairs.add(new BasicNameValuePair("emailAddress", etEmailAddress.getText().toString()));
-				        nameValuePairs.add(new BasicNameValuePair("password", etPassword.getText().toString()));
-							httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				       
-						HttpResponse response;
-						do
-						{
-							// Execute HTTP Post Request
-							//Log.d("SPENCER", "send login request");
-							response = client.execute(httppost);
-							//Log.d("SPENCER", response.getStatusLine().getStatusCode() + " Status Code");						
-						} while (response.getStatusLine().getStatusCode() == 408);
-						
-				        BufferedReader rd = new BufferedReader(new InputStreamReader(
-								response.getEntity().getContent()));
-						
-						String line;
-						while ((line = rd.readLine()) != null)
-						{
-							result = line.trim();
-							//Log.d("SPENCER", "Log on result: |" + result.substring(0, 7) + "|");
-						}
-					}
-					catch (Exception e) {
-						result = "Error";
-						e.printStackTrace();
-					}
-					finally
-					{
-						progressDialog.cancel();
-					}
-					
-					settings.getUserEmail();
-					if(result.length() >= 7 && result.substring(0, 7).equals("Success"))
-					{
-						settings.setUserPassword(etPassword.getText().toString());
-						settings.setLoggedIn(true);
-						settings.setUserID(Integer.parseInt(result.substring(7)));
-						settings.getUserEmail();
-						settings.setUserEmail(etEmailAddress.getText().toString());
-						settings.getUserEmail();
-						startActivityForResult(new Intent(LoginActivity.this, LOGIN_DESTINATION), LOGIN_REQUEST_CODE);
-					}
-					else 
-					{
-						AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-						builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-							}
-						});
-						if(result.equals("Unconfirmed"))
-						{
-							builder.setMessage(R.string.login_unconfirmed_error);
-						}
-						else
-						{
-							builder.setMessage(R.string.login_invalid_error);						
-						}
-						AlertDialog alert = builder.create();
-						alert.setCancelable(false);
-						alert.show();
-					}
-					*/
-				}
+				ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+				progressDialog.setMessage(getString(R.string.logging_in));
+				progressDialog.setCancelable(false);
+				
+				LoginTask loginTask = new LoginTask(LoginActivity.this, progressDialog);
+				loginTask.execute(etEmailAddress.getText().toString(), etPassword.getText().toString());
 			}
 		}
 	};
@@ -281,8 +198,29 @@ public class LoginActivity extends Activity {
 		alert.show();
 	}
 	
+	public void showConnectionError(final LoginTask loginTask)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+		builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+				loginTask.execute();
+			}
+		});
+		builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setMessage(R.string.login_invalid_error);
+		AlertDialog alert = builder.create();
+		alert.setCancelable(false);
+		alert.show();
+	}
+	
 	public void login(int id)
 	{
+		sharedPreferences.edit().putBoolean(SharedPreferencesHelper.USER_LOGGED_IN, true).commit();
 		settings.setLoggedIn(true);
 		settings.setUserID(id);
 		settings.setUserEmail(etEmailAddress.getText().toString());

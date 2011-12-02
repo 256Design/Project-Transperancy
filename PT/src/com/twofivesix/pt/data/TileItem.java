@@ -6,11 +6,13 @@ public class TileItem {
 	private int labelRef;
 	private int notificationCount;
 	private Class<?> activityDestination; 
+	private int requestCode;
 
-	public TileItem(int imageID, int labelString, Class<?> linkClass) {
+	public TileItem(int imageID, int labelString, Class<?> linkClass, int requestCode) {
 		imageRef = imageID;
 		labelRef = labelString;
 		activityDestination = linkClass;
+		this.requestCode = requestCode;
 	}
 	public int getImageRef() {
 		return imageRef;
@@ -35,5 +37,8 @@ public class TileItem {
 	}
 	public void setActivityDestination(Class<?> activityDestination) {
 		this.activityDestination = activityDestination;
+	}
+	public int getRequestCode() {
+		return requestCode;
 	}
 }

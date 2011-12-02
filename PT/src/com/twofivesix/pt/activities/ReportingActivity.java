@@ -1,21 +1,19 @@
 package com.twofivesix.pt.activities;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,6 +24,7 @@ import com.twofivesix.pt.data.Question;
 import com.twofivesix.pt.data.alarms.QuestionPromptAlarm;
 import com.twofivesix.pt.data.alarms.ReportPromtAlarmHelper;
 import com.twofivesix.pt.listAdapters.ReportQuestionListAdapter;
+import com.twofivesix.pt.tasks.ReportTask;
 import com.twofixesix.pt.helpers.DatabaseHelper;
 import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
 import com.twofixesix.pt.helpers.SharedPreferencesHelper;
@@ -57,25 +56,12 @@ public class ReportingActivity extends Activity {
         saveButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
-        		if(NetworkConnectivityHelper.isConnected(ReportingActivity.this))
-        		{
-        			if(sendReport())
-        			{
-        				(new SharedPreferencesHelper(ReportingActivity.this)).setLastReportDateToNow();
-        				// success
-        				setResult(RESULT_OK);
-        				finish();
-        			}
-        		}
-        		else
-        		{
-        			// alert not connected
-        		}
+        		sendReport();
         	}
         });
 	}
 
-	protected boolean sendReport()
+	protected void sendReport()
 	{
 		String responses = "";
 		for (int i = 0; i < questionArrayList.size(); i++) {
@@ -87,54 +73,77 @@ public class ReportingActivity extends Activity {
 			responses += adapter.getQuestionId(i) + "|" + response + "\n";
 		}
 		
-		String result;
-		int responseCode = 0;
-		try
-		{
-			HttpClient client = new DefaultHttpClient();
-		    HttpPost httppost = new HttpPost("http://www.256design.com/projectTransparency/project/report.php?update&userID="+
-		    		new SharedPreferencesHelper(ReportingActivity.this).getUserID());
-			
-			// add values to list
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("responses", responses));
-	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-	        
-	        // Execute HTTP Post Request
-	        HttpResponse response;
-	        int tries = 5;
-			do
-			{
-				response = client.execute(httppost);
-			} while (--tries > 0 && responseCode == 408);
-
-			responseCode = response.getStatusLine().getStatusCode();
-			//Log.d("SPENCER", response.getStatusLine().getStatusCode() + " Status Code");					
-	        
-	        BufferedReader rd = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent()));
-			
-			String line = "";
-			result = line;
-			while ((line = rd.readLine()) != null) {
-				result = line;
-				//Log.d("SPENCER", result);
-			}
-		}
-		catch(Exception e)
-		{
-			result = "Error";
-			//Log.e("SPENCER", "|" + e.getMessage() + "|");
-		}
+		ProgressDialog progressDialog = new ProgressDialog(ReportingActivity.this);
+		progressDialog.setMessage(getText(R.string.sending_report));
+		progressDialog.setCancelable(false);
 		
-		//Log.d("SPENCER", "|" + result + "|");
-		if(responseCode == 202)
-		{
-			return true;
-		}
+		int userID = new SharedPreferencesHelper(ReportingActivity.this).getUserID();
+		ReportTask reportTask = new ReportTask(ReportingActivity.this, progressDialog);
+		reportTask.execute(""+userID, responses);
+	}
+	
+	public void successfulSubmit()
+	{
+		// success
+		(new SharedPreferencesHelper(ReportingActivity.this)).setLastReportDateToNow();
+		setResult(RESULT_OK);
+		finish();
+	}
+	
+	public void failedSubmit(int responseCode)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.error_failed_report);
+		builder.setTitle(R.string.error);
+		builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		
+		AlertDialog alert = builder.create();
+		alert.show();
+		Log.d("SPENCER", "Error reporting. Code: " + responseCode);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(NetworkConnectivityHelper.isConnected(this))
+			enableReport();
 		else
-		{
-			return false;
-		}
+			disableReport();
+		
+		
+		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);        
+		registerReceiver(networkStateReceiver, filter);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(networkStateReceiver);
+	}
+	
+	protected BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
+
+	    @Override
+	    public void onReceive(Context context, Intent intent) {
+	    	if(NetworkConnectivityHelper.isConnected(ReportingActivity.this))
+				enableReport();
+			else
+				disableReport();
+	    }
+	};
+	
+	protected void disableReport() {
+		saveButton.setEnabled(false);
+		saveButton.setText(R.string.no_network_connection);
+	}
+	
+	protected void enableReport() {
+		saveButton.setEnabled(true);
+		saveButton.setText(R.string.save_and_send);
 	}
 }

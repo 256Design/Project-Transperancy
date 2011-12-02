@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,12 +28,15 @@ import android.widget.Toast;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.Question;
-import com.twofivesix.pt.data.QuestionListAdapter;
+import com.twofivesix.pt.interfaces.SyncCaller;
+import com.twofivesix.pt.listAdapters.QuestionListAdapter;
+import com.twofivesix.pt.tasks.QuestionSyncTask;
+import com.twofivesix.pt.tasks.SyncTask;
 import com.twofixesix.pt.helpers.DatabaseHelper;
 import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
 import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
-public class ViewQuestionsListActivity extends Activity {
+public class ViewQuestionsListActivity extends Activity implements SyncCaller {
 	
 		protected SQLiteDatabase db;
 		protected Cursor cursor;
@@ -46,6 +50,7 @@ public class ViewQuestionsListActivity extends Activity {
 		private static final int EDIT_REQUEST_CODE = 3017;
 		
 		private ArrayList<Question> questionArrayList = new ArrayList<Question>();
+		private SyncTask questionsSyncTask;
 		
     /** Called when the activity is first created. */
     @Override
@@ -137,8 +142,7 @@ public class ViewQuestionsListActivity extends Activity {
     	
     	switch (item.getItemId()) {
 		case R.id.question_sync_option_item:
-			if(syncQuestions())
-				updateQuestionList();
+			syncQuestions();
 			return true;
 		case CONTMENU_EDIT:
             editQuestion(questionContexted);
@@ -151,11 +155,18 @@ public class ViewQuestionsListActivity extends Activity {
 		}
     }
 
-	private boolean syncQuestions() {
+	private void syncQuestions() {
 		if(NetworkConnectivityHelper.isConnected(ViewQuestionsListActivity.this))
-			return Question.syncQuestions(new SharedPreferencesHelper(ViewQuestionsListActivity.this).getUserID(), db);
-		else
-			return false;
+		{
+			//Partner.syncPartners(settings.getUserID(), db);
+			ProgressDialog progressDialog = new ProgressDialog(ViewQuestionsListActivity.this);
+			progressDialog.setMessage(getString(R.string.syncing_questions));
+			progressDialog.setCancelable(false);
+			
+			questionsSyncTask = new QuestionSyncTask(ViewQuestionsListActivity.this, progressDialog, db);
+			Integer userID = (new SharedPreferencesHelper(this)).getUserID();
+			questionsSyncTask.execute(userID);
+		}
 	}
 
 	// =======================================
@@ -216,7 +227,7 @@ public class ViewQuestionsListActivity extends Activity {
 		if(!(Question.submitDetelteQuestion( userID, question) &&
 				db.delete(DatabaseHelper.getQuestionTable(), "question = ?", new String[] {question.getQuestion()}) == 1))
 		{
-			Question.syncQuestions(userID, db);
+			syncQuestions();
 			toast = Toast.makeText(this, R.string.error_delete_question, 5000);
 		}
 		else
@@ -226,4 +237,20 @@ public class ViewQuestionsListActivity extends Activity {
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
     }
+
+	public void syncResults(Boolean result) {
+		if(result)
+		{
+			Toast.makeText(ViewQuestionsListActivity.this, "" + getText(R.string.success_questions_sync), Toast.LENGTH_LONG).show();
+			updateQuestionList();
+		}
+		else
+			displaySyncError();
+	}
+
+	private void displaySyncError() 
+	{
+		if(questionsSyncTask != null)
+			questionsSyncTask.showSyncError(this);
+	}
 }

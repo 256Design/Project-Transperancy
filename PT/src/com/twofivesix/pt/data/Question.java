@@ -21,7 +21,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.twofivesix.pt.R;
 import com.twofixesix.pt.helpers.DatabaseHelper;
 import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
@@ -271,7 +270,7 @@ public class Question implements Serializable {
 		return responseCode == 202;
 	}
 	
-	public static boolean syncQuestions(int userID, SQLiteDatabase db)
+	public static boolean syncQuestions(int userID, SQLiteDatabase db) throws Exception
 	{
 		try
 		{
