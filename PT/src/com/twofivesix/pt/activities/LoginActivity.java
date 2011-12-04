@@ -50,7 +50,6 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		settings = new SharedPreferencesHelper(this);
-		sharedPreferences = getPreferences(MODE_PRIVATE);
 		
 		Boolean loggedIn = sharedPreferences.getBoolean(SharedPreferencesHelper.USER_LOGGED_IN, false);
 		Log.d("SPENCER", "default shared prefs isLoggedIn: "+ loggedIn);

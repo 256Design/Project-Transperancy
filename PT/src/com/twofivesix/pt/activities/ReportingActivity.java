@@ -35,12 +35,15 @@ public class ReportingActivity extends Activity {
 	private SQLiteDatabase db;
 	private ListView questionList;
 	private Button saveButton;
+	private SharedPreferencesHelper preferencesHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reporting_activity);
+		
+		preferencesHelper = new SharedPreferencesHelper(this);
 		
 		if(ReportPromtAlarmHelper.repeaterIsRunning(this))
 			ReportPromtAlarmHelper.stopRepeatingReminder(this);
@@ -50,7 +53,8 @@ public class ReportingActivity extends Activity {
         questionList = (ListView) findViewById(R.id.report_questions_list);
 		questionArrayList = DatabaseHelper.buildQuestionsList(db);
 		db.close();
-        questionList.setAdapter(new ReportQuestionListAdapter(this, questionArrayList));
+        questionList.setAdapter(
+        		new ReportQuestionListAdapter(this, questionArrayList));
         
         saveButton = (Button) findViewById(R.id.report_button);
         saveButton.setOnClickListener(new OnClickListener() {
@@ -65,7 +69,8 @@ public class ReportingActivity extends Activity {
 	{
 		String responses = "";
 		for (int i = 0; i < questionArrayList.size(); i++) {
-			ReportQuestionListAdapter adapter = (ReportQuestionListAdapter) questionList.getAdapter();
+			ReportQuestionListAdapter adapter = 
+					(ReportQuestionListAdapter) questionList.getAdapter();
 			String response = adapter.getResponse(i);
 			if(response == null)
 				response = "null";
@@ -77,7 +82,7 @@ public class ReportingActivity extends Activity {
 		progressDialog.setMessage(getText(R.string.sending_report));
 		progressDialog.setCancelable(false);
 		
-		int userID = new SharedPreferencesHelper(ReportingActivity.this).getUserID();
+		int userID = preferencesHelper.getUserID();
 		ReportTask reportTask = new ReportTask(ReportingActivity.this, progressDialog);
 		reportTask.execute(""+userID, responses);
 	}
@@ -85,7 +90,7 @@ public class ReportingActivity extends Activity {
 	public void successfulSubmit()
 	{
 		// success
-		(new SharedPreferencesHelper(ReportingActivity.this)).setLastReportDateToNow();
+		preferencesHelper.setLastReportDateToNow();
 		setResult(RESULT_OK);
 		finish();
 	}

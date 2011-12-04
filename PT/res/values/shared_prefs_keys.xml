@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="reminders_on">reminders_on</string>
-    <string name="reminder_time">reminder_time</string>
-    <string name="reminder_interval">reminder_interval</string>
-    <string name="login_screen">login_screen</string>
+    <string name="reminders_on_key">reminders_on</string>
+    <string name="reminder_time_key">reminder_time</string>
+    <string name="reminder_interval_key">reminder_interval</string>
+    <string name="login_screen_key">login_screen</string>
+    
+    <string name="copy_to_self_key">copy_of_report_to_self</string>
 </resources>

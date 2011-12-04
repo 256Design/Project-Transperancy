@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.twofivesix.pt.R;
@@ -34,7 +35,8 @@ public class SharedPreferencesHelper {
 	{
 		this.context = context;
 		
-		sharedPreferences = context.getSharedPreferences(SharedPreferencesHelper.SharedPrefsName, Context.MODE_WORLD_READABLE);
+		//sharedPreferences = context.getSharedPreferences(SharedPreferencesHelper.SharedPrefsName, Context.MODE_WORLD_READABLE);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		//prefs = context.getPreferences(Activity.MODE_PRIVATE);
 	}
 	
@@ -135,6 +137,6 @@ public class SharedPreferencesHelper {
 	}
 
 	public boolean getRemindersOn() {
-		return sharedPreferences.getBoolean(context.getString(R.string.reminders_on), false);
+		return sharedPreferences.getBoolean(context.getString(R.string.reminders_on_key), false);
 	}
 }

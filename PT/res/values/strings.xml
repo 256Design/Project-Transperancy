@@ -139,6 +139,8 @@
     	<item>20 minutes</item>
     </string-array>
     <string name="reminder_scheduled_for">Reminder Scheduled For </string>
+    <string name="settings_reporting_cat">Reporting</string>
+    <string name="settings_send_report_to_self">Send A Copy Of My Reports To Me</string>
     
     <!-- Reporting Activity -->
     <string name="save_and_send">Save And Send</string>

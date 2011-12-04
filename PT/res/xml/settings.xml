@@ -13,22 +13,28 @@
     <PreferenceCategory
     	android:title="@string/settings_reminder_cat_title">
     	<CheckBoxPreference
-    		android:key="@string/reminders_on"
+    		android:key="@string/reminders_on_key"
     		android:title="@string/settings_reminders_on_title"
     		android:summary="@string/settings_reminders_on_summary"
     		/>
         <com.twofivesix.pt.data.TimePreference
-        	android:key="@string/reminder_time"
+        	android:key="@string/reminder_time_key"
         	android:title="@string/settings_reminder_time_title"
         	android:summary="@string/settings_reminder_summary"
 			  android:negativeButtonText="@string/cancel"
 			  android:positiveButtonText="@string/save"/>
 		<ListPreference
-			android:key="@string/reminder_interval"
+			android:key="@string/reminder_interval_key"
 			android:title="@string/settings_reminder_interval_title"
 			android:summary="@string/settings_reminder_interval_summary"
 			android:entries="@array/settings_reminder_interval_entries"
 			android:entryValues="@array/settings_reminder_interval_values" />  	
     </PreferenceCategory>
-    
+    <PreferenceCategory 
+        android:title="@string/settings_reporting_cat">
+        <CheckBoxPreference
+            android:key="@string/copy_to_self_key"
+            android:title="@string/settings_send_report_to_self"
+            />
+    </PreferenceCategory>
 </PreferenceScreen>
