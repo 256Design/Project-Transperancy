@@ -14,11 +14,8 @@ import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
-
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.activities.LoginActivity;
 
@@ -99,10 +96,10 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 	{
 		progressDialog.dismiss();
 		if(result == 202)
-			((LoginActivity)activity).login(id);
+			activity.login(id);
 		else if(result == 408)
 			activity.showConnectionError(this);
 		else
-			((LoginActivity)activity).showLoginError("");
+			activity.showLoginError("");
 	}
 }

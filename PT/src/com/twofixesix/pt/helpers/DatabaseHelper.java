@@ -79,6 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.moveToFirst();
 		Log.d("Spencer", c.getInt(0) + "");
 		Boolean inTable = (c.getInt(0) == 1);
+		c.close();
 		if(!inTable)
 			return addQuestion(question, db);
 		else
@@ -187,6 +188,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         			cursor.getString(positiveRow), dateAdded);
         	questionArrayList.add(q);
         }
+		cursor.close();
         
         return questionArrayList;
 	}
@@ -220,6 +222,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         	if(q.getId() == -1 || cursor.getInt(outOfSyncRow) == 1)
         		questionArrayList.add(q);
         }
+		cursor.close();
         
         return questionArrayList;
 	}
@@ -244,6 +247,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.moveToFirst();
 		Log.d("Spencer", c.getInt(0) + "");
 		Boolean inTable = (c.getInt(0) == 1);
+		c.close();
 		if(!inTable)
 			return addPartner(partner, db);
 		else
@@ -291,6 +295,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				params);
 		c.moveToFirst();
 		Boolean inTable = (c.getInt(0) == 1);
+		c.close();
 		return inTable;
 	}
 
@@ -302,6 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		{
 			toReturn.add(c.getString(0));
 		}
+		c.close();
 		
 		return toReturn;
 	}

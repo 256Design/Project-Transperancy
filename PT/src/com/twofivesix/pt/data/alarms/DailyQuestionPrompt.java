@@ -11,7 +11,7 @@ public class DailyQuestionPrompt extends Service {
 	@Override
     public void onCreate() {
 		Log.d("SPENCER", "Daily reminder started");
-        ReportPromtAlarmHelper.startRepeatingReminder((Context)this);
+        ReportPromtAlarmHelper.startRepeatingReminder(this);
         stopSelf();
     }
 

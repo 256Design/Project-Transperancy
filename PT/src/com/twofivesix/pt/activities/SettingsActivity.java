@@ -92,7 +92,7 @@ public class SettingsActivity extends PreferenceActivity {
 	
 	@Override
 	protected void onResume() {
-		boolean enabled = (Boolean) prefMgr.getSharedPreferences().getBoolean(SharedPreferencesHelper.REMINDERS_ON_KEY, false);
+		boolean enabled = prefMgr.getSharedPreferences().getBoolean(SharedPreferencesHelper.REMINDERS_ON_KEY, false);
 		reminderTimePreference.setEnabled(enabled);
 		reminderIntervalPreference.setEnabled(enabled);
 		super.onResume();

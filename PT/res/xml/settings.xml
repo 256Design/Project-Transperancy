@@ -34,7 +34,8 @@
         android:title="@string/settings_reporting_cat">
         <CheckBoxPreference
             android:key="@string/copy_to_self_key"
-            android:title="@string/settings_send_report_to_self"
+            android:title="@string/settings_report_to_self"
+            android:summary="@string/settings_send_report_to_self"
             />
     </PreferenceCategory>
 </PreferenceScreen>

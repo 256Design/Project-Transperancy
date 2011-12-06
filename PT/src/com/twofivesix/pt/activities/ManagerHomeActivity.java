@@ -51,7 +51,7 @@ public class ManagerHomeActivity extends Activity {
 	protected Button saveNewPartnerButton;
 
 	private static final int CONTMENU_DELETE = 1234;
-	private static final int CONTMENU_EDIT = 1235;
+//	private static final int CONTMENU_EDIT = 1235;
 	
 	protected static final int QUESTIONS_LIST_REQUEST_CODE = 1; 
 	protected static final int PARTNERS_LIST_REQUEST_CODE = 2; 

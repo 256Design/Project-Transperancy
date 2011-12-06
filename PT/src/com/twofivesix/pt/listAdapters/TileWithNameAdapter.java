@@ -20,7 +20,8 @@ public class TileWithNameAdapter extends ArrayAdapter<TileItem> {
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @Override
+	public View getView(int position, View convertView, ViewGroup parent) {
     	LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	TileItem item = getItem(position);
     	

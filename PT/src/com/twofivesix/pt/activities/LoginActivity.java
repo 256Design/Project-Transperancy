@@ -18,6 +18,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
 import com.twofivesix.pt.R;
@@ -29,6 +32,8 @@ import com.twofivesix.pt.tasks.LoginTask;
 import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
 import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
+// TODO Add remained logged in
+// TODO Add remember me
 public class LoginActivity extends Activity {
 	protected static final int LOGIN_REQUEST_CODE = 0;
 	protected static final int RECOVER_REQUEST_CODE = 1;
@@ -40,6 +45,8 @@ public class LoginActivity extends Activity {
 	private EditText etEmailAddress;
 	private EditText etPassword;
 	private Button bLogin;
+	private CheckBox cbAutoLogin;
+	private CheckBox cbRememberMe;
 	//private Button bRecover;
 	private Button bRegister;
 	
@@ -51,9 +58,10 @@ public class LoginActivity extends Activity {
 		
 		settings = new SharedPreferencesHelper(this);
 		
-		Boolean loggedIn = sharedPreferences.getBoolean(SharedPreferencesHelper.USER_LOGGED_IN, false);
+		Boolean loggedIn = settings.getLoggedIn();
 		Log.d("SPENCER", "default shared prefs isLoggedIn: "+ loggedIn);
-		if(settings.getLoggedIn() || loggedIn)
+		
+		if(settings.getAutoLogin() && settings.getLoggedIn())
 		{
 			// user is logged in, bypass activity
 			startActivityForResult(new Intent(LoginActivity.this, LOGIN_DESTINATION), LOGIN_REQUEST_CODE);
@@ -67,11 +75,33 @@ public class LoginActivity extends Activity {
 		bRegister = (Button) findViewById(R.id.login_register_button);
 		etEmailAddress = (EditText) findViewById(R.id.login_usernameTV1); 
 		etPassword = (EditText) findViewById(R.id.login_passowrdTV);
+		cbAutoLogin = (CheckBox) findViewById(R.id.login_auto_login);
+		cbRememberMe = (CheckBox) findViewById(R.id.login_remember_me);
 		
-		etEmailAddress.setText(settings.getUserEmail());
-		etPassword.setText(settings.getUserPassword());
+		if(settings.getRememberMe())
+		{
+			etEmailAddress.setText(settings.getUserEmail());
+			cbRememberMe.setChecked(true);
+		}
 		
 		bLogin.setOnClickListener(loginOnClickListener);
+		
+		cbAutoLogin.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.d("SPENCER", "autoLoginChange");
+				
+			}
+		});
+		
+		cbAutoLogin.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{	
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				cbRememberMe.setEnabled(!isChecked);
+			}
+		});
+		
 		/*bRecover.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -219,18 +249,28 @@ public class LoginActivity extends Activity {
 	
 	public void login(int id)
 	{
-		sharedPreferences.edit().putBoolean(SharedPreferencesHelper.USER_LOGGED_IN, true).commit();
+		String existingEmail = settings.getUserEmail();
+		if(etEmailAddress.getText().toString().equals(existingEmail))
+		{
+			//TODO different user logging in. Clear everything.
+		}
 		settings.setLoggedIn(true);
 		settings.setUserID(id);
 		settings.setUserEmail(etEmailAddress.getText().toString());
+		settings.setAutoLogin(cbAutoLogin.isChecked());
+		settings.setRememberMe(cbRememberMe.isChecked());
 		Log.d("SPENCER", "id: " + id);
 		startActivityForResult(new Intent(LoginActivity.this, LOGIN_DESTINATION), LOGIN_REQUEST_CODE);
 	}
 
 	protected boolean validate() {
 		List<Validator> validators = new ArrayList<Validator>();
-		validators.add(new RegExpressionValidator(etEmailAddress, RegExpressionValidator.EMAIL_REGEX, "Invalid Email", "Please Enter A Valid Email"));
-		validators.add(new RegExpressionValidator(etPassword, RegExpressionValidator.PASSWORD_REGEX, "Invalid Password", "Please Enter A Valid Password"));
+		validators.add(new RegExpressionValidator(
+				etEmailAddress, 
+				RegExpressionValidator.EMAIL_REGEX, "Invalid Email", "Please Enter A Valid Email"));
+		validators.add(new RegExpressionValidator(
+				etPassword, 
+				RegExpressionValidator.PASSWORD_REGEX, "Invalid Password", "Please Enter A Valid Password"));
 		List<ValidationResult> _validationResults = AbstractValidator.validateAll(validators);
 		if (_validationResults.size()==0) {
         	return true;

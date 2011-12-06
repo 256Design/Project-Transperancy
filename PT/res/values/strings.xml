@@ -61,6 +61,8 @@
     <string name="login_unconfirmed_error">Your account has not been confirmed. Please check your email.</string>
     <string name="login_invalid_error">Invalid Email/Password Combo, Please Try Again</string>
     <string name="no_network_connection">No Network</string>
+    <string name="login_auto_login_text">Auto Login</string>
+    <string name="login_remember_me_text">Remember Me</string>
     
     <!-- Register Activity -->
     <string name="register_title">Register for an Account</string>
@@ -140,7 +142,8 @@
     </string-array>
     <string name="reminder_scheduled_for">Reminder Scheduled For </string>
     <string name="settings_reporting_cat">Reporting</string>
-    <string name="settings_send_report_to_self">Send A Copy Of My Reports To Me</string>
+    <string name="settings_send_report_to_self">Send a copy of my reports to me</string>
+    <string name="settings_report_to_self">Report to Self</string>
     
     <!-- Reporting Activity -->
     <string name="save_and_send">Save And Send</string>

@@ -13,7 +13,7 @@ import com.twofivesix.pt.R;
 
 public class SharedPreferencesHelper {
 	
-	public static final String SharedPrefsName = "PROJECTTRANSPARENCY";
+	//public static final String SharedPrefsName = "PROJECTTRANSPARENCY";
 
 	public static final String USER_EMAIL = "user_email";
 	public static final String USER_PASSWORD_KEY = "user_password";
@@ -22,14 +22,14 @@ public class SharedPreferencesHelper {
 	public static final String REMINDER_TIME_KEY = "reminder_time";
 	public static final String REMINDERS_ON_KEY = "reminders_on";
 	public static final String USER_ID_KEY = "user_id";
+	public static final String AUTO_LOGIN_KEY = "auto_login";
+	public static final String LAST_REPORT_KEY = "last_report_time";
+	public static final String REMEMBER_ME_KEY = "remember_me";
 
 	
 	private SharedPreferences sharedPreferences;
 	private Context context;
 	
-	private String LAST_REPORT_KEY;
-
-	private SharedPreferences prefs;
 	
 	public SharedPreferencesHelper(Context context)
 	{
@@ -137,6 +137,28 @@ public class SharedPreferencesHelper {
 	}
 
 	public boolean getRemindersOn() {
-		return sharedPreferences.getBoolean(context.getString(R.string.reminders_on_key), false);
+		return sharedPreferences.getBoolean(
+				context.getString(R.string.reminders_on_key), false
+				);
+	}
+
+	public boolean getAutoLogin() {
+		return sharedPreferences.getBoolean(AUTO_LOGIN_KEY, false);
+	}
+
+	public void setAutoLogin(boolean value) {
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean(AUTO_LOGIN_KEY, value);
+		editor.commit();
+	}
+	
+	public boolean getRememberMe() {
+		return sharedPreferences.getBoolean(REMEMBER_ME_KEY, false);
+	}
+	
+	public void setRememberMe(boolean value) {
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean(REMEMBER_ME_KEY, value);
+		editor.commit();
 	}
 }

@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.twofivesix.pt.data.Question;
 import com.twofivesix.pt.R;
+import com.twofivesix.pt.data.Question;
 
 public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 	
@@ -34,21 +34,31 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 		View row;
 		if(item != null)
 		{
-			row = inflater.inflate(R.layout.reqort_question_list_item, parent, false);
-			Spinner spinner = (Spinner) row.findViewById(R.id.report_question_response);
-			if(position < spinnerList.size())
-				spinnerList.set(position, spinner);
-			TextView questionText = (TextView) row.findViewById(R.id.question);
-			questionText.setText(item.getQuestion());
+			// Reuse if possible
+			if (null == convertView)
+			{
+				row = inflater.inflate(R.layout.reqort_question_list_item, parent, false);
+				Spinner spinner = (Spinner) row.findViewById(R.id.report_question_response);
+				if(position < spinnerList.size())
+					spinnerList.set(position, spinner);
+				
+				TextView questionText = (TextView) row.findViewById(R.id.question);
+				questionText.setText(item.getQuestion());
+				
+				ArrayAdapter<CharSequence> qTypeAdapter = ArrayAdapter.createFromResource(
+						getContext(), R.array.pos_response_array, android.R.layout.simple_spinner_item);
+				qTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spinner.setAdapter(qTypeAdapter);
+				String positive = item.getPositive();
+				int positiveIndex = qTypeAdapter.getPosition(positive);
+				spinner.setSelection(positiveIndex);
+				spinner.setPromptId(R.string.pick_one);
+			} 
+			else 
+			{
+				row = convertView;
+			}
 			
-			
-			ArrayAdapter<CharSequence> qTypeAdapter = ArrayAdapter.createFromResource(
-					getContext(), R.array.pos_response_array, android.R.layout.simple_spinner_item);
-
-			qTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spinner.setAdapter(qTypeAdapter);
-//			spinner.setSelection(-1, false);
-			spinner.setPromptId(R.string.pick_one);
 		}
 		else
 		{
@@ -68,6 +78,6 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 		if(i < spinnerList.size() && spinnerList.get(i) != null)
 			return spinnerList.get(i).getSelectedItem().toString();
 		else
-			return null;
+			return getItem(i).getPositive();
 	}
 }

@@ -15,6 +15,7 @@ public class OnStartupResponse extends BroadcastReceiver {
 		Log.d("SPENCER", "reminderTime: " + prefs.getReminderTime());
 		String reminderTime = prefs.getReminderTime();
 		//Log.d("SPENCER", "reminder time + " + reminderTime);
+		Log.d("SPENCER", "reminders on: " + prefs.getRemindersOn());
 		if(prefs.getRemindersOn())
 			ReportPromtAlarmHelper.resetPendingIntent(context, reminderTime);
 	}

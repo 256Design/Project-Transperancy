@@ -2,8 +2,6 @@ package com.twofivesix.pt.tasks;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +19,6 @@ import android.app.ProgressDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.twofivesix.pt.data.Partner;
 import com.twofivesix.pt.data.Question;
 import com.twofivesix.pt.interfaces.SyncCaller;
 import com.twofixesix.pt.helpers.DatabaseHelper;

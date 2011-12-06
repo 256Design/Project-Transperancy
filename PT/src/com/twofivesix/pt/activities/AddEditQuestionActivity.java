@@ -1,13 +1,18 @@
 package com.twofivesix.pt.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.twofivesix.pt.R;
@@ -32,6 +37,21 @@ public class AddEditQuestionActivity extends Activity {
 		ArrayAdapter<CharSequence> posResponseAdapter = ArrayAdapter.createFromResource(this, 
 				R.array.pos_response_array, 
 				android.R.layout.simple_spinner_item);
+		questionTypeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() 
+		{
+
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO  change posResonseAdapter source
+				
+			}
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		posResponseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		posResponseSpinner.setAdapter(posResponseAdapter);
 		
@@ -72,6 +92,16 @@ public class AddEditQuestionActivity extends Activity {
 				intent.putExtra("oldQuestion", oldQuestion);
 				setResult(RESULT_OK, intent);
 				finish();
+			}
+		});
+		
+		// Add Listener to layout to hide soft keyboard
+		LinearLayout layout = (LinearLayout) findViewById(R.id.addEditQuestionLayout);
+		layout.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(questionText.getWindowToken(), 0);
 			}
 		});
 	}
