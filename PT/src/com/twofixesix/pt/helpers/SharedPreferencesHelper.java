@@ -25,6 +25,7 @@ public class SharedPreferencesHelper {
 	public static final String AUTO_LOGIN_KEY = "auto_login";
 	public static final String LAST_REPORT_KEY = "last_report_time";
 	public static final String REMEMBER_ME_KEY = "remember_me";
+	private static final String SEND_TO_SELF_KEY = "copy_of_report_to_self";
 
 	
 	private SharedPreferences sharedPreferences;
@@ -160,5 +161,9 @@ public class SharedPreferencesHelper {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putBoolean(REMEMBER_ME_KEY, value);
 		editor.commit();
+	}
+
+	public boolean getSendToSelf() {
+		return sharedPreferences.getBoolean(SEND_TO_SELF_KEY, false);
 	}
 }

@@ -20,9 +20,9 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.twofivesix.pt.R;
+import com.twofivesix.pt.alarms.QuestionPromptAlarm;
+import com.twofivesix.pt.alarms.ReportPromtAlarmHelper;
 import com.twofivesix.pt.data.Question;
-import com.twofivesix.pt.data.alarms.QuestionPromptAlarm;
-import com.twofivesix.pt.data.alarms.ReportPromtAlarmHelper;
 import com.twofivesix.pt.listAdapters.ReportQuestionListAdapter;
 import com.twofivesix.pt.tasks.ReportTask;
 import com.twofixesix.pt.helpers.DatabaseHelper;
@@ -84,7 +84,7 @@ public class ReportingActivity extends Activity {
 		
 		int userID = preferencesHelper.getUserID();
 		ReportTask reportTask = new ReportTask(ReportingActivity.this, progressDialog);
-		reportTask.execute(""+userID, responses);
+		reportTask.execute(""+userID, responses, (preferencesHelper.getSendToSelf()) ? "1" : "0");
 	}
 	
 	public void successfulSubmit()

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -19,18 +20,29 @@ import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.Question;
 
 public class AddEditQuestionActivity extends Activity {
+	
+	protected EditText customPromptText;
+	protected TextView questionsOptionLabel;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_edit_question_layout);
 		
+		final LinearLayout layout = (LinearLayout) findViewById(R.id.addEditQuestionLayout);
 		final EditText questionText = (EditText) findViewById(R.id.addQuestionText);
 		final Spinner questionTypeSpinner = (Spinner) findViewById(R.id.question_type_spinner);
+		
+		questionsOptionLabel = (TextView) findViewById(R.id.questionOptionLabel);
+		questionsOptionLabel.setText(R.string.positive_response);
 		final Spinner posResponseSpinner = (Spinner) findViewById(R.id.pos_response_spinner);
+		customPromptText = (EditText) findViewById(R.id.questionOptionText);
+		layout.removeView(customPromptText);
+		
 		Button b = (Button) findViewById(R.id.addQuestionBtn);
 		
 		ArrayAdapter<CharSequence> qTypeAdapter = ArrayAdapter.createFromResource(
-				this, R.array.question_type_array, android.R.layout.simple_spinner_item);
+				this, R.array.question_type_entry_array, android.R.layout.simple_spinner_item);
 		qTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		questionTypeSpinner.setAdapter(qTypeAdapter);
 		questionTypeSpinner.setSelection(0, false);
@@ -39,14 +51,37 @@ public class AddEditQuestionActivity extends Activity {
 				android.R.layout.simple_spinner_item);
 		questionTypeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() 
 		{
-
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				// TODO  change posResonseAdapter source
-				
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				String newValue = getResources().getStringArray(
+							R.array.question_type_value_array
+						)[position];
+				Log.d("SPENCER", newValue);
+				if(newValue.equals("YES_NO"))
+				{
+					if(layout.indexOfChild(posResponseSpinner) == -1)
+					{
+						int viewPosition = layout.indexOfChild(questionsOptionLabel)+1;
+						if(layout.indexOfChild(customPromptText) != -1)
+							layout.removeView(customPromptText);
+						layout.addView(posResponseSpinner, viewPosition);
+					}
+					questionsOptionLabel.setText(R.string.positive_response);
+				}
+				else if(newValue.equals("SHORT_ANSWER"))
+				{
+					if(layout.indexOfChild(customPromptText) == -1)
+					{
+//						int viewPosition = layout.indexOfChild(posResponseSpinner);
+						if(layout.indexOfChild(posResponseSpinner) != -1)
+							layout.removeView(posResponseSpinner);
+						//layout.addView(customPromptText, viewPosition);
+					}
+					questionsOptionLabel.setText("");
+				}
 			}
 
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void onNothingSelected(AdapterView<?> parent) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -72,19 +107,24 @@ public class AddEditQuestionActivity extends Activity {
 				String oldQuestion = "";
 				Question returnQuestion;
 				String question = questionText.getText().toString();
-				String type = questionTypeSpinner.getSelectedItem().toString();
+				int typePos = questionTypeSpinner.getSelectedItemPosition();
+				String typeValue = getResources().getStringArray(
+						R.array.question_type_value_array
+					)[typePos];
+				
+				// FIXME deal with the pos repsonse on short answer q's
 				String posResponse = posResponseSpinner.getSelectedItem().toString();
 				if(pushedQuestion != null)
 				{
 					oldQuestion = pushedQuestion.getQuestion();
 					pushedQuestion.setQuestion(question);
-					pushedQuestion.setType(type);
+					pushedQuestion.setType(typeValue);
 					pushedQuestion.setPositive(posResponse);
 					returnQuestion = pushedQuestion;
 				}
 				else
 				{
-					returnQuestion = new Question(question, type, posResponse, Question.getNow());
+					returnQuestion = new Question(question, typeValue, posResponse, Question.getNow());
 				}
 				
 				Intent intent = new Intent();
@@ -96,7 +136,6 @@ public class AddEditQuestionActivity extends Activity {
 		});
 		
 		// Add Listener to layout to hide soft keyboard
-		LinearLayout layout = (LinearLayout) findViewById(R.id.addEditQuestionLayout);
 		layout.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {

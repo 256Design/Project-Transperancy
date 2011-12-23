@@ -20,11 +20,11 @@
         
         
         <activity android:name=".activities.ReportingActivity"></activity>
-        <activity android:name=".activities.TileHomeActivity" android:theme="@style/customTheme"></activity><receiver android:name=".data.alarms.OnStartupResponse">
+        <activity android:name=".activities.TileHomeActivity" android:theme="@style/customTheme"></activity><receiver android:name=".alarms.OnStartupResponse">
 	        <intent-filter>  
 		        <action android:name="android.intent.action.BOOT_COMPLETED" /> 
 		    </intent-filter>  
-        </receiver><service android:name=".data.alarms.QuestionPromptAlarm"></service><service android:name=".data.alarms.DailyQuestionPrompt"></service>
+        </receiver><service android:name=".data.alarms.QuestionPromptAlarm"></service><service android:name=".alarms.DailyQuestionPrompt"></service>
         
 		
     </application>

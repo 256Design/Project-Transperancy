@@ -233,12 +233,6 @@ public class LoginActivity extends Activity {
 		builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
-				loginTask.execute();
-			}
-		});
-		builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
 			}
 		});
 		builder.setMessage(R.string.login_invalid_error);

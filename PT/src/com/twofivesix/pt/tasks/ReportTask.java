@@ -39,8 +39,11 @@ public class ReportTask extends AsyncTask<String, Void, Integer> {
 		try 
 		{
 			HttpClient client = new DefaultHttpClient();
-		    HttpPost httppost = new HttpPost("http://www.256design.com/projectTransparency/project/report.php?update&userID="+
-		    		arg0[0]);
+			String uri = "http://www.256design.com/projectTransparency/project/report.php?update&userID="+
+		    		arg0[0];
+			if(arg0[2].equals("1"))
+				uri += "&includeSelf";
+		    HttpPost httppost = new HttpPost(uri);
 			
 			// add values to list
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();

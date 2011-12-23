@@ -26,16 +26,18 @@
    	<string name="reporting">Reporting</string>
    	<string name="added">Added</string>
    	<string name="error">Error</string>
+   	<string name="type">Type</string>
+   	<string name="question">Question</string>
    	<string name="sync_error">Sync error, please try again soon.</string>
    	
    	<!-- Time Intervals -->
-   	<string name="days">Days</string>
-   	<string name="day">Day</string>
-   	<string name="hours">Hours</string>
-   	<string name="hour">Hour</string>
-   	<string name="minutes">Minutes</string>
-   	<string name="minute">Minute</string>
-   	<string name="moments">Moments</string>
+   	<string name="days">days</string>
+   	<string name="day">day</string>
+   	<string name="hours">hours</string>
+   	<string name="hour">hour</string>
+   	<string name="minutes">minutes</string>
+   	<string name="minute">minute</string>
+   	<string name="moments">moments</string>
     
     
     <!-- Home Activity -->
@@ -50,11 +52,11 @@
     <string name="confirm_add_partner">Are you sure you want to add $ to your partners list? They will receive a confirmation email.</string>
     <string name="error_existing_partner">Partner has already been added.</string>
     <string name="error_invalid_email">Invalid email address. Try again.</string>
-    <string name="error_cant_add_self">Silly... you can\'t add yourself.</string>
+    <string name="error_cant_add_self">Silly, you can\'t add yourself.</string>
     <string name="success_report">Report submitted successfully.</string>
     
     <!-- Login Activity -->
-    <string name="logging_in">Logging In...</string>
+    <string name="logging_in">Logging In&#8230;</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="recover_login">Recover Login</string>
@@ -85,15 +87,21 @@
     <string name="success_edit_question">Successfully updated question.</string>
     <string name="question_list_context_menu_title">Question options</string>
     <string name="sync_questions">Sync Questions</string>
-    <string name="syncing_questions">Syncing Questions...</string>
+    <string name="syncing_questions">Syncing Questions&#8230;</string>
     <string name="success_questions_sync">Questions Successfully Synced</string>
     
     <!-- Add/Edit Question  -->
     <string name="add_question_label">Add A New Question</string>
     <string name="update_question_label">Update Existing Question</string>
+    <string name="positive_response">Positive Response</string>
     <string name="question_type_prompt">Choose A Question Type</string>
-    <string-array name="question_type_array">
+    <string-array name="question_type_value_array">
     	<item>YES_NO</item>
+    	<item>SHORT_ANSWER</item>
+    </string-array>
+    <string-array name="question_type_entry_array">
+    	<item>Yes/No</item>
+    	<item>Short Answer</item>
     </string-array>
     <string name="pos_response_prompt">Choose A Positive Response</string>
     <string-array name="pos_response_array">
@@ -115,7 +123,7 @@
     <string name="success_add_partner">Successfully added or updated partner.</string>
     <string name="new_partner_email">Enter new partner email</string>
     <string name="sync_partners">Sync Partners</string>
-    <string name="syncing_partners">Syncing Partners...</string>
+    <string name="syncing_partners">Syncing Partners&#8230;</string>
     <string name="success_partners_sync">Partners Successfully Synced</string>
     
     <!-- Settings Activity -->
@@ -147,8 +155,8 @@
     
     <!-- Reporting Activity -->
     <string name="save_and_send">Save And Send</string>
-    <string name="pick_one">Pick One...</string>
-    <string name="sending_report">Sending Report...</string>
+    <string name="pick_one">Pick One&#8230;</string>
+    <string name="sending_report">Sending Report&#8230;</string>
     <string name="error_failed_report">Error submitting report. Please try again.</string>
     
     

@@ -8,7 +8,12 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:background="@android:color/darker_gray">
-	    <ImageView android:layout_height="wrap_content" android:id="@+id/imageView1" android:src="@drawable/home_manager_header" android:layout_width="fill_parent" android:layout_margin="5dp"></ImageView>
+	    <ImageView 
+	        android:layout_height="wrap_content" 
+	        android:id="@+id/imageView1" 
+	        android:src="@drawable/home_manager_header" 
+	        android:layout_width="fill_parent" 
+	        android:layout_margin="5dp"/>
     </LinearLayout>
 	<TextView 
 		android:textAppearance="?android:attr/textAppearanceLarge" 
@@ -42,7 +47,6 @@
 	  	android:layout_height="wrap_content"/>
 	<TextView 
 		android:textAppearance="?android:attr/textAppearanceLarge" 
-	  	android:id="@+id/manager_partners_details"
 	  	android:layout_width="wrap_content"
 	  	android:layout_height="wrap_content"
 	  	android:text="@string/current_partners"/>

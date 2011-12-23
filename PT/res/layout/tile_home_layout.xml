@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:id="@+id/gridview"
-  android:columnWidth="110dp"
-  android:numColumns="auto_fit"
-  android:verticalSpacing="10dp"
-  android:horizontalSpacing="10dp"
-  android:stretchMode="columnWidth"
-  android:gravity="center">
-    
-</GridView>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+  	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+    >
+	<GridView
+	  android:orientation="vertical"
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:layout_weight="1"
+	  android:id="@+id/gridview"
+	  android:columnWidth="110dp"
+	  android:numColumns="auto_fit"
+	  android:verticalSpacing="10dp"
+	  android:horizontalSpacing="10dp"
+	  android:stretchMode="columnWidth"
+	  android:gravity="center">
+	</GridView>
+	<LinearLayout 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@android:color/darker_gray"
+    	android:padding="10dp"
+    	android:gravity="center">
+	    <TextView 
+	        android:id="@+id/tile_home_last_report"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

@@ -15,7 +15,7 @@
     	android:id="@+id/textView2" 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
-    	android:text="Question:"/>
+    	android:text="@string/question"/>
     <EditText 
     	android:layout_width="fill_parent" 
     	android:inputType="textMultiLine" 
@@ -27,22 +27,28 @@
     	android:id="@+id/textView3" 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
-    	android:text="Type"/>
+    	android:text="@string/type"/>
     <Spinner 
     	android:id="@+id/question_type_spinner" 
     	android:layout_height="wrap_content" 
     	android:layout_width="wrap_content"
     	android:prompt="@string/question_type_prompt"/>
+    
     <TextView 
-    	android:id="@+id/textView4" 
+    	android:id="@+id/questionOptionLabel" 
     	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content" 
-    	android:text="Positive Response"/>
+    	android:layout_height="wrap_content"/>
     <Spinner 
     	android:id="@+id/pos_response_spinner" 
     	android:layout_height="wrap_content" 
     	android:layout_width="wrap_content"
     	android:prompt="@string/pos_response_prompt"/>
+    <EditText 
+        android:id="@+id/questionOptionText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textShortMessage"/>
+    
     <Button android:text="@string/add_question_btn_text" 
     	android:id="@+id/addQuestionBtn" 
     	android:layout_width="wrap_content" 
