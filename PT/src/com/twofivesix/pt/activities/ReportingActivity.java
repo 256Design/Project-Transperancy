@@ -52,6 +52,7 @@ public class ReportingActivity extends Activity {
 		db = (new DatabaseHelper(this)).getWritableDatabase();
         questionList = (ListView) findViewById(R.id.report_questions_list);
 		questionArrayList = DatabaseHelper.buildQuestionsList(db);
+		questionArrayList.add(null);
 		db.close();
         questionList.setAdapter(
         		new ReportQuestionListAdapter(this, questionArrayList));
@@ -68,7 +69,10 @@ public class ReportingActivity extends Activity {
 	protected void sendReport()
 	{
 		String responses = "";
-		for (int i = 0; i < questionArrayList.size(); i++) {
+		int l = questionArrayList.size();
+		if(questionArrayList.get(l-1) == null)
+			l--;
+		for (int i = 0; i < l; i++) {
 			ReportQuestionListAdapter adapter = 
 					(ReportQuestionListAdapter) questionList.getAdapter();
 			String response = adapter.getResponse(i);

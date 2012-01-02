@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.Question;
 
@@ -39,7 +40,7 @@ public class AddEditQuestionActivity extends Activity {
 		customPromptText = (EditText) findViewById(R.id.questionOptionText);
 		layout.removeView(customPromptText);
 		
-		Button b = (Button) findViewById(R.id.addQuestionBtn);
+		Button addQuestionButton = (Button) findViewById(R.id.addQuestionBtn);
 		
 		ArrayAdapter<CharSequence> qTypeAdapter = ArrayAdapter.createFromResource(
 				this, R.array.question_type_entry_array, android.R.layout.simple_spinner_item);
@@ -81,9 +82,11 @@ public class AddEditQuestionActivity extends Activity {
 				}
 			}
 
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
-				
+			public void onNothingSelected(AdapterView<?> parent) 
+			{
+				if(layout.indexOfChild(posResponseSpinner) != -1)
+					layout.removeView(posResponseSpinner);
+				questionsOptionLabel.setText("");
 			}
 		});
 		
@@ -95,16 +98,31 @@ public class AddEditQuestionActivity extends Activity {
 		if(pushedQuestion != null)
 		{
 			questionText.setText(pushedQuestion.getQuestion());
-			questionTypeSpinner.setSelection(qTypeAdapter.getPosition(pushedQuestion.getType()));
+			
+			String[] questionType = getResources().getStringArray(
+					R.array.question_type_value_array
+				);
+			int i = 0;
+			for(i = 0; i < questionType.length; i++)
+			{
+				if(questionType[i].equals(pushedQuestion.getType()))
+					break;
+			}
+			questionTypeSpinner.setSelection(i);
 			posResponseSpinner.setSelection(posResponseAdapter.getPosition(pushedQuestion.getPositive()));
-			b.setText(R.string.save_question_btn_text);
+			addQuestionButton.setText(R.string.save_question_btn_text);
 			((TextView) findViewById(R.id.addEditQuestionHeader)).setText(R.string.update_question_label);
+
+			if(!pushedQuestion.getType().equals(Question.TYPE_YES_NO))
+			{
+				layout.removeView(posResponseSpinner);
+			}
 		}
 		
-		b.setOnClickListener(new OnClickListener() {
+		addQuestionButton.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				String oldQuestion = "";
+				String oldQuestionString = "";
 				Question returnQuestion;
 				String question = questionText.getText().toString();
 				int typePos = questionTypeSpinner.getSelectedItemPosition();
@@ -112,11 +130,25 @@ public class AddEditQuestionActivity extends Activity {
 						R.array.question_type_value_array
 					)[typePos];
 				
-				// FIXME deal with the pos repsonse on short answer q's
-				String posResponse = posResponseSpinner.getSelectedItem().toString();
+				// Complete 1-1-12 - FIX ME deal with the pos repsonse on short answer q's
+				String posResponse = "";
+				if(typeValue.equals(Question.TYPE_YES_NO))
+				{
+					posResponse = posResponseSpinner.getSelectedItem().toString();
+				}
+				else if(typeValue.equals(Question.TYPE_SHORT_ANSWER))
+				{
+					
+				}
+				else
+				{
+					Log.e("SPENCER", "Unidentified question type: " + typeValue);
+					posResponse = "ERROR";
+				}
+				
 				if(pushedQuestion != null)
 				{
-					oldQuestion = pushedQuestion.getQuestion();
+					oldQuestionString = pushedQuestion.getQuestion();
 					pushedQuestion.setQuestion(question);
 					pushedQuestion.setType(typeValue);
 					pushedQuestion.setPositive(posResponse);
@@ -129,7 +161,7 @@ public class AddEditQuestionActivity extends Activity {
 				
 				Intent intent = new Intent();
 				intent.putExtra("question", returnQuestion);
-				intent.putExtra("oldQuestion", oldQuestion);
+				intent.putExtra("oldQuestion", oldQuestionString);
 				setResult(RESULT_OK, intent);
 				finish();
 			}

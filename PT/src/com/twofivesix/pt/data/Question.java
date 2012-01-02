@@ -30,9 +30,10 @@ public class Question implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	static public String TYPE_YES_NO = "yesno";
-	static public String RESP_YES = "respYes";
-	static public String RESP_NO = "respNo";
+	public static final String TYPE_SHORT_ANSWER = "SHORT_ANSWER";
+	public static final String TYPE_YES_NO = "YES_NO";
+	public static final String RESP_YES = "respYes";
+	public static final String RESP_NO = "respNo";
 	
 	private int id = -1;
 	private String question;

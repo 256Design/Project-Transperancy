@@ -7,6 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -15,14 +20,16 @@ import com.twofivesix.pt.data.Question;
 
 public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 	
-	protected ArrayList<Spinner> spinnerList;
+	protected ArrayList<View> responseViewList;
+	protected boolean followUp;
 	
 	public ReportQuestionListAdapter(Context context, ArrayList<Question> questionArrayList)
 	{
 		super(context, R.layout.reqort_question_list_item, R.id.question, questionArrayList);
-		spinnerList = new ArrayList<Spinner>(questionArrayList.size());
-		for (int i = 0; i < questionArrayList.size(); i++) {
-			spinnerList.add(null);
+		responseViewList = new ArrayList<View>(questionArrayList.size());
+		for (Question question : questionArrayList) {
+			if(question != null)
+				responseViewList.add(null);
 		}
 	}
 	
@@ -38,21 +45,37 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 			if (null == convertView)
 			{
 				row = inflater.inflate(R.layout.reqort_question_list_item, parent, false);
-				Spinner spinner = (Spinner) row.findViewById(R.id.report_question_response);
-				if(position < spinnerList.size())
-					spinnerList.set(position, spinner);
-				
+				View responseView = null;
+				LinearLayout layout = (LinearLayout) row.findViewById(R.id.report_layout);
+				EditText responseEditText = (EditText) row.findViewById(R.id.report_question_response_edittext);
+				Spinner responseSpinner = (Spinner)row.findViewById(R.id.report_question_response_spinner);
+
 				TextView questionText = (TextView) row.findViewById(R.id.question);
 				questionText.setText(item.getQuestion());
 				
-				ArrayAdapter<CharSequence> qTypeAdapter = ArrayAdapter.createFromResource(
-						getContext(), R.array.pos_response_array, android.R.layout.simple_spinner_item);
-				qTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner.setAdapter(qTypeAdapter);
-				String positive = item.getPositive();
-				int positiveIndex = qTypeAdapter.getPosition(positive);
-				spinner.setSelection(positiveIndex);
-				spinner.setPromptId(R.string.pick_one);
+				if(item.getType().equals(Question.TYPE_YES_NO))
+				{
+					responseView = responseSpinner;
+					Spinner spinner = (Spinner) responseView;
+					
+					ArrayAdapter<CharSequence> qTypeAdapter = ArrayAdapter.createFromResource(
+							getContext(), R.array.pos_response_array, android.R.layout.simple_spinner_item);
+					qTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+					spinner.setAdapter(qTypeAdapter);
+					String positive = item.getPositive();
+					int positiveIndex = qTypeAdapter.getPosition(positive);
+					spinner.setSelection(positiveIndex);
+					spinner.setPromptId(R.string.pick_one);
+					
+					layout.removeView(responseEditText);
+				}
+				else if(item.getType().equals(Question.TYPE_SHORT_ANSWER))
+				{
+					responseView = responseEditText;
+					layout.removeView(responseSpinner);
+				}
+				if(position < responseViewList.size())
+					responseViewList.set(position, responseView);
 			} 
 			else 
 			{
@@ -62,7 +85,14 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 		}
 		else
 		{
-			row = inflater.inflate(R.layout.add_partner_list_item, parent, false);
+			row = inflater.inflate(R.layout.follow_up_with_me_list_item, parent, false);
+			CheckBox followUpCB = (CheckBox) row.findViewById(R.id.follow_up_cb);
+			followUpCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					followUp = isChecked;
+				}
+			});
 		}
 				
 		return row;
@@ -75,9 +105,22 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 	}
 
 	public String getResponse(int i) {
-		if(i < spinnerList.size() && spinnerList.get(i) != null)
-			return spinnerList.get(i).getSelectedItem().toString();
+		if(i < responseViewList.size() && responseViewList.get(i) != null)
+		{
+			View v = responseViewList.get(i);
+			if (v instanceof Spinner)
+				return ((Spinner)responseViewList.get(i)).getSelectedItem().toString();
+			else if (v instanceof EditText)
+				return ((EditText)responseViewList.get(i)).getText().toString();
+			else
+				return null;
+		}
 		else
 			return getItem(i).getPositive();
+	}
+	
+	public boolean getFollowUp()
+	{
+		return followUp;
 	}
 }

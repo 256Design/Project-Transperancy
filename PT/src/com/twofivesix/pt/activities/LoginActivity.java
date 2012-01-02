@@ -32,8 +32,6 @@ import com.twofivesix.pt.tasks.LoginTask;
 import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
 import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
-// TODO Add remained logged in
-// TODO Add remember me
 public class LoginActivity extends Activity {
 	protected static final int LOGIN_REQUEST_CODE = 0;
 	protected static final int RECOVER_REQUEST_CODE = 1;
@@ -85,15 +83,6 @@ public class LoginActivity extends Activity {
 		}
 		
 		bLogin.setOnClickListener(loginOnClickListener);
-		
-		cbAutoLogin.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Log.d("SPENCER", "autoLoginChange");
-				
-			}
-		});
 		
 		cbAutoLogin.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{	
