@@ -14,29 +14,38 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.alarms.QuestionPromptAlarm;
 import com.twofivesix.pt.alarms.ReportPromtAlarmHelper;
 import com.twofivesix.pt.data.Question;
+import com.twofivesix.pt.helpers.DatabaseHelper;
+import com.twofivesix.pt.helpers.NetworkConnectivityHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
+import com.twofivesix.pt.helpers.VersionAlertHelper;
 import com.twofivesix.pt.listAdapters.ReportQuestionListAdapter;
 import com.twofivesix.pt.tasks.ReportTask;
-import com.twofixesix.pt.helpers.DatabaseHelper;
-import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
 public class ReportingActivity extends Activity {
 	
 	private ArrayList<Question> questionArrayList;
 	private SQLiteDatabase db;
 	private ListView questionList;
+	private CheckBox footerCB;
 	private Button saveButton;
 	private SharedPreferencesHelper preferencesHelper;
+	private ReportQuestionListAdapter questionAdapter;
 
+	// TODO Auto-sync every ten
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -45,19 +54,56 @@ public class ReportingActivity extends Activity {
 		
 		preferencesHelper = new SharedPreferencesHelper(this);
 		
+		questionList = (ListView) findViewById(R.id.report_questions_list);
+		saveButton = (Button) findViewById(R.id.report_button);
+		
+		
+		// runs a check for first version run then show change log if something 
+		// is different 
+		new VersionAlertHelper(this, preferencesHelper);
+		
+		
 		if(ReportPromtAlarmHelper.repeaterIsRunning(this))
 			ReportPromtAlarmHelper.stopRepeatingReminder(this);
 		QuestionPromptAlarm.closeNotification(this);
+
+		if(preferencesHelper.getAddFollowUp())
+		{
+			LinearLayout followUpRow;
+			followUpRow = new LinearLayout(this);
+			followUpRow.setOrientation(LinearLayout.HORIZONTAL);
+			followUpRow.setGravity(Gravity.TOP);
+			
+			footerCB = new CheckBox(this);
+			
+			TextView footerTV = new TextView(this);
+			footerTV.setText(R.string.reporting_follow_up);
+			LayoutParams footerTVParams = new LinearLayout.LayoutParams(
+					0, 
+					LayoutParams.WRAP_CONTENT,
+					1.0f);
+			footerTV.setLayoutParams(footerTVParams);
+			footerTV.setOnClickListener(new OnClickListener()
+			{
+				public void onClick(View v) {
+					footerCB.setChecked(!footerCB.isChecked());
+				}
+			});
+			
+			followUpRow.addView(footerCB);
+			followUpRow.addView(footerTV);
+			questionList.addFooterView(followUpRow);
+		}
+		
 		
 		db = (new DatabaseHelper(this)).getWritableDatabase();
-        questionList = (ListView) findViewById(R.id.report_questions_list);
 		questionArrayList = DatabaseHelper.buildQuestionsList(db);
-		questionArrayList.add(null);
 		db.close();
-        questionList.setAdapter(
-        		new ReportQuestionListAdapter(this, questionArrayList));
+		// Add null to arrrayList that will be for follow up with me.
+		//questionArrayList.add(null);
+		questionAdapter = new ReportQuestionListAdapter(this, questionArrayList);
+        questionList.setAdapter(questionAdapter);
         
-        saveButton = (Button) findViewById(R.id.report_button);
         saveButton.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v) {
@@ -73,8 +119,7 @@ public class ReportingActivity extends Activity {
 		if(questionArrayList.get(l-1) == null)
 			l--;
 		for (int i = 0; i < l; i++) {
-			ReportQuestionListAdapter adapter = 
-					(ReportQuestionListAdapter) questionList.getAdapter();
+			ReportQuestionListAdapter adapter = questionAdapter;
 			String response = adapter.getResponse(i);
 			if(response == null)
 				response = "null";
@@ -88,12 +133,18 @@ public class ReportingActivity extends Activity {
 		
 		int userID = preferencesHelper.getUserID();
 		ReportTask reportTask = new ReportTask(ReportingActivity.this, progressDialog);
-		reportTask.execute(""+userID, responses, (preferencesHelper.getSendToSelf()) ? "1" : "0");
+		Log.d("SPENCER", "isChecked" + 
+				((null != footerCB && footerCB.isChecked()) ? "1" : "0"));
+		reportTask.execute(
+				""+userID, 
+				responses, 
+				(preferencesHelper.getSendToSelf()) ? "1" : "0",
+				(null != footerCB && footerCB.isChecked()) ? "1" : "0"
+		);
 	}
 	
 	public void successfulSubmit()
 	{
-		// success
 		preferencesHelper.setLastReportDateToNow();
 		setResult(RESULT_OK);
 		finish();
@@ -123,7 +174,6 @@ public class ReportingActivity extends Activity {
 			enableReport();
 		else
 			disableReport();
-		
 		
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);        
 		registerReceiver(networkStateReceiver, filter);

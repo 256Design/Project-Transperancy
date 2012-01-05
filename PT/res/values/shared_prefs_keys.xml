@@ -6,4 +6,5 @@
     <string name="login_screen_key">login_screen</string>
     
     <string name="copy_to_self_key">copy_of_report_to_self</string>
+    <string name="add_follow_up_key">add_follow_up</string>
 </resources>

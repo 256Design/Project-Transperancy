@@ -28,9 +28,10 @@ import com.twofivesix.pt.data.validator.AbstractValidator;
 import com.twofivesix.pt.data.validator.RegExpressionValidator;
 import com.twofivesix.pt.data.validator.ValidationResult;
 import com.twofivesix.pt.data.validator.Validator;
+import com.twofivesix.pt.helpers.NetworkConnectivityHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
+import com.twofivesix.pt.helpers.VersionAlertHelper;
 import com.twofivesix.pt.tasks.LoginTask;
-import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
 public class LoginActivity extends Activity {
 	protected static final int LOGIN_REQUEST_CODE = 0;
@@ -63,6 +64,12 @@ public class LoginActivity extends Activity {
 		{
 			// user is logged in, bypass activity
 			startActivityForResult(new Intent(LoginActivity.this, LOGIN_DESTINATION), LOGIN_REQUEST_CODE);
+		}
+		else
+		{
+			// runs a check for first version run then show change log if something 
+			// is different 
+			new VersionAlertHelper(this, settings);
 		}
 		
 		super.onCreate(savedInstanceState);

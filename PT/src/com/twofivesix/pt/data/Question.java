@@ -17,12 +17,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.twofivesix.pt.helpers.DatabaseHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
-import com.twofixesix.pt.helpers.DatabaseHelper;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
 public class Question implements Serializable {
 	
@@ -109,7 +109,9 @@ public class Question implements Serializable {
 		try
 		{
 			HttpClient client = new DefaultHttpClient();
-		    HttpPost httppost = new HttpPost("http://www.256design.com/projectTransparency/project/modQuestion.php?add&userID="+new SharedPreferencesHelper(context).getUserID());
+		    HttpPost httppost = new HttpPost(
+		    		"http://www.256design.com/projectTransparency/project/modQuestion.php?add&userID="
+		    				+new SharedPreferencesHelper(context).getUserID());
 			
 			// add values to list
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();

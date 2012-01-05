@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 
 public class OnStartupResponse extends BroadcastReceiver {
 

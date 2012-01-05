@@ -14,7 +14,7 @@ import android.widget.ListView;
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.alarms.ReportPromtAlarmHelper;
 import com.twofivesix.pt.data.TimePreference;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 
 public class SettingsActivity extends PreferenceActivity {
 	

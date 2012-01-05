@@ -19,8 +19,9 @@ import android.widget.Toast;
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.CustomTitleBar;
 import com.twofivesix.pt.data.TileItem;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
+import com.twofivesix.pt.helpers.VersionAlertHelper;
 import com.twofivesix.pt.listAdapters.TileWithNameAdapter;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
 public class TileHomeActivity extends Activity {
 	
@@ -47,6 +48,12 @@ public class TileHomeActivity extends Activity {
 			CustomTitleBar.customTitleBar(this, getText(R.string.home).toString());
 		
 		settings = new SharedPreferencesHelper(this);
+		
+		
+		// runs a check for first version run then show change log if something 
+		// is different 
+		new VersionAlertHelper(this, settings);
+		
 		
 	    tileList.add(new TileItem(R.drawable.reporting, R.string.reporting, ReportingActivity.class, REPORTING_REQUEST));
 	    tileList.add(new TileItem(R.drawable.question, R.string.questions, ViewQuestionsListActivity.class, QUESTIONS_REQUEST));

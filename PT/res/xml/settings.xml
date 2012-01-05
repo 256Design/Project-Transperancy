@@ -37,5 +37,11 @@
             android:title="@string/settings_report_to_self"
             android:summary="@string/settings_send_report_to_self"
             />
+        <CheckBoxPreference 
+            android:key="@string/add_follow_up_key"
+            android:title="@string/settings_add_follow_up_title"
+            android:summary="@string/settings_add_follow_up_desc"
+            android:defaultValue="true"
+            />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -20,8 +20,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.twofivesix.pt.data.Question;
+import com.twofivesix.pt.helpers.DatabaseHelper;
 import com.twofivesix.pt.interfaces.SyncCaller;
-import com.twofixesix.pt.helpers.DatabaseHelper;
 
 public class QuestionSyncTask extends SyncTask {
 

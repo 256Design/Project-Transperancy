@@ -14,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.twofivesix.pt.activities.ReportingActivity;
 
@@ -34,20 +35,23 @@ public class ReportTask extends AsyncTask<String, Void, Integer> {
 	}
 	
 	@Override
-	protected Integer doInBackground(String... arg0) {
+	protected Integer doInBackground(String... args) {
 		int responseCode = 0;
 		try 
 		{
 			HttpClient client = new DefaultHttpClient();
 			String uri = "http://www.256design.com/projectTransparency/project/report.php?update&userID="+
-		    		arg0[0];
-			if(arg0[2].equals("1"))
+		    		args[0];
+			if(args[2].equals("1"))
 				uri += "&includeSelf";
+			Log.d("SPENCER", "args[3] = " + args[3]);
+			if(args[3].equals("1"))
+				uri += "&followUp";
 		    HttpPost httppost = new HttpPost(uri);
 			
 			// add values to list
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("responses", arg0[1]));
+			nameValuePairs.add(new BasicNameValuePair("responses", args[1]));
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	        
 	        // Execute HTTP Post Request

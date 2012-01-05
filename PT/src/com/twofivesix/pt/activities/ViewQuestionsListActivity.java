@@ -28,13 +28,13 @@ import android.widget.Toast;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.Question;
+import com.twofivesix.pt.helpers.DatabaseHelper;
+import com.twofivesix.pt.helpers.NetworkConnectivityHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 import com.twofivesix.pt.interfaces.SyncCaller;
 import com.twofivesix.pt.listAdapters.QuestionListAdapter;
 import com.twofivesix.pt.tasks.QuestionSyncTask;
 import com.twofivesix.pt.tasks.SyncTask;
-import com.twofixesix.pt.helpers.DatabaseHelper;
-import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
 public class ViewQuestionsListActivity extends Activity implements SyncCaller {
 	

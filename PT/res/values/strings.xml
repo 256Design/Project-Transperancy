@@ -152,6 +152,11 @@
     <string name="settings_reporting_cat">Reporting</string>
     <string name="settings_send_report_to_self">Send a copy of my reports to me</string>
     <string name="settings_report_to_self">Report to Self</string>
+    <string name="settings_add_follow_up_title">Follow-Up Request</string>
+    <string name="settings_add_follow_up_desc">
+        A check box in your report that will include a follow-up request in your
+        report
+    </string>
     
     <!-- Reporting Activity -->
     <string name="save_and_send">Save And Send</string>

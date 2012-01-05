@@ -11,7 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.twofivesix.pt.R;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 
 public class ReportPromtAlarmHelper {
 	private static final int REPEATING_SENDER_REQUEST_CODE = 333;

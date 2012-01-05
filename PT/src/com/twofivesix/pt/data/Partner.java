@@ -26,8 +26,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.twofivesix.pt.data.validator.RegExpressionValidator;
-import com.twofixesix.pt.helpers.DatabaseHelper;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
+import com.twofivesix.pt.helpers.DatabaseHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 
 public class Partner implements Serializable {
 	private static final long serialVersionUID = 1L;

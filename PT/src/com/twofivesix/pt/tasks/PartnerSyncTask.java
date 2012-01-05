@@ -10,8 +10,8 @@ import android.app.ProgressDialog;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.twofivesix.pt.data.Partner;
+import com.twofivesix.pt.helpers.DatabaseHelper;
 import com.twofivesix.pt.interfaces.SyncCaller;
-import com.twofixesix.pt.helpers.DatabaseHelper;
 
 public class PartnerSyncTask extends SyncTask {
 

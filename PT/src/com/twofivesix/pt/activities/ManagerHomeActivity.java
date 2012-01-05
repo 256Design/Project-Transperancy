@@ -31,10 +31,10 @@ import android.widget.Toast;
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.Partner;
 import com.twofivesix.pt.data.validator.RegExpressionValidator;
+import com.twofivesix.pt.helpers.DatabaseHelper;
+import com.twofivesix.pt.helpers.NetworkConnectivityHelper;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 import com.twofivesix.pt.listAdapters.PartnerListAdapter;
-import com.twofixesix.pt.helpers.DatabaseHelper;
-import com.twofixesix.pt.helpers.NetworkConnectivityHelper;
-import com.twofixesix.pt.helpers.SharedPreferencesHelper;
 
 public class ManagerHomeActivity extends Activity {
 	protected SQLiteDatabase db;
