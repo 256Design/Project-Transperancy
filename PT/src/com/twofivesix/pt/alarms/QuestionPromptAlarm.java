@@ -7,11 +7,11 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
-import com.twofivesix.pt.activities.ReportingActivity;
 import com.twofivesix.pt.R;
+import com.twofivesix.pt.activities.ReportingActivity;
 
+// TODO prompt what to do on selecting reminder (Report now, snooze, dismiss)
 public class QuestionPromptAlarm extends Service {
     
 	private static final int NOTE_ICON = android.R.drawable.ic_popup_reminder;
@@ -33,7 +33,7 @@ public class QuestionPromptAlarm extends Service {
      * Show a notification while this service is running.
      */
     private void showNotification() {
-    	Log.d("SPENCER", "Reminder fired.");
+//    	Log.d("SPENCER", "Reminder fired.");
         // In this sample, we'll use the same text for the ticker and the expanded notification
         CharSequence text = getText(R.string.reminder_service_started);
 

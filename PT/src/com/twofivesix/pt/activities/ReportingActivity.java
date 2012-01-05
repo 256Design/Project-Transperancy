@@ -38,6 +38,7 @@ import com.twofivesix.pt.listAdapters.ReportQuestionListAdapter;
 import com.twofivesix.pt.tasks.QuestionSyncTask;
 import com.twofivesix.pt.tasks.ReportTask;
 
+// FIXME repeating views in list view when in horizontal orientation
 public class ReportingActivity extends Activity implements SyncCaller {
 	
 	private ArrayList<Question> questionArrayList;

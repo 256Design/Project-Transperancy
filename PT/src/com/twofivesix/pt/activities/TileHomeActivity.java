@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.CustomTitleBar;
