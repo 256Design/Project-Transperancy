@@ -23,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.alarms.QuestionPromptAlarm;
@@ -47,7 +48,6 @@ public class ReportingActivity extends Activity implements SyncCaller {
 	private SharedPreferencesHelper preferencesHelper;
 	private ReportQuestionListAdapter questionAdapter;
 
-	// TODO Auto-sync every ten
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -174,6 +174,9 @@ public class ReportingActivity extends Activity implements SyncCaller {
 	{
 		preferencesHelper.setLastReportDateToNow();
 		setResult(RESULT_OK);
+		Toast.makeText(ReportingActivity.this, 
+				getText(R.string.success_report), 
+				Toast.LENGTH_LONG).show();
 		finish();
 	}
 	

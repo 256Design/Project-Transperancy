@@ -176,7 +176,6 @@ public class TileHomeActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
-		if(requestCode == REPORTING_REQUEST && resultCode == RESULT_OK)
-            Toast.makeText(TileHomeActivity.this, "" + getText(R.string.success_report), Toast.LENGTH_LONG).show();
+		
 	}
 }

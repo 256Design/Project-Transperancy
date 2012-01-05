@@ -98,16 +98,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					"positive = '"+question.getPositive()+"', " +
 					"out_of_sync = 1 " +
 					"WHERE question = '" + oldQuestion + "'");
-/*			db.execSQL("UPDATE " + QUESTION_TABLE + " " +
-					"SET _id= '?', question = '?', " +
-					"type = '?', " +
-					"positive = '?', " +
-					"out_of_sync = 1 " +
-					"WHERE question = '?'",
-					new String[]{(question.getId()+""), question.getQuestion(),
-						question.getType(),
-						question.getPositive(),
-						oldQuestion});*/
 			return true;
 		}
 		catch (SQLException e) {
@@ -315,7 +305,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static void rewriteQuestionsList(
 			ArrayList<Question> newQuestionList, SQLiteDatabase db) 
 	{
-		d("rewriteQuestionsList");
 		db.delete(QUESTION_TABLE, null, null);
 		if(newQuestionList != null)
 		{
@@ -331,6 +320,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static void d(String string) {
 		Log.d("SPENCER", string);
 	}
