@@ -50,7 +50,11 @@ public class VersionAlertHelper {
 				"change question type to short answer." +
 				"\n\n- Follow-up request check box in when reporting which " +
 				"will include a request for a follow up in your report. " +
-				"This can be hidden in the settings.");
+				"This can be hidden in the settings." +
+				"\n\n- Auto-sync Questions. You will notice now every 10 times " +
+				"you open the reporting activity, it will sync your questions. " +
+				"You may find anomalies in your questions, please go to your " +
+				"questions list to fix them.");
 		newUpdateAlert.setButton(context.getString(R.string.okay), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {}
 		});

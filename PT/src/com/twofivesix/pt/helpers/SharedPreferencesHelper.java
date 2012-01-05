@@ -28,6 +28,7 @@ public class SharedPreferencesHelper {
 	public static final String SEND_TO_SELF_KEY = "copy_of_report_to_self";
 	public static final String ADD_FOLLOW_UP_KEY = "add_follow_up";
 	public static final String LAST_VERSION_INFO_READ_KEY = "last_version_info_read";
+	public static final String SYNC_COUNT_KEY = "sync_count_key";
 
 	
 	private SharedPreferences sharedPreferences;
@@ -183,5 +184,22 @@ public class SharedPreferencesHelper {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putInt(LAST_VERSION_INFO_READ_KEY, versionCode);
 		editor.commit();
+	}
+	
+	public int getSyncCount()
+	{
+		return sharedPreferences.getInt(SYNC_COUNT_KEY, 0);
+	}
+	
+	public void setSyncCount(int count)
+	{
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putInt(SYNC_COUNT_KEY, count);
+		editor.commit();
+	}
+	
+	public void resetSyncCount()
+	{
+		setSyncCount(10);
 	}
 }

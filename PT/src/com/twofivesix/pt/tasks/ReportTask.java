@@ -21,9 +21,9 @@ import com.twofivesix.pt.activities.ReportingActivity;
 public class ReportTask extends AsyncTask<String, Void, Integer> {
 	
 	private ProgressDialog progressDialog;
-	private Activity activity;
+	private ReportingActivity activity;
 
-	public ReportTask(Activity activity, ProgressDialog progressDialog)
+	public ReportTask(ReportingActivity activity, ProgressDialog progressDialog)
 	{
 		this.activity = activity;
 		this.progressDialog = progressDialog;

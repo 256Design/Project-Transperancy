@@ -159,11 +159,13 @@ public class ViewQuestionsListActivity extends Activity implements SyncCaller {
 		if(NetworkConnectivityHelper.isConnected(ViewQuestionsListActivity.this))
 		{
 			//Partner.syncPartners(settings.getUserID(), db);
-			ProgressDialog progressDialog = new ProgressDialog(ViewQuestionsListActivity.this);
-			progressDialog.setMessage(getString(R.string.syncing_questions));
-			progressDialog.setCancelable(false);
+			ProgressDialog progressDialog = QuestionSyncTask.progressDialog(
+					ViewQuestionsListActivity.this);
 			
-			questionsSyncTask = new QuestionSyncTask(ViewQuestionsListActivity.this, progressDialog, db);
+			questionsSyncTask = new QuestionSyncTask(
+					ViewQuestionsListActivity.this, 
+					progressDialog, 
+					db);
 			Integer userID = (new SharedPreferencesHelper(this)).getUserID();
 			questionsSyncTask.execute(userID);
 		}
@@ -243,6 +245,7 @@ public class ViewQuestionsListActivity extends Activity implements SyncCaller {
 		{
 			Toast.makeText(ViewQuestionsListActivity.this, "" + getText(R.string.success_questions_sync), Toast.LENGTH_LONG).show();
 			updateQuestionList();
+			(new SharedPreferencesHelper(this)).resetSyncCount();
 		}
 		else
 			displaySyncError();

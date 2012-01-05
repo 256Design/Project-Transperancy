@@ -32,10 +32,12 @@ import com.twofivesix.pt.helpers.DatabaseHelper;
 import com.twofivesix.pt.helpers.NetworkConnectivityHelper;
 import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 import com.twofivesix.pt.helpers.VersionAlertHelper;
+import com.twofivesix.pt.interfaces.SyncCaller;
 import com.twofivesix.pt.listAdapters.ReportQuestionListAdapter;
+import com.twofivesix.pt.tasks.QuestionSyncTask;
 import com.twofivesix.pt.tasks.ReportTask;
 
-public class ReportingActivity extends Activity {
+public class ReportingActivity extends Activity implements SyncCaller {
 	
 	private ArrayList<Question> questionArrayList;
 	private SQLiteDatabase db;
@@ -95,10 +97,35 @@ public class ReportingActivity extends Activity {
 			questionList.addFooterView(followUpRow);
 		}
 		
-		
 		db = (new DatabaseHelper(this)).getWritableDatabase();
+		int syncCount = preferencesHelper.getSyncCount();
+		if(syncCount <= 0)
+		{
+			if(NetworkConnectivityHelper.isConnected(ReportingActivity.this))
+			{
+				ProgressDialog progressDialog = QuestionSyncTask.progressDialog(
+						ReportingActivity.this);
+				
+				QuestionSyncTask questionsSyncTask = new QuestionSyncTask(
+						ReportingActivity.this, 
+						progressDialog, 
+						db);
+				Integer userID = preferencesHelper.getUserID();
+				questionsSyncTask.execute(userID);
+			}
+		}
+		else
+		{
+			preferencesHelper.setSyncCount(syncCount-1);
+		}
+		
+		setListAdapter();
+	}
+	
+	private void setListAdapter()
+	{
 		questionArrayList = DatabaseHelper.buildQuestionsList(db);
-		db.close();
+//		db.close();
 		// Add null to arrrayList that will be for follow up with me.
 		//questionArrayList.add(null);
 		questionAdapter = new ReportQuestionListAdapter(this, questionArrayList);
@@ -171,9 +198,9 @@ public class ReportingActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		if(NetworkConnectivityHelper.isConnected(this))
-			enableReport();
+			enableReportBtn();
 		else
-			disableReport();
+			disableReportBtn();
 		
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);        
 		registerReceiver(networkStateReceiver, filter);
@@ -190,19 +217,27 @@ public class ReportingActivity extends Activity {
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
 	    	if(NetworkConnectivityHelper.isConnected(ReportingActivity.this))
-				enableReport();
+				enableReportBtn();
 			else
-				disableReport();
+				disableReportBtn();
 	    }
 	};
 	
-	protected void disableReport() {
+	protected void disableReportBtn() {
 		saveButton.setEnabled(false);
 		saveButton.setText(R.string.no_network_connection);
 	}
 	
-	protected void enableReport() {
+	protected void enableReportBtn() {
 		saveButton.setEnabled(true);
 		saveButton.setText(R.string.save_and_send);
+	}
+
+	public void syncResults(Boolean result) {
+		if(result)
+		{
+			setListAdapter();
+			preferencesHelper.resetSyncCount();
+		}
 	}
 }

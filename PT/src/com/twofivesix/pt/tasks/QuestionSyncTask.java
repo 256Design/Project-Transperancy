@@ -16,9 +16,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.twofivesix.pt.R;
+import com.twofivesix.pt.activities.ViewQuestionsListActivity;
 import com.twofivesix.pt.data.Question;
 import com.twofivesix.pt.helpers.DatabaseHelper;
 import com.twofivesix.pt.interfaces.SyncCaller;
@@ -28,6 +31,14 @@ public class QuestionSyncTask extends SyncTask {
 	public QuestionSyncTask(SyncCaller activity, ProgressDialog progressDialog,
 			SQLiteDatabase db) {
 		super(activity, progressDialog, db);
+	}
+	
+	public QuestionSyncTask(SyncCaller activity, Context context)
+	{
+		super(
+			activity, 
+			progressDialog(context), 
+			(new DatabaseHelper(context)).getWritableDatabase());
 	}
 
 	@Override
@@ -114,6 +125,15 @@ public class QuestionSyncTask extends SyncTask {
 		{
 			return false;
 		}
+	}
+
+	public static ProgressDialog progressDialog(Context context) 
+	{
+		ProgressDialog progressDialog = new ProgressDialog(context);
+		progressDialog.setMessage(context.getString(R.string.syncing_questions));
+		progressDialog.setCancelable(false);
+		
+		return progressDialog;
 	}
 
 }
