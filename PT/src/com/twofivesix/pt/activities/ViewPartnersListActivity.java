@@ -37,6 +37,11 @@ import com.twofivesix.pt.listAdapters.PartnerListAdapter;
 import com.twofivesix.pt.tasks.PartnerSyncTask;
 import com.twofivesix.pt.tasks.SyncTask;
 
+// TODO implement listing both your partners and people you are partners to
+
+// TODO send invite to friend
+
+// TODO allow for adding to partners list from contact list
 public class ViewPartnersListActivity extends Activity implements SyncCaller {
 	
 		protected SQLiteDatabase db;

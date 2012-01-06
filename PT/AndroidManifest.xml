@@ -7,20 +7,20 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".activities.LoginActivity" android:theme="@android:style/Theme.Black.NoTitleBar"><intent-filter>
+        <activity android:name=".activities.LoginActivity" android:theme="@android:style/Theme.Black.NoTitleBar" android:label="Login"><intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter></activity><activity android:label="@string/app_name" android:name=".activities.ViewQuestionsListActivity">
+            </intent-filter></activity><activity android:label="Your Questions" android:name=".activities.ViewQuestionsListActivity" android:theme="@android:style/Theme.Light">
         </activity>
-        <activity android:label="@string/add_question_label" android:name=".activities.AddEditQuestionActivity"></activity>
+        <activity android:label="@string/add_question_label" android:name=".activities.AddEditQuestionActivity" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
         
-        <activity android:label="@string/register_title" android:name=".activities.RegisterActivity"></activity>
-        <activity android:label="@string/app_name" android:name=".activities.ViewPartnersListActivity"/>
+        <activity android:label="@string/register_title" android:name=".activities.RegisterActivity" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+        <activity android:label="Partners" android:name=".activities.ViewPartnersListActivity" android:theme="@android:style/Theme.Light"/>
         <activity android:label="@string/settings_label" android:name=".activities.SettingsActivity"></activity>
         
         
         <activity android:name=".activities.ReportingActivity" android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-        <activity android:name=".activities.TileHomeActivity" android:theme="@style/customTheme"></activity><receiver android:name=".alarms.OnStartupResponse">
+        <activity android:name=".activities.TileHomeActivity" android:theme="@style/customTheme" android:label="TileHome"></activity><receiver android:name=".alarms.OnStartupResponse">
 	        <intent-filter>  
 		        <action android:name="android.intent.action.BOOT_COMPLETED" /> 
 		    </intent-filter>  
