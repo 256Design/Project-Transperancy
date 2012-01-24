@@ -65,7 +65,7 @@ public class ReportPromtAlarmHelper {
 
 	public static void resetReminderIntent(Context context, String reminderTime, int reminderInterval) {
 		Log.d("SPENCER", "resetReminderIntent(context, " + reminderTime+ ", " + reminderInterval + ")");
-		Intent intent = new Intent(context, QuestionPromptAlarm.class);
+		Intent intent = new Intent(context, ReportPromptAlarm.class);
 		PendingIntent sender = PendingIntent.getService(context,
                 REPEATING_SENDER_REQUEST_CODE, intent, 0);
         // We want the alarm to go off 30 seconds from now.
@@ -112,7 +112,7 @@ public class ReportPromtAlarmHelper {
 	}
 
 	public static boolean repeaterIsRunning(Context context) {
-		Intent intent = new Intent(context, QuestionPromptAlarm.class);
+		Intent intent = new Intent(context, ReportPromptAlarm.class);
 		PendingIntent sender = PendingIntent.getService(context, REPEATING_SENDER_REQUEST_CODE, intent, PendingIntent.FLAG_NO_CREATE);
 		if(sender != null)
 			Log.d("SPENCER", "Sender is running");
@@ -126,9 +126,9 @@ public class ReportPromtAlarmHelper {
 		long reminderInterval = preferencesHelper.getReminderInterval();
 		Log.d("SPENCER", "reteating reminder every " + reminderInterval + " minutes");
 		
-		Intent intent = new Intent(context, QuestionPromptAlarm.class);
+		Intent intent = new Intent(context, ReportPromptAlarm.class);
 		PendingIntent sender = PendingIntent.getService(context,
-                REPEATING_SENDER_REQUEST_CODE, intent, 0);
+                REPEATING_SENDER_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -141,7 +141,7 @@ public class ReportPromtAlarmHelper {
 	}
 
 	public static void stopRepeatingReminder(Context context) {
-		Intent intent = new Intent(context, QuestionPromptAlarm.class);
+		Intent intent = new Intent(context, ReportPromptAlarm.class);
 		PendingIntent sender = PendingIntent.getService(context,
                 REPEATING_SENDER_REQUEST_CODE, intent, 0);
         

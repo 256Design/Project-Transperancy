@@ -1,68 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/login_rel_layout"
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-  <RelativeLayout
-  	android:gravity="top"
-  	android:layout_width="fill_parent"
-  	android:layout_height="wrap_content">
-  	<ImageView android:layout_height="wrap_content" 
-  		android:id="@+id/imageView1" 
-  		android:src="@drawable/home_manager_header" 
-  		android:layout_width="fill_parent"/>
-  </RelativeLayout>
-    <LinearLayout android:id="@+id/linearLayout1" 
-    				android:layout_width="wrap_content" 
-    				android:layout_height="wrap_content" 
-    				android:layout_centerVertical="true" 
-    				android:layout_centerHorizontal="true"
-    				android:background="@drawable/login_back" 
-    				android:weightSum="1" android:orientation="vertical"
-    				android:paddingLeft="10dp" android:paddingRight="10dp"
-    				android:paddingTop="7dp" android:paddingBottom="42dp">
-    	<ImageView
-    		android:layout_height="wrap_content"
-    		android:layout_width="wrap_content"
-    		android:src="@drawable/login_title"
-    		android:layout_alignParentRight="true"
-    		android:layout_gravity="right"/>
-        <EditText 
-            android:layout_height="wrap_content" 
-            android:layout_width="220dp" 
-            android:id="@+id/login_usernameTV1" 
-            android:inputType="textEmailAddress" 
-            android:hint="@string/email">
-            <requestFocus></requestFocus>
-        </EditText>
-        <EditText 
-            android:layout_height="wrap_content" android:layout_width="fill_parent" 
-            android:id="@+id/login_passowrdTV" 
-            android:inputType="textPassword" 
-            android:hint="@string/password"/>
-        <Button 
-            android:layout_height="wrap_content" android:layout_width="wrap_content" 
-            android:id="@+id/login_button" 
-            android:text="@string/login"/>
-        <CheckBox 
-            android:layout_height="wrap_content" android:layout_width="wrap_content" 
-            android:id="@+id/login_auto_login"
-            android:text="@string/login_auto_login_text"
-            />
-        <CheckBox 
-            android:layout_height="wrap_content" android:layout_width="wrap_content" 
-            android:id="@+id/login_remember_me"
-            android:text="@string/login_remember_me_text"
-            />
-    </LinearLayout>
-    <LinearLayout 
-    	android:layout_width="fill_parent" 
-    	android:gravity="bottom"
-    	android:orientation="horizontal" 
-    	android:layout_height="wrap_content" 
-    	android:layout_alignParentBottom="true" 
-    	android:layout_alignParentLeft="true">
-        <Button android:layout_width="wrap_content" android:id="@+id/login_register_button" android:text="@string/register" android:layout_height="wrap_content"></Button>
-    </LinearLayout>
+	  <RelativeLayout
+	  	android:gravity="top"
+	  	android:layout_width="fill_parent"
+	  	android:layout_height="wrap_content">
+	  	<ImageView 
+	  	    android:contentDescription="@string/app_full_name"
+	  	    android:layout_height="wrap_content" 
+	  		android:id="@+id/imageView1" 
+	  		android:src="@drawable/home_manager_header" 
+	  		android:layout_width="fill_parent"/>
+	  </RelativeLayout>
+	  <LinearLayout android:id="@+id/linearLayout1" 
+	  				android:layout_width="wrap_content" 
+	  				android:layout_height="wrap_content" 
+	  				android:layout_centerVertical="true" 
+	  				android:layout_centerHorizontal="true"
+	  				android:background="@drawable/login_back" 
+	  				android:weightSum="1" android:orientation="vertical"
+	  				android:paddingLeft="10dp" android:paddingRight="10dp"
+	  				android:paddingTop="7dp" android:paddingBottom="42dp">
+	  	<ImageView
+	  	    android:contentDescription="@string/login"
+	  		android:layout_height="wrap_content"
+	  		android:layout_width="wrap_content"
+	  		android:src="@drawable/login_title"
+	  		android:layout_gravity="right"/>
+	      <EditText 
+	          android:layout_height="wrap_content" 
+	          android:layout_width="220dp" 
+	          android:id="@+id/login_usernameTV1" 
+	          android:inputType="textEmailAddress" 
+	          android:hint="@string/email">
+	          <requestFocus></requestFocus>
+	      </EditText>
+	      <EditText 
+	          android:layout_height="wrap_content" android:layout_width="fill_parent" 
+	          android:id="@+id/login_passowrdTV" 
+	          android:inputType="textPassword" 
+	          android:hint="@string/password"/>
+	      <Button 
+	          android:layout_height="wrap_content" android:layout_width="wrap_content" 
+	          android:id="@+id/login_button" 
+	          android:text="@string/login"/>
+	      <CheckBox 
+	          android:layout_height="wrap_content" android:layout_width="wrap_content" 
+	          android:id="@+id/login_auto_login"
+	          android:text="@string/login_auto_login_text"
+	          />
+	      <CheckBox 
+	          android:layout_height="wrap_content" android:layout_width="wrap_content" 
+	          android:id="@+id/login_remember_me"
+	          android:text="@string/login_remember_me_text"
+	          />
+	  </LinearLayout>
+	  <LinearLayout 
+	  	android:layout_width="fill_parent" 
+	  	android:gravity="bottom"
+	  	android:orientation="horizontal" 
+	  	android:layout_height="wrap_content" 
+	  	android:layout_alignParentBottom="true" 
+	  	android:layout_alignParentLeft="true">
+	      <Button 
+	          android:layout_width="wrap_content" 
+	          android:id="@+id/login_register_button" 
+	          android:text="@string/register" 
+	          android:layout_height="wrap_content"/>
+	      <Button 
+	          android:layout_width="wrap_content" 
+	          android:id="@+id/login_recover_button" 
+	          android:text="@string/recover_login" 
+	          android:layout_height="wrap_content"/>
+	  </LinearLayout>
 </RelativeLayout>

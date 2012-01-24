@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twofivesix.pt.R;
-import com.twofivesix.pt.alarms.QuestionPromptAlarm;
+import com.twofivesix.pt.alarms.ReportPromptAlarm;
 import com.twofivesix.pt.alarms.ReportPromtAlarmHelper;
 import com.twofivesix.pt.data.Question;
 import com.twofivesix.pt.helpers.DatabaseHelper;
@@ -68,7 +68,7 @@ public class ReportingActivity extends Activity implements SyncCaller {
 		
 		if(ReportPromtAlarmHelper.repeaterIsRunning(this))
 			ReportPromtAlarmHelper.stopRepeatingReminder(this);
-		QuestionPromptAlarm.closeNotification(this);
+		ReportPromptAlarm.closeNotification(this);
 
 		if(preferencesHelper.getAddFollowUp())
 		{

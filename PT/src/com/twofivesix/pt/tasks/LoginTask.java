@@ -38,7 +38,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 	}
 	
 	@Override
-	protected Integer doInBackground(String... arg0) 
+	protected Integer doInBackground(String... args) 
 	{
 		String result = "";	
 		int responseCode = 0;
@@ -48,8 +48,8 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 		    HttpPost httppost = new HttpPost("http://www.256design.com/projectTransparency/project/headerLogin.php");
 		    
 		    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-	        nameValuePairs.add(new BasicNameValuePair("emailAddress", arg0[0]));
-	        nameValuePairs.add(new BasicNameValuePair("password", arg0[1]));
+	        nameValuePairs.add(new BasicNameValuePair("emailAddress", args[0]));
+	        nameValuePairs.add(new BasicNameValuePair("password", args[1]));
 				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	       
 			int executeCount = 0;

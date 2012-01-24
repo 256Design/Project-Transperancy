@@ -202,4 +202,10 @@ public class SharedPreferencesHelper {
 	{
 		setSyncCount(10);
 	}
+
+	public void clearData() {
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.clear();
+		editor.commit();
+	}
 }

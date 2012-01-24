@@ -44,17 +44,10 @@ public class VersionAlertHelper {
 	{
 		AlertDialog newUpdateAlert = new AlertDialog.Builder(context).create();
 		newUpdateAlert.setTitle("New Version");
-		newUpdateAlert.setMessage("You have a the new version of Project " +
-				"Transparency! Here are some of the things that changed:" +
-				"\n\n- Short Answer Questions. Add or edit a question and " +
-				"change question type to short answer." +
-				"\n\n- Follow-up request check box in when reporting which " +
-				"will include a request for a follow up in your report. " +
-				"This can be hidden in the settings." +
-				"\n\n- Auto-sync Questions. You will notice now every 10 times " +
-				"you open the reporting activity, it will sync your questions. " +
-				"You may find anomalies in your questions, please go to your " +
-				"questions list to fix them.");
+		newUpdateAlert.setMessage("Here are some of the things that changed:" +
+				"\n\n- If you log out and log back in with a different user, " +
+				"all user data is cleared." +
+				"\n\n- Fixed report reminders and app name.");
 		newUpdateAlert.setButton(context.getString(R.string.okay), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {}
 		});

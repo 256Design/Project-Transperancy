@@ -65,6 +65,9 @@
     <string name="no_network_connection">No Network</string>
     <string name="login_auto_login_text">Auto Login</string>
     <string name="login_remember_me_text">Remember Me</string>
+    <string name="sending_recovery_request">Sending Recovery Request</string>
+    <string name="success_sending_recover">Successfully sent password recovery request.</string>
+    <string name="failure_sending_recover">Failed sending password recover request. There may be a problem with your email address or connection.</string>
     
     <!-- Register Activity -->
     <string name="register_title">Register for an Account</string>

@@ -324,5 +324,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static void d(String string) {
 		Log.d("SPENCER", string);
 	}
+
+	public void clearData(SQLiteDatabase db) {
+		db.delete(QUESTION_TABLE, null, null);
+		db.delete(PARTNER_TABLE, null, null);
+	}
 	
 }

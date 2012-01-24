@@ -22,6 +22,7 @@ import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 import com.twofivesix.pt.helpers.VersionAlertHelper;
 import com.twofivesix.pt.listAdapters.TileWithNameAdapter;
 
+// TODO sync all when "sync" extra is true
 public class TileHomeActivity extends Activity {
 	
 	private static final int REPORTING_REQUEST = 1;
