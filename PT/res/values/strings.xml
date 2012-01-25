@@ -146,7 +146,7 @@
     	<item>20</item>
     </string-array>
     <string-array name="settings_reminder_interval_entries">
-    	<item>Do not send reminders</item>
+    	<item>Do not repeat reminders</item>
     	<item>1 minute</item>
     	<item>10 minutes</item>
     	<item>20 minutes</item>

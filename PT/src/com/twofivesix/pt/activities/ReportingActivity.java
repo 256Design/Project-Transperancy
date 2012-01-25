@@ -127,8 +127,6 @@ public class ReportingActivity extends Activity implements SyncCaller {
 	{
 		questionArrayList = DatabaseHelper.buildQuestionsList(db);
 //		db.close();
-		// Add null to arrrayList that will be for follow up with me.
-		//questionArrayList.add(null);
 		questionAdapter = new ReportQuestionListAdapter(this, questionArrayList);
         questionList.setAdapter(questionAdapter);
         

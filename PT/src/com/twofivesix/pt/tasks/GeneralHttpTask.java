@@ -8,11 +8,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class GeneralHttpTask extends AsyncTask<String, Integer, Boolean>
 {
 	private ProgressDialog progressDialog;
 	private OnResponseListener responder;
+	private int responseCode;
 
 	/** execute params:
 	 * <ul>
@@ -37,7 +39,7 @@ public class GeneralHttpTask extends AsyncTask<String, Integer, Boolean>
 	protected Boolean doInBackground(String... params) {
 		int desiredCode = 200;
 		int attemptsCount;
-		int responseCode = 0;
+		responseCode = 0;
 		try 
 		{
 			if(params.length >= 2)
@@ -79,7 +81,10 @@ public class GeneralHttpTask extends AsyncTask<String, Integer, Boolean>
 		if(result)
 			responder.onSuccess();
 		else
+		{
+			Log.d("SPENCER", "Error response. Code: " + responseCode);
 			responder.onFailure("");
+		}
 	}
 	
 	public interface OnResponseListener {

@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -35,29 +32,45 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		Question item = getItem(position);
 		
-		View row;
-		if(item != null)
+		View row = convertView;
+		Question item = super.getItem(position);
+		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		// Reuse if possible
+		if (null == row)
 		{
-			// Reuse if possible
-			if (null == convertView)
+			row = inflater.inflate(R.layout.reqort_question_list_item, parent, false);
+		}
+		else {
+			if(item.getType().equals(Question.TYPE_YES_NO) &&
+				row.findViewById(R.id.report_question_response_spinner) == null)
 			{
 				row = inflater.inflate(R.layout.reqort_question_list_item, parent, false);
-				View responseView = null;
-				LinearLayout layout = (LinearLayout) row.findViewById(R.id.report_layout);
-				EditText responseEditText = (EditText) row.findViewById(R.id.report_question_response_edittext);
-				Spinner responseSpinner = (Spinner)row.findViewById(R.id.report_question_response_spinner);
+			}
+			else if (item.getType().equals(Question.TYPE_SHORT_ANSWER) &&
+					row.findViewById(R.id.report_question_response_edittext) == null)
+			{
+				row = inflater.inflate(R.layout.reqort_question_list_item, parent, false);
+			}
+		}
+		inflater = null;
+		if (item != null)
+		{
+			View responseView = null;
+			LinearLayout layout = (LinearLayout) row.findViewById(R.id.report_layout);
+			EditText responseEditText = (EditText) row.findViewById(R.id.report_question_response_edittext);
+			Spinner responseSpinner = (Spinner)row.findViewById(R.id.report_question_response_spinner);
 
-				TextView questionText = (TextView) row.findViewById(R.id.question);
-				questionText.setText(item.getQuestion());
+			TextView questionText = (TextView) row.findViewById(R.id.question);
+			questionText.setText(item.getQuestion());
+			
+			if(item.getType().equals(Question.TYPE_YES_NO))
+			{
+				responseView = responseSpinner;
 				
-				if(item.getType().equals(Question.TYPE_YES_NO))
+				if(responseView != null)
 				{
-					responseView = responseSpinner;
 					Spinner spinner = (Spinner) responseView;
-					
 					ArrayAdapter<CharSequence> qTypeAdapter = ArrayAdapter.createFromResource(
 							getContext(), R.array.pos_response_array, android.R.layout.simple_spinner_item);
 					qTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -66,33 +79,19 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 					int positiveIndex = qTypeAdapter.getPosition(positive);
 					spinner.setSelection(positiveIndex);
 					spinner.setPromptId(R.string.pick_one);
-					
-					layout.removeView(responseEditText);
 				}
-				else if(item.getType().equals(Question.TYPE_SHORT_ANSWER))
-				{
-					responseView = responseEditText;
-					layout.removeView(responseSpinner);
-				}
-				if(position < responseViewList.size())
-					responseViewList.set(position, responseView);
-			} 
-			else 
-			{
-				row = convertView;
-			}
-			
-		}
-		else
-		{
-			row = inflater.inflate(R.layout.follow_up_with_me_list_item, parent, false);
-			CheckBox followUpCB = (CheckBox) row.findViewById(R.id.follow_up_cb);
-			followUpCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					followUp = isChecked;
-				}
-			});
+				if(responseEditText != null)
+					layout.removeView(responseEditText);
+			}
+			else if(item.getType().equals(Question.TYPE_SHORT_ANSWER))
+			{
+				responseView = responseEditText;
+				if(responseSpinner != null)
+					layout.removeView(responseSpinner);
+			}
+			if(position < responseViewList.size())
+				responseViewList.set(position, responseView);
 		}
 				
 		return row;
