@@ -1,6 +1,7 @@
 package com.twofivesix.pt.activities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -38,7 +39,6 @@ import com.twofivesix.pt.listAdapters.ReportQuestionListAdapter;
 import com.twofivesix.pt.tasks.QuestionSyncTask;
 import com.twofivesix.pt.tasks.ReportTask;
 
-// FIXME repeating views in list view when in horizontal orientation
 public class ReportingActivity extends Activity implements SyncCaller {
 	
 	private ArrayList<Question> questionArrayList;
@@ -59,6 +59,13 @@ public class ReportingActivity extends Activity implements SyncCaller {
 		
 		questionList = (ListView) findViewById(R.id.report_questions_list);
 		saveButton = (Button) findViewById(R.id.report_button);
+		
+		saveButton.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				sendReport();
+			}
+		});
 		
 		
 		// runs a check for first version run then show change log if something 
@@ -99,43 +106,73 @@ public class ReportingActivity extends Activity implements SyncCaller {
 		}
 		
 		db = (new DatabaseHelper(this)).getWritableDatabase();
-		int syncCount = preferencesHelper.getSyncCount();
-		if(syncCount <= 0)
+		
+		Question[] reuseQuestionArray = 
+				(Question[]) getLastNonConfigurationInstance();
+		if(reuseQuestionArray != null)
 		{
-			if(NetworkConnectivityHelper.isConnected(ReportingActivity.this))
+			Log.d("SPENCER", "got something");
+			int syncCount = preferencesHelper.getSyncCount();
+			if(syncCount <= 0)
 			{
-				ProgressDialog progressDialog = QuestionSyncTask.progressDialog(
-						ReportingActivity.this);
-				
-				QuestionSyncTask questionsSyncTask = new QuestionSyncTask(
-						ReportingActivity.this, 
-						progressDialog, 
-						db);
-				Integer userID = preferencesHelper.getUserID();
-				questionsSyncTask.execute(userID);
+				if(NetworkConnectivityHelper.isConnected(ReportingActivity.this))
+				{
+					ProgressDialog progressDialog = QuestionSyncTask.progressDialog(
+							ReportingActivity.this);
+					
+					QuestionSyncTask questionsSyncTask = new QuestionSyncTask(
+							ReportingActivity.this, 
+							progressDialog, 
+							db);
+					Integer userID = preferencesHelper.getUserID();
+					questionsSyncTask.execute(userID);
+				}
 			}
+			else
+			{
+				preferencesHelper.setSyncCount(syncCount-1);
+			}
+
+			setQuestionListByArray(reuseQuestionArray);
 		}
 		else
 		{
-			preferencesHelper.setSyncCount(syncCount-1);
+			Log.d("SPENCER", "got nothing");
+			setQuestionListFromDB();
 		}
-		
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance()
+	{
+		return questionAdapter.getItemsWithResponses();
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		db.close();
+	}
+	
+	private void setQuestionListFromDB()
+	{
+		questionArrayList = DatabaseHelper.buildQuestionsList(db);
+//		db.close();
 		setListAdapter();
 	}
 	
 	private void setListAdapter()
 	{
-		questionArrayList = DatabaseHelper.buildQuestionsList(db);
-//		db.close();
 		questionAdapter = new ReportQuestionListAdapter(this, questionArrayList);
-        questionList.setAdapter(questionAdapter);
-        
-        saveButton.setOnClickListener(new OnClickListener() {
-        	
-        	public void onClick(View v) {
-        		sendReport();
-        	}
-        });
+		questionList.setAdapter(questionAdapter);
+	}
+	
+	private void setQuestionListByArray(Question[] array)
+	{
+		questionArrayList = new ArrayList<Question>();
+		Collections.addAll(questionArrayList, array);
+		setListAdapter();
 	}
 
 	protected void sendReport()
@@ -238,7 +275,7 @@ public class ReportingActivity extends Activity implements SyncCaller {
 	public void syncResults(Boolean result) {
 		if(result)
 		{
-			setListAdapter();
+			setQuestionListFromDB();
 			preferencesHelper.resetSyncCount();
 		}
 	}

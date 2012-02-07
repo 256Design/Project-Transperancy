@@ -20,5 +20,5 @@
 	    android:id="@+id/report_question_response_edittext"
 	    android:layout_height="wrap_content"
 	    android:layout_width="fill_parent"
-	    android:inputType="textMultiLine"/>
+	    android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"/>
 </LinearLayout>

@@ -5,14 +5,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class GeneralHttpTask extends AsyncTask<String, Integer, Boolean>
 {
-	private ProgressDialog progressDialog;
+	private android.app.ProgressDialog progressDialog;
 	private OnResponseListener responder;
 	private int responseCode;
 
@@ -23,9 +21,15 @@ public class GeneralHttpTask extends AsyncTask<String, Integer, Boolean>
 	 * <li>Param3: Attempts count. Default: 1 </li>
 	 * </ul>
 	 */
-	public GeneralHttpTask(ProgressDialog progressDialog, OnResponseListener responder)
+	public GeneralHttpTask(android.app.ProgressDialog progressDialog, OnResponseListener responder)
 	{
 		this.progressDialog = progressDialog;
+		this.responder = responder;
+	}
+	
+	public GeneralHttpTask(Context context, String progressMessage, OnResponseListener responder)
+	{
+		this.progressDialog = new ProgressDialog(context, progressMessage);
 		this.responder = responder;
 	}
 
@@ -82,13 +86,23 @@ public class GeneralHttpTask extends AsyncTask<String, Integer, Boolean>
 			responder.onSuccess();
 		else
 		{
-			Log.d("SPENCER", "Error response. Code: " + responseCode);
-			responder.onFailure("");
+			responder.onFailure(Integer.toString(responseCode));
 		}
 	}
 	
 	public interface OnResponseListener {
 		public void onSuccess();
 		public void onFailure(String message);
+	}
+	
+	public class ProgressDialog extends android.app.ProgressDialog
+	{
+		public ProgressDialog(Context context, String progressMessage) 
+		{
+			super(context);
+			setCancelable(false);
+			setMessage(progressMessage);
+		}
+		
 	}
 }

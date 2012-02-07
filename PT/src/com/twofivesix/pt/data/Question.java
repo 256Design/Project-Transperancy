@@ -40,6 +40,7 @@ public class Question implements Serializable {
 	private String type;
 	private String positive;
 	private Date dateAdded;
+	private String response;
 	
 	public Question(String question, String type, String positive, Date dateAdded)
 	{
@@ -100,6 +101,16 @@ public class Question implements Serializable {
 	public static Date getNow()
 	{
 		return new java.sql.Date(Calendar.getInstance().getTime().getTime());
+	}
+	
+	public String getResponse()
+	{
+		return response;
+	}
+	
+	public void setResponse(String response) 
+	{
+		this.response = response;
 	}
 	
 	public static boolean submitAddQuestion(Context context, Question question, SQLiteDatabase db)

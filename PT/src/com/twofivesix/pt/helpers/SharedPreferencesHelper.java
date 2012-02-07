@@ -29,6 +29,8 @@ public class SharedPreferencesHelper {
 	public static final String ADD_FOLLOW_UP_KEY = "add_follow_up";
 	public static final String LAST_VERSION_INFO_READ_KEY = "last_version_info_read";
 	public static final String SYNC_COUNT_KEY = "sync_count_key";
+	public static final String REMINDER_VIBRATE_KEY = "reminder_vibrate";
+	public static final String REMINDER_LIGHT_KEY = "reminder_light";
 
 	
 	private SharedPreferences sharedPreferences;
@@ -195,6 +197,30 @@ public class SharedPreferencesHelper {
 	{
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putInt(SYNC_COUNT_KEY, count);
+		editor.commit();
+	}
+	
+	public boolean getReminderVibrate()
+	{
+		return sharedPreferences.getBoolean(REMINDER_VIBRATE_KEY, false);
+	}
+	
+	public void setReminderVibrate(boolean value)
+	{
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean(REMINDER_VIBRATE_KEY, value);
+		editor.commit();
+	}
+	
+	public boolean getReminderLight()
+	{
+		return sharedPreferences.getBoolean(REMINDER_LIGHT_KEY, false);
+	}
+	
+	public void setReminderLight(boolean value)
+	{
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean(REMINDER_LIGHT_KEY, value);
 		editor.commit();
 	}
 	

@@ -236,12 +236,9 @@ public class LoginActivity extends Activity {
 		public void onClick(View v) {
 			if(recoverEmail.length()>6)
 			{
-				ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-				progressDialog.setMessage(getString(R.string.sending_recovery_request));
-				progressDialog.setCancelable(false);
-				
 				GeneralHttpTask recoveryTask = new GeneralHttpTask(
-						progressDialog, 
+						LoginActivity.this, 
+						getString(R.string.sending_recovery_request),
 						recoveryRequestResponseListener);
 				String url = "http://www.256design.com/projectTransparency/project/" +
 						"recoverRequest.php?e=" + recoverEmail.getText().toString();

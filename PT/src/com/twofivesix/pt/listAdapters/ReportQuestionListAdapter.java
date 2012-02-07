@@ -75,9 +75,11 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 							getContext(), R.array.pos_response_array, android.R.layout.simple_spinner_item);
 					qTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					spinner.setAdapter(qTypeAdapter);
-					String positive = item.getPositive();
-					int positiveIndex = qTypeAdapter.getPosition(positive);
-					spinner.setSelection(positiveIndex);
+					String selectionString = item.getResponse();
+					if(selectionString == null)
+						selectionString = item.getPositive();
+					int selectionIndex = qTypeAdapter.getPosition(selectionString);
+					spinner.setSelection(selectionIndex);
 					spinner.setPromptId(R.string.pick_one);
 				}
 				
@@ -87,6 +89,9 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 			else if(item.getType().equals(Question.TYPE_SHORT_ANSWER))
 			{
 				responseView = responseEditText;
+				String responseString = item.getResponse();
+				if(responseString != null)
+					responseEditText.setText(responseString);
 				if(responseSpinner != null)
 					layout.removeView(responseSpinner);
 			}
@@ -121,5 +126,18 @@ public class ReportQuestionListAdapter extends ArrayAdapter<Question> {
 	public boolean getFollowUp()
 	{
 		return followUp;
+	}
+
+	public Question[] getItemsWithResponses() {
+		Question[] questions = new Question[getCount()];
+		
+		for(int i = 0; i < getCount(); i++)
+		{
+			Question q = getItem(i);
+			q.setResponse(getResponse(i));
+			questions[i] = q;
+		}
+		
+		return questions;
 	}
 }

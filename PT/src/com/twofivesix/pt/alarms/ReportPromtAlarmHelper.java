@@ -7,7 +7,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.twofivesix.pt.R;
@@ -20,7 +19,7 @@ public class ReportPromtAlarmHelper {
 
 	public static void resetPendingIntent(Context context, String reminderTime) 
 	{
-		Log.d("SPENCER", "resetPendingIntent(context, " + reminderTime+ ")");
+//		Log.d("SPENCER", "resetPendingIntent(context, " + reminderTime+ ")");
         if(!reminderTime.equals(""))
         {
         	PendingIntent sender = PendingIntent.getService(context,
@@ -64,7 +63,7 @@ public class ReportPromtAlarmHelper {
 	}
 
 	public static void resetReminderIntent(Context context, String reminderTime, int reminderInterval) {
-		Log.d("SPENCER", "resetReminderIntent(context, " + reminderTime+ ", " + reminderInterval + ")");
+//		Log.d("SPENCER", "resetReminderIntent(context, " + reminderTime+ ", " + reminderInterval + ")");
 		Intent intent = new Intent(context, ReportPromptAlarm.class);
 		PendingIntent sender = PendingIntent.getService(context,
                 REPEATING_SENDER_REQUEST_CODE, intent, 0);
@@ -114,17 +113,17 @@ public class ReportPromtAlarmHelper {
 	public static boolean repeaterIsRunning(Context context) {
 		Intent intent = new Intent(context, ReportPromptAlarm.class);
 		PendingIntent sender = PendingIntent.getService(context, REPEATING_SENDER_REQUEST_CODE, intent, PendingIntent.FLAG_NO_CREATE);
-		if(sender != null)
+		/*if(sender != null)
 			Log.d("SPENCER", "Sender is running");
 		else
-			Log.d("SPENCER", "Sender is not running");
+			Log.d("SPENCER", "Sender is not running");*/
 		return sender != null;
 	}
 
 	public static void startRepeatingReminder(Context context) {
 		SharedPreferencesHelper preferencesHelper = new SharedPreferencesHelper(context);
 		long reminderInterval = preferencesHelper.getReminderInterval();
-		Log.d("SPENCER", "reteating reminder every " + reminderInterval + " minutes");
+//		Log.d("SPENCER", "reteating reminder every " + reminderInterval + " minutes");
 		
 		Intent intent = new Intent(context, ReportPromptAlarm.class);
 		PendingIntent sender = PendingIntent.getService(context,

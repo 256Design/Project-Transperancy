@@ -28,7 +28,14 @@
 			android:title="@string/settings_reminder_interval_title"
 			android:summary="@string/settings_reminder_interval_summary"
 			android:entries="@array/settings_reminder_interval_entries"
-			android:entryValues="@array/settings_reminder_interval_values" />  	
+			android:entryValues="@array/settings_reminder_interval_values" />
+		
+		<CheckBoxPreference 
+		    android:key="@string/reminder_vibrate_key"
+		    android:title="@string/settings_reminder_vibrate_title"/>
+		<CheckBoxPreference 
+		    android:key="@string/reminder_light_key"
+		    android:title="@string/settings_reminder_light_title"/>
     </PreferenceCategory>
     <PreferenceCategory 
         android:title="@string/settings_reporting_cat">

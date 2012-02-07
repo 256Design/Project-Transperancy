@@ -6,21 +6,22 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.twofivesix.pt.R;
-import com.twofivesix.pt.activities.ReportingActivity;
+import com.twofivesix.pt.activities.NoteSelectedDialogActivity;
+import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 
 // TODO prompt what to do on selecting reminder (Report now, snooze, dismiss)
 public class ReportPromptAlarm extends Service {
     
-	private static final int NOTE_ICON = android.R.drawable.ic_popup_reminder;
+	private static final int NOTE_ICON = R.drawable.not_icon;
 	NotificationManager mNM;
 
     @Override
     public void onCreate() {
-    	Log.d("SPENCER", "QuestionPromptAlarm.onCreate()");
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         showNotification();
         stopSelf();
@@ -53,9 +54,25 @@ public class ReportPromptAlarm extends Service {
     	Notification notification = new Notification(NOTE_ICON, 
     			titckerText, 
     			System.currentTimeMillis());
-    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, 
-    			new Intent(this, ReportingActivity.class), 0);
+    	Intent intent = new Intent(this, NoteSelectedDialogActivity.class);
+//    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, ReportingActivity.class), 0);
+    	// FIXME this doesn't work.
+    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
     	notification.setLatestEventInfo(this, noteTitle, text, contentIntent);
+    	SharedPreferencesHelper preferencesHelper = new SharedPreferencesHelper(this);
+    	Log.d("SPENCER", "reminderVibrate = " + preferencesHelper.getReminderVibrate());
+    	if(preferencesHelper.getReminderVibrate())
+    	{
+    		notification.defaults |= Notification.DEFAULT_VIBRATE;
+    	}
+    	Log.d("SPENCER", "reminderLight = " + preferencesHelper.getReminderLight());
+    	if(preferencesHelper.getReminderLight())
+    	{
+    		notification.ledARGB = Color.WHITE;
+    	    notification.ledOnMS = 300;
+    	    notification.ledOffMS = 1000;
+    	    notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+    	}
     	return notification;
     }
     

@@ -45,9 +45,9 @@ public class VersionAlertHelper {
 		AlertDialog newUpdateAlert = new AlertDialog.Builder(context).create();
 		newUpdateAlert.setTitle("New Version");
 		newUpdateAlert.setMessage("Here are some of the things that changed:" +
-				"\n\n- If you log out and log back in with a different user, " +
-				"all user data is cleared." +
-				"\n\n- Fixed report reminders and app name.");
+				"\n\n- Added: request a password reset." +
+				"\n\n- Fixed: Major bug that caused items on the reporting " +
+				"screen to be out of order or repeated.");
 		newUpdateAlert.setButton(context.getString(R.string.okay), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {}
 		});

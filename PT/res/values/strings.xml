@@ -139,15 +139,19 @@
     <string name="settings_reminder_cat_title">Reminders</string>
     <string name="settings_reminder_interval_title">Reminder Interval</string>
     <string name="settings_reminder_interval_summary">How long between reminders</string>
+    <string name="settings_reminder_vibrate_title">Vibrate on reminder</string>
+    <string name="settings_reminder_light_title">LED Light on reminder</string>
     <string-array name="settings_reminder_interval_values">
     	<item>0</item>
     	<item>1</item>
+    	<item>5</item>
     	<item>10</item>
     	<item>20</item>
     </string-array>
     <string-array name="settings_reminder_interval_entries">
     	<item>Do not repeat reminders</item>
     	<item>1 minute</item>
+    	<item>5 minute</item>
     	<item>10 minutes</item>
     	<item>20 minutes</item>
     </string-array>
@@ -167,6 +171,10 @@
     <string name="sending_report">Sending Report&#8230;</string>
     <string name="error_failed_report">Error submitting report. Please try again.</string>
     <string name="reporting_follow_up">Ask my partners to follow up with me on this report</string>
+    <string name="what_would_you_like_to_do">What would you like to do?</string>
+    <string name="snooze">Snooze</string>
+    <string name="dismiss">Dismiss</string>
+   	<string name="report_now">Report Now</string>
     
     <!-- Notification Keys -->
     <string name="reminder_service_started">Report Reminder</string>
