@@ -105,13 +105,21 @@ public class ReportingActivity extends Activity implements SyncCaller {
 			questionList.addFooterView(followUpRow);
 		}
 		
+		// Instantiate Db
 		db = (new DatabaseHelper(this)).getWritableDatabase();
 		
+		// get old questions
 		Question[] reuseQuestionArray = 
 				(Question[]) getLastNonConfigurationInstance();
+		// if there were reused questions
 		if(reuseQuestionArray != null)
 		{
 			Log.d("SPENCER", "got something");
+			setQuestionListByArray(reuseQuestionArray);
+		}
+		else
+		{
+			Log.d("SPENCER", "got nothing");
 			int syncCount = preferencesHelper.getSyncCount();
 			if(syncCount <= 0)
 			{
@@ -131,14 +139,9 @@ public class ReportingActivity extends Activity implements SyncCaller {
 			else
 			{
 				preferencesHelper.setSyncCount(syncCount-1);
+				setQuestionListFromDB();
 			}
 
-			setQuestionListByArray(reuseQuestionArray);
-		}
-		else
-		{
-			Log.d("SPENCER", "got nothing");
-			setQuestionListFromDB();
 		}
 	}
 	
@@ -151,8 +154,8 @@ public class ReportingActivity extends Activity implements SyncCaller {
 	@Override
 	protected void onDestroy()
 	{
-		super.onDestroy();
 		db.close();
+		super.onDestroy();
 	}
 	
 	private void setQuestionListFromDB()
