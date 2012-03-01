@@ -64,6 +64,6 @@ public class RegisterTask extends GeneralHttpTask {
 			responseCode = 400;
 			e.printStackTrace();
 		}
-		return responseCode == 202;
+		return responseCode == 201;
 	}
 }

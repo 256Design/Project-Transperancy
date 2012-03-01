@@ -336,7 +336,6 @@ public class LoginActivity extends Activity {
 						builder .setMessage(R.string.register_success);
 						builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
-								finish();
 								dialog.cancel();
 							}
 						});
@@ -387,10 +386,26 @@ public class LoginActivity extends Activity {
 	protected boolean validateRegister()
 	{
 		List<Validator> validators = new ArrayList<Validator>();
-		validators.add(new RegExpressionValidator(registerEmail, RegExpressionValidator.EMAIL_REGEX, "Invalid Email", "Please Enter A Valid Email"));
-		validators.add(new RegExpressionValidator(registerPassword, RegExpressionValidator.PASSWORD_REGEX, "Invalid Password", "Please Enter A Valid Password"));
-		validators.add(new EditTextMatchRequiredValidator(registerPassword, registerPasswordConf, "Your Passwords Don't Match"));
-		validators.add(new RegExpressionValidator(registerFullName, RegExpressionValidator.FULL_NAME_REGEX, "Invalid Full Name", "Please Enter A Valid Full Name"));
+		validators.add(
+				new RegExpressionValidator(
+						registerEmail, 
+						RegExpressionValidator.EMAIL_REGEX, 
+						getString(R.string.invalid_email), 
+						"Please Enter A Valid Email"));
+		validators.add(
+				new RegExpressionValidator(registerPassword, 
+						RegExpressionValidator.PASSWORD_REGEX, 
+						getString(R.string.invalid_password), 
+						"Please Enter A Valid Password"));
+		validators.add(
+				new EditTextMatchRequiredValidator(registerPassword, 
+						registerPasswordConf, 
+						"Your Passwords Don't Match"));
+		validators.add(
+				new RegExpressionValidator(registerFullName, 
+						RegExpressionValidator.FULL_NAME_REGEX, 
+						"Invalid Full Name", 
+						"Please Enter A Valid Full Name"));
 		List<ValidationResult> _validationResults = AbstractValidator.validateAll(validators);
 		if (_validationResults.size()==0) {
         	return true;
@@ -561,7 +576,8 @@ public class LoginActivity extends Activity {
 		
 		registerPassword = new EditText(LoginActivity.this);
 		registerPassword.setLayoutParams(editTextParams);
-		registerPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+		registerPassword.setInputType(InputType.TYPE_CLASS_TEXT | 
+				InputType.TYPE_TEXT_VARIATION_PASSWORD);
 		secondaryFormLayout.addView(registerPassword);
 		
 		TextView passwordConfLabel = new TextView(LoginActivity.this);
@@ -571,7 +587,8 @@ public class LoginActivity extends Activity {
 		
 		registerPasswordConf = new EditText(LoginActivity.this);
 		registerPasswordConf.setLayoutParams(editTextParams);
-		registerPasswordConf.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+		registerPasswordConf.setInputType(InputType.TYPE_CLASS_TEXT | 
+				InputType.TYPE_TEXT_VARIATION_PASSWORD);
 		secondaryFormLayout.addView(registerPasswordConf);
 		
 		TextView fullNameLabel = new TextView(LoginActivity.this);
@@ -581,6 +598,8 @@ public class LoginActivity extends Activity {
 		
 		registerFullName = new EditText(LoginActivity.this);
 		registerFullName.setLayoutParams(editTextParams);
+		registerFullName.setInputType(InputType.TYPE_CLASS_TEXT | 
+				InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
 		secondaryFormLayout.addView(registerFullName);
 		
 		registerSubmit = new Button(LoginActivity.this);
@@ -688,10 +707,10 @@ public class LoginActivity extends Activity {
 		List<Validator> validators = new ArrayList<Validator>();
 		validators.add(new RegExpressionValidator(
 				etEmailAddress, 
-				RegExpressionValidator.EMAIL_REGEX, "Invalid Email", "Please Enter A Valid Email"));
+				RegExpressionValidator.EMAIL_REGEX, getString(R.string.invalid_email), "Please Enter A Valid Email"));
 		validators.add(new RegExpressionValidator(
 				etPassword, 
-				RegExpressionValidator.PASSWORD_REGEX, "Invalid Password", "Please Enter A Valid Password"));
+				RegExpressionValidator.PASSWORD_REGEX, getString(R.string.invalid_password), "Please Enter A Valid Password"));
 		List<ValidationResult> _validationResults = AbstractValidator.validateAll(validators);
 		if (_validationResults.size()==0) {
         	return true;
