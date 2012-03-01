@@ -40,8 +40,9 @@ public class ReportingListItem extends LinearLayout {
 				new android.widget.AbsListView.LayoutParams(
 						LayoutParams.FILL_PARENT, 
 						LayoutParams.FILL_PARENT);
-		int padding = (int) (context.getResources().getDisplayMetrics().density * 8); 
-		this.setPadding(padding, padding, padding, padding);
+		float density = context.getResources().getDisplayMetrics().density;
+		this.setPadding((int)(density * 8), (int)(density * 3), 
+				(int)(density * 8), (int)(density * 3));
 		this.setLayoutParams(params);
 		
 		Log.d("SPENCER", "this.setLayoutParams()");
@@ -107,7 +108,6 @@ public class ReportingListItem extends LinearLayout {
 							String newValue = getResources().getStringArray(
 									R.array.pos_response_array
 								)[position];
-							Log.d("SPENCER", "Store " + newValue);
 							storeResponse(newValue);
 						}
 	
@@ -136,7 +136,7 @@ public class ReportingListItem extends LinearLayout {
 					
 					public void afterTextChanged(Editable s) 
 					{
-						storeEditTextResponse();
+						storeResponse(s.toString());
 					}
 				});
 			}
@@ -145,11 +145,8 @@ public class ReportingListItem extends LinearLayout {
 
 	private void storeResponse(String newValue)
 	{
+		Log.d("SPENCER", "Store " + newValue);
 		question.setResponse(newValue);
-	}
-
-	private void storeEditTextResponse() {
-		storeResponse(responseEditText.getText().toString());
 	}
 
 	private void addEditText() {

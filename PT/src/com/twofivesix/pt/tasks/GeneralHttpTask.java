@@ -10,9 +10,9 @@ import android.os.AsyncTask;
 
 public class GeneralHttpTask extends AsyncTask<String, Integer, Boolean>
 {
-	private android.app.ProgressDialog progressDialog;
-	private OnResponseListener responder;
-	private int responseCode;
+	protected android.app.ProgressDialog progressDialog;
+	protected OnResponseListener responder;
+	protected int responseCode;
 
 	/** execute params:
 	 * <ul>

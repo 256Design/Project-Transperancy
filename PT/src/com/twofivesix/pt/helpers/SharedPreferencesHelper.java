@@ -7,7 +7,6 @@ import java.util.Map;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.twofivesix.pt.R;
 
@@ -41,9 +40,7 @@ public class SharedPreferencesHelper {
 	{
 		this.context = context;
 		
-		//sharedPreferences = context.getSharedPreferences(SharedPreferencesHelper.SharedPrefsName, Context.MODE_WORLD_READABLE);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		//prefs = context.getPreferences(Activity.MODE_PRIVATE);
 	}
 	
 	public String getUserEmail()
@@ -68,17 +65,13 @@ public class SharedPreferencesHelper {
 	public boolean getLoggedIn()
 	{
 		boolean loggedIn = sharedPreferences.getBoolean(USER_LOGGED_IN, false);
-		Log.d("SPENCER", "sp.getLoggedIn() = "+loggedIn);
-		//Log.d("SPENCER", "p.getLoggedIn() = "+prefs.getBoolean(USER_LOGGED_IN, false));
 		return loggedIn;
 	}
 	
 	public void setLoggedIn(boolean loggedIn) {
-		Log.d("SPENCER", "setLoggedIn("+loggedIn+")");
 		SharedPreferences.Editor editor = sharedPreferences.edit();
     	editor.putBoolean(USER_LOGGED_IN, loggedIn);
     	editor.commit();
-    	//prefs.edit().putBoolean(USER_LOGGED_IN, loggedIn).commit();
 	}
 	
 	public String getUserPassword()

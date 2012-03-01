@@ -14,7 +14,6 @@ import com.twofivesix.pt.R;
 import com.twofivesix.pt.activities.NoteSelectedDialogActivity;
 import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 
-// TODO prompt what to do on selecting reminder (Report now, snooze, dismiss)
 public class ReportPromptAlarm extends Service {
     
 	private static final int NOTE_ICON = R.drawable.not_icon;
@@ -55,8 +54,6 @@ public class ReportPromptAlarm extends Service {
     			titckerText, 
     			System.currentTimeMillis());
     	Intent intent = new Intent(this, NoteSelectedDialogActivity.class);
-//    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, ReportingActivity.class), 0);
-    	// FIXME this doesn't work.
     	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
     	notification.setLatestEventInfo(this, noteTitle, text, contentIntent);
     	SharedPreferencesHelper preferencesHelper = new SharedPreferencesHelper(this);
@@ -77,7 +74,8 @@ public class ReportPromptAlarm extends Service {
     }
     
     public static void closeNotification(Context context) {
-		NotificationManager nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+		NotificationManager nm = (NotificationManager) context.getSystemService(
+				NOTIFICATION_SERVICE);
 		nm.cancel(R.string.reminder_service_started);
 	}
 }

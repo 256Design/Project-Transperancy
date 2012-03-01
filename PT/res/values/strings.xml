@@ -180,4 +180,5 @@
     <string name="reminder_service_started">Report Reminder</string>
     <string name="reminder_service_stopped">Reminder Service Ended</string>
     <string name="reminder_service_label">Complete accountability report now?</string>
+    <string name="sending_registration">Sending Registration...</string>
 </resources>

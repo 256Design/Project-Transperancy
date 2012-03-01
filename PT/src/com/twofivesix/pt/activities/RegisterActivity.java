@@ -65,7 +65,7 @@ public class RegisterActivity extends Activity {
 				if(validate())
 				{
 					ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
-					progressDialog.setMessage("Sending Registration...");
+					progressDialog.setMessage(getString(R.string.sending_registration));
 					progressDialog.setCancelable(false);
 					progressDialog.show();
 					
