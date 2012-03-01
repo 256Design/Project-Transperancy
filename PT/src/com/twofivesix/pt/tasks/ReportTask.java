@@ -21,6 +21,7 @@ public class ReportTask extends AsyncTask<String, Void, Integer> {
 	
 	private ProgressDialog progressDialog;
 	private ReportingActivity activity;
+	private boolean result;
 
 	public ReportTask(ReportingActivity activity, ProgressDialog progressDialog)
 	{
@@ -74,11 +75,15 @@ public class ReportTask extends AsyncTask<String, Void, Integer> {
 	@Override
 	protected void onPostExecute(Integer result) {
 		progressDialog.dismiss();
-		//Log.d("SPENCER", "result = " + result);
-		if(result == 202)
+		this.result = result == 202;
+		if(this.result)
 			((ReportingActivity)activity).successfulSubmit();
 		else
 			((ReportingActivity)activity).failedSubmit(result);
 	}
 
+	public boolean getResult()
+	{
+		return result;
+	}
 }

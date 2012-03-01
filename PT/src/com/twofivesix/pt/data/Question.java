@@ -105,6 +105,8 @@ public class Question implements Serializable {
 	
 	public String getResponse()
 	{
+		if(response == null)
+			return positive;
 		return response;
 	}
 	

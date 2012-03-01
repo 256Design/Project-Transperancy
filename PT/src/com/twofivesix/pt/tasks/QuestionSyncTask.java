@@ -74,6 +74,7 @@ public class QuestionSyncTask extends SyncTask {
 				Log.d("SPENCER", response.getStatusLine().getStatusCode() + " Status Code");						
 			} while (--tries > 0 && response.getStatusLine().getStatusCode() == 408);
 			
+			Log.d("SPENCER", "question sync response: " + response.getStatusLine().getStatusCode());
 			if(response.getStatusLine().getStatusCode() == 202)
 			{
 				BufferedReader rd = new BufferedReader(new InputStreamReader(
