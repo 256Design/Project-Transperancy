@@ -2,6 +2,7 @@ package com.twofivesix.pt.activities;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,7 +24,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 import com.twofivesix.pt.helpers.VersionAlertHelper;
 import com.twofivesix.pt.interfaces.SyncCaller;
 import com.twofivesix.pt.listAdapters.ReportQuestionListAdapter;
+import com.twofivesix.pt.listAdapters.SingleRenderListView;
 import com.twofivesix.pt.tasks.QuestionSyncTask;
 import com.twofivesix.pt.tasks.ReportTask;
 
@@ -43,11 +45,12 @@ public class ReportingActivity extends Activity implements SyncCaller {
 	
 	private ArrayList<Question> questionArrayList;
 	private SQLiteDatabase db;
-	private ListView questionList;
+	private SingleRenderListView questionList;
 	private CheckBox footerCB;
 	private Button saveButton;
 	private SharedPreferencesHelper preferencesHelper;
 	private ReportQuestionListAdapter questionAdapter;
+	private ReportTask reportTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -57,7 +60,7 @@ public class ReportingActivity extends Activity implements SyncCaller {
 		
 		preferencesHelper = new SharedPreferencesHelper(this);
 		
-		questionList = (ListView) findViewById(R.id.report_questions_list);
+		questionList = (SingleRenderListView) findViewById(R.id.report_questions_list);
 		saveButton = (Button) findViewById(R.id.report_button);
 		
 		saveButton.setOnClickListener(new OnClickListener() {
@@ -198,7 +201,7 @@ public class ReportingActivity extends Activity implements SyncCaller {
 		progressDialog.setCancelable(false);
 		
 		int userID = preferencesHelper.getUserID();
-		ReportTask reportTask = new ReportTask(ReportingActivity.this, progressDialog);
+		reportTask = new ReportTask(ReportingActivity.this, progressDialog);
 		Log.d("SPENCER", "isChecked" + 
 				((null != footerCB && footerCB.isChecked()) ? "1" : "0"));
 		reportTask.execute(
@@ -239,6 +242,8 @@ public class ReportingActivity extends Activity implements SyncCaller {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		// network connection monitor
 		if(NetworkConnectivityHelper.isConnected(this))
 			enableReportBtn();
 		else
@@ -246,6 +251,24 @@ public class ReportingActivity extends Activity implements SyncCaller {
 		
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);        
 		registerReceiver(networkStateReceiver, filter);
+		
+		if(reportTask != null)
+		{
+			if(reportTask.getStatus() == Status.FINISHED)
+			{
+				try {
+					int response = reportTask.get();
+					if(reportTask.getResult())
+						successfulSubmit();
+					else
+						failedSubmit(response);
+				} catch (InterruptedException e) {
+//					e.printStackTrace();
+				} catch (ExecutionException e) {
+//					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	@Override

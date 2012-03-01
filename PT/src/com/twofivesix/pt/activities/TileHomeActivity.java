@@ -115,7 +115,7 @@ public class TileHomeActivity extends Activity {
 	}
 
 	private void refreshNotificationsCounts() {
-		// TODO Implment in 0.2.1
+		// TODO Implement eventually
 		CharSequence info;
 		//Log.d("SPENCER", "settings.getLastReportDateMillis() = " + settings.getLastReportDateMillis());
 		if(settings.getLastReportDateMillis() != 0)
