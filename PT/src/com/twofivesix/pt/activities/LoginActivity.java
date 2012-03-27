@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -47,9 +48,9 @@ import com.twofivesix.pt.helpers.NetworkConnectivityHelper;
 import com.twofivesix.pt.helpers.SharedPreferencesHelper;
 import com.twofivesix.pt.helpers.VersionAlertHelper;
 import com.twofivesix.pt.tasks.GeneralHttpTask;
-import com.twofivesix.pt.tasks.RegisterTask;
 import com.twofivesix.pt.tasks.GeneralHttpTask.OnResponseListener;
 import com.twofivesix.pt.tasks.LoginTask;
+import com.twofivesix.pt.tasks.RegisterTask;
 
 public class LoginActivity extends Activity {
 	protected static final int LOGIN_REQUEST_CODE = 0;
@@ -58,12 +59,13 @@ public class LoginActivity extends Activity {
 	public static final int LOGOUT_RESULT_CODE = 2;
 	
 	public static final String RECOVERY_STATE = "recovery"; 
-	public static final String REGISTER_STATE = "register"; 
+	public static final String REGISTER_STATE = "register";
+	public static final String LOGIN_STATE = "login"; 
 	
 	SharedPreferencesHelper settings;
 	SharedPreferences sharedPreferences;
 	private RelativeLayout loginParentLayout;
-//	private LinearLayout loginFormLayout;
+	private LinearLayout loginFormLayout;
 	private EditText etEmailAddress;
 	private EditText etPassword;
 	private Button bLogin;
@@ -86,8 +88,6 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-//		Log.d("SPENCER", "onCreate()");
-		
 		settings = new SharedPreferencesHelper(this);
 		
 		// check if user is logged in
@@ -115,7 +115,7 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.login_activity);
 		loginParentLayout = (RelativeLayout) findViewById(R.id.login_rel_layout);
 		bLogin = (Button) loginParentLayout.findViewById(R.id.login_button);
-//		loginFormLayout = (LinearLayout) loginParentLayout.findViewById(R.id.linearLayout1);
+		loginFormLayout = (LinearLayout) loginParentLayout.findViewById(R.id.linearLayout1);
 		bRecover = (Button) loginParentLayout.findViewById(R.id.login_recover_button);
 		bRegister = (Button) loginParentLayout.findViewById(R.id.login_register_button);
 		etEmailAddress = (EditText) loginParentLayout.findViewById(R.id.login_usernameTV1); 
@@ -144,12 +144,14 @@ public class LoginActivity extends Activity {
 		{
 			public void onClick(View v) 
 			{
+				hideSoftKeyboard(loginFormLayout);
 				showRecoverLoginForm();
 			}
 		});
 		bRegister.setOnClickListener(new OnClickListener() 
 		{
 			public void onClick(View v) {
+				hideSoftKeyboard(loginFormLayout);
 				showRegisterForm();
 			}
 		});
@@ -215,6 +217,7 @@ public class LoginActivity extends Activity {
 	    }
 	};
 	
+	@Override
 	public void onBackPressed() {
 		if (loginParentLayout.findViewById(secondaryFormID) != null) {
 			removeRecoverLoginForm();
@@ -231,7 +234,7 @@ public class LoginActivity extends Activity {
 			if(loginParentLayout.getChildAt(i) == recoverFormLayout)
 			{
 				return LoginActivity.RECOVERY_STATE + ";"+
-						rSemis(recoverEmail.getText().toString());
+						rSemis(recoverEmail.getText().toString()) +";|";
 			}
 			if(loginParentLayout.getChildAt(i) == registerFormView)
 			{
@@ -239,11 +242,12 @@ public class LoginActivity extends Activity {
 						rSemis(registerEmail.getText().toString()) + ";"+
 						rSemis(registerPassword.getText().toString()) + ";"+
 						rSemis(registerPasswordConf.getText().toString()) + ";"+
-						rSemis(registerFullName.getText().toString());
+						rSemis(registerFullName.getText().toString()) +";|";
 			}
 		}
-		return rSemis(etEmailAddress.getText().toString()) + ";" +
-				rSemis(etPassword.getText().toString());
+		return LoginActivity.LOGIN_STATE + ";" + 
+				rSemis(etEmailAddress.getText().toString()) + ";" +
+				rSemis(etPassword.getText().toString()) +";|";
 		
 	}
 	
@@ -270,8 +274,10 @@ public class LoginActivity extends Activity {
 			}
 			else
 			{
-				etEmailAddress.setText(lastState[0]);
-				etPassword.setText(lastState[1]);
+				Log.d("SPENER", showing);
+				etEmailAddress.setText(lastState[1]);
+				if(lastState.length>2)
+					etPassword.setText(lastState[2]);
 			}
 		}
 	}
@@ -294,8 +300,9 @@ public class LoginActivity extends Activity {
 	protected OnClickListener loginOnClickListener = new OnClickListener() {
 		public void onClick(View v) 
 		{
-			if(validate())
+			if(validateLogin())
 			{
+				hideSoftKeyboard(loginFormLayout);
 				ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
 				progressDialog.setMessage(getString(R.string.logging_in));
 				progressDialog.setCancelable(false);
@@ -308,8 +315,10 @@ public class LoginActivity extends Activity {
 	
 	protected OnClickListener recoverOnClickListener = new OnClickListener() {
 		public void onClick(View v) {
+			//TODO switch to validateRecover()
 			if(recoverEmail.length()>6)
 			{
+				hideSoftKeyboard(recoverEmail);
 				GeneralHttpTask recoveryTask = new GeneralHttpTask(
 						LoginActivity.this, 
 						getString(R.string.sending_recovery_request),
@@ -327,7 +336,8 @@ public class LoginActivity extends Activity {
 		{
 			if(validateRegister())
 			{
-				OnResponseListener responder = new OnResponseListener() {
+				hideSoftKeyboard(registerFormView);
+				OnResponseListener regTaskResponder = new OnResponseListener() {
 					
 					public void onSuccess() 
 					{
@@ -357,6 +367,7 @@ public class LoginActivity extends Activity {
 								dialog.cancel();
 							}
 						});
+						Log.d("SPENCER", "Failure. Code: " + message);
 
 						if(message.equals("409"))
 							builder.setMessage(R.string.register_existing_email);
@@ -371,7 +382,7 @@ public class LoginActivity extends Activity {
 				RegisterTask regTask = new RegisterTask(
 						LoginActivity.this, 
 						getString(R.string.sending_registration),
-						responder);
+						regTaskResponder);
 				regTask.execute(registerEmail.getText().toString(),
 						registerPassword.getText().toString(), 
 						registerFullName.getText().toString());
@@ -552,7 +563,7 @@ public class LoginActivity extends Activity {
 		recoverTitle.setText(R.string.register);
 		recoverTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 35);
 		recoverTitle.setTypeface(null, Typeface.BOLD);
-		recoverTitle.setTextColor(R.color.black);
+		recoverTitle.setTextColor(Color.BLACK);
 		secondaryFormLayout.addView(recoverTitle);
 		
 		LayoutParams editTextParams = new LayoutParams(
@@ -566,7 +577,8 @@ public class LoginActivity extends Activity {
 		
 		registerEmail = new EditText(LoginActivity.this);
 		registerEmail.setLayoutParams(editTextParams);
-		registerEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+		registerEmail.setInputType(InputType.TYPE_CLASS_TEXT | 
+				InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		secondaryFormLayout.addView(registerEmail);
 		
 		TextView passwordLabel = new TextView(LoginActivity.this);
@@ -633,7 +645,7 @@ public class LoginActivity extends Activity {
 		recoverTitle.setText(R.string.recover_login);
 		recoverTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 35);
 		recoverTitle.setTypeface(null, Typeface.BOLD);
-		recoverTitle.setTextColor(R.color.black);
+		recoverTitle.setTextColor(Color.BLACK);
 		secondaryFormLayout.addView(recoverTitle);
 		
 		recoverEmail = new EditText(LoginActivity.this);
@@ -703,7 +715,7 @@ public class LoginActivity extends Activity {
 		startActivityForResult(intent, LOGIN_REQUEST_CODE);
 	}
 
-	protected boolean validate() {
+	protected boolean validateLogin() {
 		List<Validator> validators = new ArrayList<Validator>();
 		validators.add(new RegExpressionValidator(
 				etEmailAddress, 
@@ -738,5 +750,11 @@ public class LoginActivity extends Activity {
 	private String rSemis(String in)
 	{
 		return in.replace(";", "");
+	}
+	
+	private void hideSoftKeyboard(View window)
+	{
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(window.getWindowToken(), 0);
 	}
 }
