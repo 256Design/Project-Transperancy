@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.twofivesix.pt.R;
 import com.twofivesix.pt.activities.NoteSelectedDialogActivity;
@@ -57,12 +56,12 @@ public class ReportPromptAlarm extends Service {
     	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
     	notification.setLatestEventInfo(this, noteTitle, text, contentIntent);
     	SharedPreferencesHelper preferencesHelper = new SharedPreferencesHelper(this);
-    	Log.d("SPENCER", "reminderVibrate = " + preferencesHelper.getReminderVibrate());
+    	//Log.d("SPENCER", "reminderVibrate = " + preferencesHelper.getReminderVibrate());
     	if(preferencesHelper.getReminderVibrate())
     	{
     		notification.defaults |= Notification.DEFAULT_VIBRATE;
     	}
-    	Log.d("SPENCER", "reminderLight = " + preferencesHelper.getReminderLight());
+    	//Log.d("SPENCER", "reminderLight = " + preferencesHelper.getReminderLight());
     	if(preferencesHelper.getReminderLight())
     	{
     		notification.ledARGB = Color.WHITE;
