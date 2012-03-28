@@ -3,6 +3,12 @@ package com.twofivesix.pt.data.validator;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+
+import com.twofivesix.pt.R;
+
 /**
  * Generic abstract validation class for the 
  * validation of Android input fields
@@ -87,5 +93,32 @@ public abstract class AbstractValidator implements Validator {
 	public boolean isRequired() {
 		return _required;
 	}
-
+	
+	public static boolean validateList(List<Validator> validators, 
+			Context context)
+	{
+		List<ValidationResult> _validationResults = 
+				AbstractValidator.validateAll(validators);
+		if (_validationResults.size()==0) {
+        	return true;
+        }
+		ValidationResult result = _validationResults.get(0);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage(result.getMessage());
+		builder.setPositiveButton(
+			R.string.okay, 
+			new DialogInterface.OnClickListener()
+				{
+				
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+		});
+		
+		AlertDialog alert = builder.create();
+		alert.show();
+		if(result.getSource() != null)
+			result.getSource().requestFocus();
+		return false;
+	}
 }

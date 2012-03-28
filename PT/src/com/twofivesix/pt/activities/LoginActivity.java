@@ -41,7 +41,6 @@ import com.twofivesix.pt.R;
 import com.twofivesix.pt.data.validator.AbstractValidator;
 import com.twofivesix.pt.data.validator.EditTextMatchRequiredValidator;
 import com.twofivesix.pt.data.validator.RegExpressionValidator;
-import com.twofivesix.pt.data.validator.ValidationResult;
 import com.twofivesix.pt.data.validator.Validator;
 import com.twofivesix.pt.helpers.DatabaseHelper;
 import com.twofivesix.pt.helpers.NetworkConnectivityHelper;
@@ -403,28 +402,7 @@ public class LoginActivity extends Activity {
 						RegExpressionValidator.EMAIL_REGEX, 
 						getString(R.string.invalid_email), 
 						"Please Enter A Valid Email"));
-		List<ValidationResult> _validationResults = AbstractValidator.validateAll(validators);
-		if (_validationResults.size()==0) {
-        	return true;
-        }
-		else
-		{
-			ValidationResult result = _validationResults.get(0);
-			AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-			builder.setMessage(result.getMessage());
-			builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.cancel();
-				}
-			});
-			
-			AlertDialog alert = builder.create();
-			alert.show();
-			if(result.getSource() != null)
-				result.getSource().requestFocus();
-		}
-		return false;
+		return AbstractValidator.validateList(validators, LoginActivity.this);
 	}
 	
 	protected boolean validateRegister()
@@ -450,28 +428,7 @@ public class LoginActivity extends Activity {
 						RegExpressionValidator.FULL_NAME_REGEX, 
 						"Invalid Full Name", 
 						"Please Enter A Valid Full Name"));
-		List<ValidationResult> _validationResults = AbstractValidator.validateAll(validators);
-		if (_validationResults.size()==0) {
-        	return true;
-        }
-		else
-		{
-			ValidationResult result = _validationResults.get(0);
-			AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-			builder.setMessage(result.getMessage());
-			builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.cancel();
-				}
-			});
-			
-			AlertDialog alert = builder.create();
-			alert.show();
-			if(result.getSource() != null)
-				result.getSource().requestFocus();
-		}
-		return false;
+		return AbstractValidator.validateList(validators, LoginActivity.this);
 	}
 	
 	protected OnResponseListener recoveryRequestResponseListener = new OnResponseListener() 
@@ -752,32 +709,15 @@ public class LoginActivity extends Activity {
 		List<Validator> validators = new ArrayList<Validator>();
 		validators.add(new RegExpressionValidator(
 				etEmailAddress, 
-				RegExpressionValidator.EMAIL_REGEX, getString(R.string.invalid_email), "Please Enter A Valid Email"));
+				RegExpressionValidator.EMAIL_REGEX, 
+				getString(R.string.invalid_email), 
+				"Please Enter A Valid Email"));
 		validators.add(new RegExpressionValidator(
 				etPassword, 
-				RegExpressionValidator.PASSWORD_REGEX, getString(R.string.invalid_password), "Please Enter A Valid Password"));
-		List<ValidationResult> _validationResults = AbstractValidator.validateAll(validators);
-		if (_validationResults.size()==0) {
-        	return true;
-        }
-		else
-		{
-			ValidationResult result = _validationResults.get(0);
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(result.getMessage());
-			builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.cancel();
-				}
-			});
-			
-			AlertDialog alert = builder.create();
-			alert.show();
-			if(result.getSource() != null)
-				result.getSource().requestFocus();
-		}
-		return false;
+				RegExpressionValidator.PASSWORD_REGEX, 
+				getString(R.string.invalid_password), 
+				"Please Enter A Valid Password"));
+		return AbstractValidator.validateList(validators, LoginActivity.this);
 	}
 
 	private String rSemis(String in)
