@@ -45,12 +45,19 @@ public class VersionAlertHelper {
 		AlertDialog newUpdateAlert = new AlertDialog.Builder(context).create();
 		newUpdateAlert.setTitle("New Version");
 		newUpdateAlert.setMessage("Here are some of the things that changed:" +
-				"\n\n- Added: request a password reset." +
-				"\n\n- Fixed: Major bug that caused items on the reporting " +
-				"screen to be out of order or repeated.");
-		newUpdateAlert.setButton(context.getString(R.string.okay), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {}
-		});
+				"\n\n- Added: Optional vibrate and LED on reminders, see " +
+				"settings." +
+				"\n\n- Added: Decide what to do on reminder. Choose between " +
+				"\"Report Now\", \"Snooze\", and \"Dismiss\"" +
+				"\n\n- Fixed: Major bug that caused responses on the reporting " +
+				"screen to disappear." +
+				"\n\n- Redux: Register moved to login screen. Birthdate and " +
+				"gender no longer needed for registration.");
+		newUpdateAlert.setButton(context.getString(R.string.okay), 
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {}
+				}
+		);
 		
 		newUpdateAlert.show();
 		((TextView)newUpdateAlert.findViewById(android.R.id.message)).setTextSize(14);
