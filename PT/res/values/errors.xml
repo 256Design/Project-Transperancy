@@ -2,5 +2,4 @@
 <resources>
     <string name="error_no_network_connection">No network connection. Gain connection and retry.</string>
     <string name="error_delete_question">Error deleting question, try again.</string>
-    <string name="error_no_network">No network connection. Please regain network and retry.</string>
 </resources>

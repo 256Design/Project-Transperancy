@@ -1,5 +1,7 @@
 package com.twofivesix.pt.tasks;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.util.Log;
 
-// FIXME Test me!
 public class RegisterTask extends GeneralHttpTask {
 
 	public RegisterTask(ProgressDialog progressDialog,
@@ -36,7 +38,7 @@ public class RegisterTask extends GeneralHttpTask {
 		{
 			HttpClient client = new DefaultHttpClient();
 		    HttpPost httppost = new HttpPost(
-		    		"http://www.256design.com/projectTransparency/project/regesterShort.php");
+		    		"http://www.256design.com/projectTransparency/project/registerShort.php");
 		    
 		    // Set values
 		    String[] names = params[2].split(" ", 2);
@@ -56,6 +58,15 @@ public class RegisterTask extends GeneralHttpTask {
 	        // Execute HTTP Post Request
 			HttpResponse response = client.execute(httppost);
 			responseCode = response.getStatusLine().getStatusCode();
+			
+			BufferedReader rd = new BufferedReader(new InputStreamReader(
+					response.getEntity().getContent()));
+			
+			String line;
+			while ((line = rd.readLine()) != null)
+			{
+				Log.d("SPENCER", "Reg Response Line: " + line.trim());
+			}
 		}
 		catch (HttpHostConnectException e) {
 			responseCode = 408;

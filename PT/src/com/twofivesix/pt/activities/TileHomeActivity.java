@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,7 +49,10 @@ public class TileHomeActivity extends Activity {
 			CustomTitleBar.customTitleBar(this, getText(R.string.home).toString());
 		
 		settings = new SharedPreferencesHelper(this);
-		
+
+
+		float density = getResources().getDisplayMetrics().density;
+		Log.d("SPENCER", "density: " + density);
 		
 		// runs a check for first version run then show change log if something 
 		// is different 

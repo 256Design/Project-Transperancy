@@ -35,14 +35,14 @@
 	          android:layout_height="wrap_content" 
 	          android:layout_width="220dp" 
 	          android:id="@+id/login_usernameTV1" 
-	          android:inputType="textEmailAddress" 
+	          android:inputType="text|textEmailAddress" 
 	          android:hint="@string/email">
 	          <requestFocus></requestFocus>
 	      </EditText>
 	      <EditText 
 	          android:layout_height="wrap_content" android:layout_width="fill_parent" 
 	          android:id="@+id/login_passowrdTV" 
-	          android:inputType="textPassword" 
+	          android:inputType="text|textPassword" 
 	          android:hint="@string/password"/>
 	      <Button 
 	          android:layout_height="wrap_content" android:layout_width="wrap_content" 

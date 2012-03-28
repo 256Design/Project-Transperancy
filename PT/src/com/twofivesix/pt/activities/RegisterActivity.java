@@ -75,7 +75,7 @@ public class RegisterActivity extends Activity {
 					try
 					{
 						HttpClient client = new DefaultHttpClient();
-					    HttpPost httppost = new HttpPost("http://www.256design.com/projectTransparency/project/regester.php");
+					    HttpPost httppost = new HttpPost("http://www.256design.com/projectTransparency/project/register.php");
 					    
 					    // Set values
 					    String[] names = etFullName.getText().toString().split(" ", 2);

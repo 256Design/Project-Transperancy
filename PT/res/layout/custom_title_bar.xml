@@ -2,16 +2,20 @@
 <LinearLayout android:id="@+id/RelativeLayout01"
 		android:orientation="horizontal"
         android:layout_width="fill_parent"
-         android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="center_vertical">
-        <ImageView android:layout_height="wrap_content" 
+        <ImageView 
         		android:id="@+id/logoImageView" 
         		android:src="@drawable/home_manager_header" 
-        		android:layout_width="100dp"
+        		android:layout_width="0dp"
+        		android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingRight="10dp" />
+                android:paddingRight="10dp" 
+                android:contentDescription="@string/app_full_name"/>
         <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/titleTvRight"
-                android:text="right" android:gravity="right"></TextView>
+                android:layout_height="wrap_content" 
+                android:id="@+id/titleTvRight"
+                android:gravity="right"
+                />
 </LinearLayout>
