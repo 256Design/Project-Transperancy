@@ -315,8 +315,7 @@ public class LoginActivity extends Activity {
 	
 	protected OnClickListener recoverOnClickListener = new OnClickListener() {
 		public void onClick(View v) {
-			//TODO switch to validateRecover()
-			if(recoverEmail.length()>6)
+			if(validateRecover())
 			{
 				hideSoftKeyboard(recoverEmail);
 				GeneralHttpTask recoveryTask = new GeneralHttpTask(
@@ -393,6 +392,40 @@ public class LoginActivity extends Activity {
 			}
 		}
 	};
+	
+	private boolean validateRecover() {
+		//TODO implement
+		//return recoverEmail.length()>6;
+		List<Validator> validators = new ArrayList<Validator>();
+		validators.add(
+				new RegExpressionValidator(
+						recoverEmail, 
+						RegExpressionValidator.EMAIL_REGEX, 
+						getString(R.string.invalid_email), 
+						"Please Enter A Valid Email"));
+		List<ValidationResult> _validationResults = AbstractValidator.validateAll(validators);
+		if (_validationResults.size()==0) {
+        	return true;
+        }
+		else
+		{
+			ValidationResult result = _validationResults.get(0);
+			AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+			builder.setMessage(result.getMessage());
+			builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			});
+			
+			AlertDialog alert = builder.create();
+			alert.show();
+			if(result.getSource() != null)
+				result.getSource().requestFocus();
+		}
+		return false;
+	}
 	
 	protected boolean validateRegister()
 	{
